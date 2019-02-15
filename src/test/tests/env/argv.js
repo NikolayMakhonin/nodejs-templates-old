@@ -1,7 +1,7 @@
 import yargs from 'yargs'
 
 /* eslint-disable global-require */
-describe('argv parser', function () {
+describe('env > argv', function () {
 	it('base', function () {
 		// see http://yargs.js.org/docs/
 
