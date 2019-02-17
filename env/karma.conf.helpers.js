@@ -14,6 +14,8 @@ const istanbul = require('rollup-plugin-istanbul')
 const nodeResolve  = require('rollup-plugin-node-resolve')
 const commonjs  = require('rollup-plugin-commonjs')
 const nycrc  = require('../.nycrc.json')
+const server = require('./e2e-server')
+server.start()
 
 module.exports.rollup = {
 	plugins: {
@@ -107,6 +109,8 @@ module.exports.watchPatterns = function (...globbyPatterns) {
 		}))
 }
 
+process.env.CHROMIUM_BIN = 'l:/Program Files (x86)/Chromium/44.0.2403.119/chrome.exe'
+
 module.exports.configCommon = function (config) {
 	function polyfill(files) {
 		files.unshift(...[
@@ -173,6 +177,10 @@ module.exports.configCommon = function (config) {
 			// subDir: () => 'browser'
 		},
 
+		listenAddress: 'localhost',
+
+		hostname: 'localhost',
+
 		// web server port
 		port: 9876,
 
@@ -185,12 +193,12 @@ module.exports.configCommon = function (config) {
 
 		// start these browsers
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-		browsers: ['ChromeHeadlessNoSandbox'],
+		browsers: ['ChromiumHeadlessNoSandbox'],
 
 		customLaunchers: {
-			ChromeHeadlessNoSandbox: {
-				base : 'ChromeHeadless',
-				flags: ['--no-sandbox']
+			ChromiumHeadlessNoSandbox: {
+				base : 'ChromiumHeadless',
+				flags: ['--no-sandbox', '--disable-web-security', '--incognito']
 			}
 		}
 	})

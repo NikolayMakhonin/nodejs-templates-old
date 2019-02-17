@@ -46,7 +46,8 @@
     "coverage:ci": "npm run coverage:mocha && npm run ci:karma && npm run coverage:merge",
     "coverage:merge": "istanbul-combine -d tmp/coverage/lcov -p summary -r lcov tmp/coverage/json/**/*.json",
     "ci:karma": "karma start env/karma.conf.ci.js",
-    "ci": "npm run lint && npm run coverage:ci && ncat tmp/coverage/lcov/**/lcov.info --banner \"\" | coveralls"
+    "ci": "npm run lint && npm run coverage:ci && ncat tmp/coverage/lcov/**/lcov.info --banner \"\" | coveralls",
+    "e2e": "node env/e2e.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
@@ -60,8 +61,10 @@
     "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/preset-env": "^7.3.1",
     "@babel/register": "^7.0.0",
+    "@inf3rno/e2e": "^0.1.2",
     "@metahub/karma-rollup-preprocessor": "^4.1.0",
     "babel-eslint": "^10.0.1",
+    "body-parser": "^1.18.3",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "^5.12.1",
@@ -73,6 +76,8 @@
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
+    "execa": "^1.0.0",
+    "express": "^4.16.4",
     "fs-extra": "^7.0.1",
     "globby": "^9.0.0",
     "istanbul-combine": "^0.3.0",
@@ -102,7 +107,8 @@
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-terser": "^4.0.4",
     "rollup-pluginutils": "^2.3.3",
-    "shx": "^0.3.2"
+    "shx": "^0.3.2",
+    "xss-filters": "^1.2.7"
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
