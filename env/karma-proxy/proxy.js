@@ -2,6 +2,22 @@ const httpProxy = require('http-proxy')
 const https = require('https')
 const log = require('karma/lib/logger').create('middleware:proxy')
 
+// Correct headers names:
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
+// "'" + Array.from(document
+// .querySelectorAll('a[href*="/HTTP/Headers/"]'))
+// .map(o => {
+// 	return o.getAttribute('href').match(/\/HTTP\/Headers\/([^\/]+)/)[1]
+// })
+// .join("','") + "'"
+
+const correctHeadersNamesList = ['Connection', 'Keep-Alive', 'Proxy-Authenticate', 'Proxy-Authorization', 'TE', 'Trailer', 'Transfer-Encoding', 'Upgrade', 'Connection', 'WWW-Authenticate', 'Authorization', 'Proxy-Authenticate', 'Proxy-Authorization', 'Age', 'Cache-Control', 'Clear-Site-Data', 'Expires', 'Pragma', 'Warning', 'Accept-CH', 'Accept-CH-Lifetime', 'Early-Data', 'Content-DPR', 'DPR', 'Save-Data', 'Viewport-Width', 'Width', 'Last-Modified', 'ETag', 'If-Modified-Since', 'If-Unmodified-Since', 'ETag', 'If-Match', 'If-None-Match', 'If-Match', 'If-None-Match', 'If-Modified-Since', 'If-Unmodified-Since', 'Vary', 'Connection', 'Keep-Alive', 'Accept', 'Accept-Charset', 'Accept-Encoding', 'Accept-Language', 'Expect', 'Max-Forwards', 'Cookie', 'Set-Cookie', 'Set-Cookie', 'Cookie2', 'Set-Cookie2', 'Cookie', 'Set-Cookie2', 'Set-Cookie', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Methods', 'Access-Control-Expose-Headers', 'Access-Control-Max-Age', 'Access-Control-Request-Headers', 'Access-Control-Request-Method', 'Cross-Origin-Resource-Policy', 'Origin', 'Timing-Allow-Origin', 'X-Permitted-Cross-Domain-Policies', 'DNT', 'Tk', 'Content-Disposition', 'Content-Length', 'Content-Type', 'Content-Encoding', 'Content-Language', 'Content-Location', 'Forwarded', 'X-Forwarded-For', 'X-Forwarded-Host', 'X-Forwarded-Proto', 'Via', 'Location', 'From', 'Host', 'Referer', 'Referrer-Policy', 'Referer', 'User-Agent', 'User-Agent', 'Allow', 'Server', 'Accept-Ranges', 'Range', 'If-Range', 'Content-Range', 'Content-Security-Policy', 'Content-Security-Policy-Report-Only', 'Expect-CT', 'Feature-Policy', 'Public-Key-Pins', 'Public-Key-Pins-Report-Only', 'Strict-Transport-Security', 'Upgrade-Insecure-Requests', 'Content-Security-Policy', 'X-Content-Type-Options', 'Content-Type', 'X-Download-Options', 'X-Frame-Options', 'X-Powered-By', 'X-XSS-Protection', 'Last-Event-ID', 'NEL', 'Ping-From', 'Ping-To', 'Report-To', 'Transfer-Encoding', 'TE', 'Trailer', 'Sec-WebSocket-Key', 'Sec-WebSocket-Extensions', 'Sec-WebSocket-Accept', 'Sec-WebSocket-Protocol', 'Sec-WebSocket-Version', 'Accept-Push-Policy', 'Accept-Signature', 'Alt-Svc', 'Date', 'Expect-CT', 'Large-Allocation', 'Link', 'Push-Policy', 'Retry-After', 'Signature', 'Signed-Headers', 'Server-Timing', 'SourceMap', 'Upgrade', 'X-DNS-Prefetch-Control', 'X-Firefox-Spdy', 'X-Pingback', 'X-Requested-With', 'X-Robots-Tag', 'X-UA-Compatible', 'Strict-Transport-Security', 'X-Content-Type-Options', 'X-Frame-Options', 'X-XSS-Protection', 'Accept', 'Accept-Charset', 'Accept-Encoding', 'Accept-Language', 'Accept-Ranges', 'Access-Control-Allow-Credentials', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Origin', 'Access-Control-Expose-Headers', 'Access-Control-Max-Age', 'Access-Control-Request-Headers', 'Access-Control-Request-Method', 'Age', 'Allow', 'Alt-Svc', 'Authorization', 'Cache-Control', 'Clear-Site-Data', 'Connection', 'Content-Disposition', 'Content-Encoding', 'Content-Language', 'Content-Length', 'Content-Location', 'Content-Range', 'Content-Security-Policy', 'Content-Security-Policy-Report-Only', 'Content-Type', 'Cookie', 'Cookie2', 'DNT', 'Date', 'ETag', 'Early-Data', 'Expect', 'Expect-CT', 'Expires', 'Feature-Policy', 'Forwarded', 'From', 'Host', 'If-Match', 'If-Modified-Since', 'If-None-Match', 'If-Range', 'If-Unmodified-Since', 'Index', 'Keep-Alive', 'Large-Allocation', 'Last-Modified', 'Location', 'Origin', 'Pragma', 'Proxy-Authenticate', 'Proxy-Authorization', 'Public-Key-Pins', 'Public-Key-Pins-Report-Only', 'Range', 'Referer', 'Referrer-Policy', 'Retry-After', 'Sec-WebSocket-Accept', 'Server', 'Server-Timing', 'Set-Cookie', 'Set-Cookie2', 'SourceMap', 'Strict-Transport-Security', 'TE', 'Timing-Allow-Origin', 'Tk', 'Trailer', 'Transfer-Encoding', 'Upgrade-Insecure-Requests', 'User-Agent', 'Vary', 'Via', 'WWW-Authenticate', 'Warning', 'X-Content-Type-Options', 'X-DNS-Prefetch-Control', 'X-Forwarded-For', 'X-Forwarded-Host', 'X-Forwarded-Proto', 'X-Frame-Options', 'X-XSS-Protection', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Content-Security-Policy', 'Feature-Policy', 'Feature-Policy', 'Feature-Policy', 'Feature-Policy', 'Feature-Policy', 'Feature-Policy', 'Feature-Policy', 'Feature-Policy', 'Feature-Policy', 'Feature-Policy']
+const correctHeadersNames = {}
+for (let i = correctHeadersNamesList.length; i--;) {
+	const headerName = correctHeadersNamesList[i]
+	correctHeadersNames[headerName.toLowerCase()] = headerName
+}
+
 function proxyNull(request, response, next) {
 	return next()
 }
@@ -107,16 +123,20 @@ function createProxyHandler(config) {
 		log.debug(`createProxy: ${targetRootParsed.href}`)
 
 		const proxyOptions = {
-			target      : `${targetRootParsed.protocol}//${targetRootParsed.host}`,
+			target: `${targetRootParsed.protocol}//${targetRootParsed.host}`,
 			// ssl         : targetRootParsed.protocol === 'https:',
-			secure      : false,
+			secure: false,
 			// ws          : true,
-			agent       : https.globalAgent,
-			xfwd        : false,
-			changeOrigin: false,
-			autoRewrite : true,
-			auth        : getUserPass(targetRootParsed),
-			headers     : {
+			agent : targetRootParsed.protocol === 'https:'
+				? https.globalAgent
+				: null,
+			xfwd                 : false,
+			changeOrigin         : true,
+			autoRewrite          : true,
+			preserveHeaderKeyCase: true,
+			followRedirects      : false,
+			auth                 : getUserPass(targetRootParsed),
+			headers              : {
 				host: targetRootParsed.host
 			}
 		}
@@ -136,33 +156,47 @@ function createProxyHandler(config) {
 		})
 
 		proxy.on('proxyReq', function (proxyRequest, request, response, options) {
-			log.debug(`${proxyRequest.method} ${proxyRequest.getHeader('Host')}${proxyRequest.path}`)
-			proxyRequest.setHeader('Origin', getRootUrl(options.target))
-			const requestParsed = getParsedRequest(request)
-			if (requestParsed) {
-				if (requestParsed.referer) {
-					proxyRequest.setHeader('Referer', requestParsed.referer)
-				} else {
-					proxyRequest.removeHeader('Referer')
+			if (request.readable) {
+				// fix headers names:
+				const headersNames = proxyRequest.getHeaderNames()
+				for (let i = headersNames.length; i--;) {
+					const headersName = headersNames[i]
+					const correctHeaderName = correctHeadersNames[headersNames[i].toLowerCase()]
+					if (correctHeaderName !== headersName) {
+						const value = proxyRequest.getHeader(headersName)
+						proxyRequest.setHeader(correctHeaderName, value)
+					}
 				}
-				// proxyRequest.setHeader('host', requestParsed.proxyRoot.host)
-				// console.log(requestParsed.proxyRoot.host)
-				// console.log(proxyRequest)
+
+				const requestParsed = getParsedRequest(request)
+				if (requestParsed) {
+					log.debug(`${proxyRequest.method} ${proxyRequest.getHeader('Host')}${proxyRequest.path}`)
+					proxyRequest.setHeader('Origin', getRootUrl(options.target))
+
+					if (requestParsed.referer) {
+						proxyRequest.setHeader('Referer', requestParsed.referer)
+					} else {
+						proxyRequest.removeHeader('Referer')
+					}
+				}
 			}
 		})
 
 		proxy.on('proxyRes', function (proxyResponse, request, response, options) {
-			log.debug(`${proxyResponse.statusCode} ${proxyResponse.req.method} ${proxyResponse.req.getHeader('Host')}${proxyResponse.req.path}`)
-			response.setHeader('Access-Control-Allow-Origin', '*')
-			response.setHeader('X-Frame-Options', 'sameorigin')
-
+			console.log(proxyResponse.req._header)
+			// console.log(proxyResponse.rawHeaders)
 			const requestParsed = getParsedRequest(request)
-			if (proxyResponse.statusCode >= 300 && proxyResponse.statusCode < 400) {
-				const parsedLocation = new URL(proxyResponse.headers.location)
-				parsedLocation.searchParams.set(proxyRootParamName, `${parsedLocation.protocol}//${parsedLocation.host}`)
-				response.setHeader('Location', parsedLocation.pathname + parsedLocation.search)
-				console.log(response.getHeader('Location'))
-				response.writeHead(proxyResponse.statusCode, response.getHeaders())
+			if (requestParsed) {
+				log.debug(`${proxyResponse.statusCode} ${proxyResponse.req.method} ${proxyResponse.req.getHeader('Host')}${proxyResponse.req.path}`)
+				response.setHeader('Access-Control-Allow-Origin', '*')
+				response.setHeader('X-Frame-Options', 'sameorigin')
+
+				if (proxyResponse.statusCode >= 300 && proxyResponse.statusCode < 400) {
+					const parsedLocation = new URL(proxyResponse.headers.location)
+					parsedLocation.searchParams.set(proxyRootParamName, `${parsedLocation.protocol}//${parsedLocation.host}`)
+					response.setHeader('Location', parsedLocation.pathname + parsedLocation.search)
+					response.writeHead(proxyResponse.statusCode, response.getHeaders())
+				}
 			}
 		})
 
@@ -220,7 +254,7 @@ function createProxyHandler(config) {
 		}
 
 		proxy.web(request, response, null, (proxyRequest, proxyResponse, proxyNext) => {
-			// console.log('Proxy callback: ', proxyResponse)
+
 		})
 	}
 

@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f77de7e6-3998-44ea-b558-c6d90d4109f3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/env/karma-proxy/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/env/karma-proxy/proxy-old.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/env/karma-proxy/proxy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/env/e2e-server.js" beforeDir="false" afterPath="$PROJECT_DIR$/env/e2e-server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/env/karma.conf.helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/env/karma.conf.helpers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/tests/browser/e2e/env/static.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/tests/browser/e2e/env/static.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env/karma-proxy/proxy.js" beforeDir="false" afterPath="$PROJECT_DIR$/env/karma-proxy/proxy.js" afterDir="false" />
     </list>
     <ignored path=".idea/" />
     <ignored path="$PROJECT_DIR$/node_modules/" />
@@ -48,8 +41,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/env/karma-proxy/proxy.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2045">
-              <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+            <state relative-caret-position="75">
+              <caret line="158" selection-start-line="158" selection-end-line="158" />
             </state>
           </provider>
         </entry>
@@ -78,8 +71,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/node_modules/@types/node/http.d.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="136" column="8" selection-start-line="136" selection-start-column="8" selection-end-line="136" selection-end-column="8" />
+            <state relative-caret-position="117">
+              <caret line="114" column="8" selection-start-line="114" selection-start-column="8" selection-end-line="114" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -124,25 +117,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>httpProxy</find>
-      <find>console.errr</find>
-      <find>prox</find>
-      <find>xmi</find>
-      <find>proxy</find>
-      <find>debu</find>
-      <find>url.p</find>
-      <find>upgra</find>
-      <find>middleware:proxy</find>
-      <find>stat</find>
-      <find>statusCode</find>
-      <find>writeHead</find>
-      <find>proxyOp</find>
-      <find>http</find>
-      <find>https</find>
-      <find>protocol</find>
-      <find>9876</find>
-      <find>target</find>
-      <find>console.log</find>
       <find>=&gt;</find>
       <find>302</find>
       <find>Loca</find>
@@ -152,8 +126,27 @@
       <find>contentLeng</find>
       <find>fragme</find>
       <find>getRootUrl</find>
-      <find>refer</find>
       <find>'proxyRoot'</find>
+      <find>refer</find>
+      <find>Origin</find>
+      <find>orig</find>
+      <find>location</find>
+      <find>Host</find>
+      <find>https://fragmenter.net</find>
+      <find>request.url:</find>
+      <find>/favicon.ico</find>
+      <find>request.url</find>
+      <find>GET</find>
+      <find>absolute</find>
+      <find>HTTP/</find>
+      <find>console.log</find>
+      <find>200</find>
+      <find>finished</find>
+      <find>redir</find>
+      <find>readable</find>
+      <find>POST</find>
+      <find>headers</find>
+      <find>Cache-Control</find>
     </findStrings>
     <replaceStrings>
       <replace>ap</replace>
@@ -382,44 +375,44 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1550417041291</updated>
-      <workItem from="1550417042984" duration="52614000" />
+      <workItem from="1550417042984" duration="60231000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Tests_Karma - 2019.02.18 at 15h 17m 09s.xml">
+    <history-entry file="Tests_Karma - 2019.02.18 at 17h 06m 45s.xml">
       <configuration name="Tests Karma" configurationId="JavaScriptTestRunnerKarma" />
     </history-entry>
-    <history-entry file="Tests_Karma - 2019.02.18 at 15h 20m 52s.xml">
+    <history-entry file="Tests_Karma - 2019.02.18 at 17h 11m 10s.xml">
       <configuration name="Tests Karma" configurationId="JavaScriptTestRunnerKarma" />
     </history-entry>
-    <history-entry file="Tests_Karma - 2019.02.18 at 15h 24m 20s.xml">
+    <history-entry file="Tests_Karma - 2019.02.18 at 17h 13m 15s.xml">
       <configuration name="Tests Karma" configurationId="JavaScriptTestRunnerKarma" />
     </history-entry>
-    <history-entry file="Tests_Karma - 2019.02.18 at 15h 28m 12s.xml">
+    <history-entry file="Tests_Karma - 2019.02.18 at 17h 15m 26s.xml">
       <configuration name="Tests Karma" configurationId="JavaScriptTestRunnerKarma" />
     </history-entry>
-    <history-entry file="Tests_Karma - 2019.02.18 at 15h 30m 26s.xml">
+    <history-entry file="Tests_Karma - 2019.02.18 at 17h 17m 05s.xml">
       <configuration name="Tests Karma" configurationId="JavaScriptTestRunnerKarma" />
     </history-entry>
-    <history-entry file="Tests_Karma - 2019.02.18 at 15h 35m 33s.xml">
+    <history-entry file="Tests_Karma - 2019.02.18 at 17h 18m 02s.xml">
       <configuration name="Tests Karma" configurationId="JavaScriptTestRunnerKarma" />
     </history-entry>
-    <history-entry file="Tests_Karma - 2019.02.18 at 15h 36m 07s.xml">
+    <history-entry file="Tests_Karma - 2019.02.18 at 17h 23m 57s.xml">
       <configuration name="Tests Karma" configurationId="JavaScriptTestRunnerKarma" />
     </history-entry>
-    <history-entry file="Tests_Karma - 2019.02.18 at 15h 40m 30s.xml">
+    <history-entry file="Tests_Karma - 2019.02.18 at 17h 30m 06s.xml">
       <configuration name="Tests Karma" configurationId="JavaScriptTestRunnerKarma" />
     </history-entry>
-    <history-entry file="Tests_Karma - 2019.02.18 at 15h 41m 08s.xml">
+    <history-entry file="Tests_Karma - 2019.02.18 at 17h 47m 13s.xml">
       <configuration name="Tests Karma" configurationId="JavaScriptTestRunnerKarma" />
     </history-entry>
-    <history-entry file="Tests_Karma - 2019.02.18 at 15h 42m 33s.xml">
+    <history-entry file="Tests_Karma - 2019.02.18 at 17h 48m 01s.xml">
       <configuration name="Tests Karma" configurationId="JavaScriptTestRunnerKarma" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52614000" />
+    <option name="totallyTimeSpent" value="60231000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -443,7 +436,7 @@
       <window_info anchor="bottom" id="Docker" order="3" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="4" />
       <window_info anchor="bottom" id="Find" order="5" />
-      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.30222842" />
+      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.69220054" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.39972144" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
@@ -661,13 +654,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/@types/node/http.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="136" column="8" selection-start-line="136" selection-start-column="8" selection-end-line="136" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/needle/lib/needle.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -713,10 +699,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/@types/node/http.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="114" column="8" selection-start-line="114" selection-start-column="8" selection-end-line="114" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/env/karma-proxy/proxy.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2045">
-          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+        <state relative-caret-position="75">
+          <caret line="158" selection-start-line="158" selection-end-line="158" />
         </state>
       </provider>
     </entry>
