@@ -109,7 +109,19 @@ module.exports.watchPatterns = function (...globbyPatterns) {
 		}))
 }
 
-process.env.CHROMIUM_BIN = 'l:/Program Files (x86)/Chromium/44.0.2403.119/chrome.exe'
+// process.env.CHROMIUM_BIN = 'l:/Program Files (x86)/Chromium/44.0.2403.119/chrome.exe'
+// ChromiumBrowser.prototype = {
+// 	name: 'Chromium',
+//
+// 	DEFAULT_CMD: {
+// 		// Try chromium-browser before chromium to avoid conflict with the legacy
+// 		// chromium-bsu package previously known as 'chromium' in Debian and Ubuntu.
+// 		linux: getBin(['chromium-browser', 'chromium']),
+// 		darwin: '/Applications/Chromium.app/Contents/MacOS/Chromium',
+// 		win32: getChromiumExe()
+// 	},
+// 	ENV_CMD: 'CHROMIUM_BIN'
+// }
 
 module.exports.configCommon = function (config) {
 	function polyfill(files) {
@@ -156,7 +168,7 @@ module.exports.configCommon = function (config) {
 		frameworks: ['mocha', 'polyfill'],
 
 		beforeMiddleware: ['proxy'],
-		proxy     : {
+		proxy           : {
 			'/proxy/': 'https://xmika.com'
 		},
 
@@ -174,6 +186,26 @@ module.exports.configCommon = function (config) {
 			{
 				'framework:polyfill': ['factory', polyfill]
 			},
+			{
+				'launcher:Custom': [
+					'factory', function (injector, args) {
+						const token = 'launcher:' + args.parent
+						const locals = {
+							args: ['value', args]
+						}
+						const plugin = injector.createChild([locals], [token]).get(token)
+						for (const key in args) {
+							if (key !== 'parent' && Object.prototype.hasOwnProperty.call(args, key)) {
+								const value = args[key]
+								if (value !== 'undefined') {
+									plugin[key] = value
+								}
+							}
+						}
+						return plugin
+					}
+				]
+			}
 		],
 
 		// optionally, configure the reporter
@@ -203,8 +235,19 @@ module.exports.configCommon = function (config) {
 
 		customLaunchers: {
 			ChromiumHeadlessNoSandbox: {
-				base : 'ChromiumHeadless',
-				flags: ['--incognito'] // , '--no-sandbox', '--disable-web-security']
+				base  : 'Custom',
+				parent: 'Chromium',
+				flags : [
+					'--incognito',
+					// '--no-sandbox',
+					'--disable-web-security',
+					'--allow-cross-origin-auth-prompt',
+					'--disable-site-isolation-trials'
+				],
+				DEFAULT_CMD: {
+					win32: 'l:/Program Files (x86)/Chromium/44.0.2403.119/chrome.exe'
+				},
+				ENV_CMD: null
 			}
 		}
 	})

@@ -16,7 +16,7 @@ export async function waitWindowLoaded(win) {
 
 	console.log(`Current window: ${document.location.href}`)
 
-	await new Promise(resolve => setTimeout(resolve, 5000))
+	await new Promise(resolve => setTimeout(resolve, 10000))
 
 	console.log(`Window loaded2: ${win.document.location.href}`)
 }
