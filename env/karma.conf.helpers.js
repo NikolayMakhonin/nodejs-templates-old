@@ -155,12 +155,18 @@ module.exports.configCommon = function (config) {
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
 		frameworks: ['mocha', 'polyfill'],
 
+		beforeMiddleware: ['proxy'],
+		proxy     : {
+			'/proxy/': 'https://xmika.com'
+		},
+
 		logReporter: {
 			outputPath: 'reports/', // default name is current directory
 			outputName: 'performance.log' // default name is logFile_month_day_year_hr:min:sec.log
 		},
 
 		plugins: [
+			require('./karma-proxy'),
 			'karma-chrome-launcher',
 			'karma-mocha',
 			'karma-rollup-preprocessor',
@@ -189,7 +195,7 @@ module.exports.configCommon = function (config) {
 
 		// level of logging
 		// possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-		logLevel: config.LOG_INFO,
+		logLevel: config.LOG_DEBUG,
 
 		// start these browsers
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
@@ -198,7 +204,7 @@ module.exports.configCommon = function (config) {
 		customLaunchers: {
 			ChromiumHeadlessNoSandbox: {
 				base : 'ChromiumHeadless',
-				flags: ['--no-sandbox', '--disable-web-security', '--incognito']
+				flags: ['--incognito'] // , '--no-sandbox', '--disable-web-security']
 			}
 		}
 	})
@@ -410,8 +416,6 @@ module.exports.configBrowserStack = function (config, desktop = true, mobile = f
 			level   : 'debug',
 			terminal: true
 		},
-
-		logLevel: config.LOG_DEBUG
 	})
 
 	// disable singleRun

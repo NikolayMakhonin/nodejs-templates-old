@@ -11,10 +11,11 @@ function start() {
 	const staticPath = path.join(__dirname, '../src/test/tests/browser/e2e/env/assets')
 	app.use('/env/assets', express.static(staticPath, {
 		setHeaders(res) {
-			res.set('Access-Control-Allow-Origin', 'http://localhost:9876')
-			res.set('Access-Control-Allow-Headers', 'Content-Type,X-Requested-With')
-			res.set('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
-			res.set('X-Frame-Options', 'allow-from http://localhost:9876')
+			res.set('Access-Control-Allow-Origin', '*')
+			// res.set('Access-Control-Allow-Headers', 'Content-Type,X-Requested-With')
+			// res.set('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
+			res.set('X-Frame-Options', '*')
+			// res.set('X-Frame-Options', 'allow-from http://localhost:9876')
 		}
 	}))
 
