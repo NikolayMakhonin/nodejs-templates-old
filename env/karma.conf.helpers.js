@@ -1,4 +1,4 @@
-/* eslint-disable prefer-template,no-sync,no-process-env */
+/* eslint-disable prefer-template,no-sync,no-process-env,global-require */
 // Karma configuration
 
 const globby = require('globby')
@@ -124,53 +124,47 @@ module.exports.watchPatterns = function (...globbyPatterns) {
 // }
 
 module.exports.configCommon = function (config) {
-	function polyfill(files) {
-		files.unshift(...[
-			// Check if polyfill load first and fix Uint8Array bug
-			servedPattern(writeTextFile(
-				path.resolve('./tmp/karma/polyfill_before.js'),
-				"'use strict'; \n"
-				+ '(function () {\n'
-				// + "\tif (typeof _babelPolyfill !== 'undefined') return;\n"
-				+ '\tvar log = [];\n'
-				+ "\tif (typeof describe !== 'undefined') {\n"
-				+ "\t\tlog.push('describe: ' + describe);\n"
-				+ '\t}\n'
-				+ "\tif (typeof it !== 'undefined') {\n"
-				+ "\t\tlog.push('it: ' + it);\n"
-				+ '\t}\n'
-				+ "\tif (typeof test !== 'undefined') {\n"
-				+ "\t\tlog.push('test: ' + test);\n"
-				+ '\t}\n'
-				+ '\tif (log.length) {\n'
-				+ "\t\tthrow new Error('polyfill was not run first:\\n' + log.join('\\n'));\n"
-				+ '\t}\n'
-				+ "\tconsole.log('karma polyfill activating...');\n"
-				+ '})();\n'
-			)),
-			// Load polyfill
-			servedPattern(require.resolve('./polyfill_custom')),
-			servedPattern(require.resolve('@babel/polyfill/dist/polyfill')), // For IE
-			servedPattern(writeTextFile(
-				path.resolve('./tmp/karma/polyfill_after.js'),
-				"console.log('karma polyfill activated!');"
-			))
-		])
-	}
-	polyfill.$inject = ['config.files']
-
 	config.set({
 		// base path that will be used to resolve all patterns (eg. files, exclude)
 		basePath: '..',
 
 		// frameworks to use
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-		frameworks: ['mocha', 'polyfill'],
+		frameworks: ['mocha', 'unshiftFiles'],
 
-		beforeMiddleware: ['proxy'],
-		proxy           : {
-			'/proxy/': 'https://xmika.com'
-		},
+		unshiftFiles: [
+			...[
+				// Check if polyfill load first and fix Uint8Array bug
+				servedPattern(writeTextFile(
+					path.resolve('./tmp/karma/polyfill_before.js'),
+					"'use strict'; \n"
+					+ '(function () {\n'
+					// + "\tif (typeof _babelPolyfill !== 'undefined') return;\n"
+					+ '\tvar log = [];\n'
+					+ "\tif (typeof describe !== 'undefined') {\n"
+					+ "\t\tlog.push('describe: ' + describe);\n"
+					+ '\t}\n'
+					+ "\tif (typeof it !== 'undefined') {\n"
+					+ "\t\tlog.push('it: ' + it);\n"
+					+ '\t}\n'
+					+ "\tif (typeof test !== 'undefined') {\n"
+					+ "\t\tlog.push('test: ' + test);\n"
+					+ '\t}\n'
+					+ '\tif (log.length) {\n'
+					+ "\t\tthrow new Error('polyfill was not run first:\\n' + log.join('\\n'));\n"
+					+ '\t}\n'
+					+ "\tconsole.log('karma polyfill activating...');\n"
+					+ '})();\n'
+				)),
+				// Load polyfill
+				servedPattern(require.resolve('./polyfill_custom')),
+				servedPattern(require.resolve('@babel/polyfill/dist/polyfill')), // For IE
+				servedPattern(writeTextFile(
+					path.resolve('./tmp/karma/polyfill_after.js'),
+					"console.log('karma polyfill activated!');"
+				))
+			]
+		],
 
 		logReporter: {
 			outputPath: 'reports/', // default name is current directory
@@ -178,34 +172,12 @@ module.exports.configCommon = function (config) {
 		},
 
 		plugins: [
-			require('./karma-proxy'),
 			'karma-chrome-launcher',
 			'karma-mocha',
 			'karma-rollup-preprocessor',
 			'karma-coverage',
-			{
-				'framework:polyfill': ['factory', polyfill]
-			},
-			{
-				'launcher:Custom': [
-					'factory', function (injector, args) {
-						const token = 'launcher:' + args.parent
-						const locals = {
-							args: ['value', args]
-						}
-						const plugin = injector.createChild([locals], [token]).get(token)
-						for (const key in args) {
-							if (key !== 'parent' && Object.prototype.hasOwnProperty.call(args, key)) {
-								const value = args[key]
-								if (value !== 'undefined') {
-									plugin[key] = value
-								}
-							}
-						}
-						return plugin
-					}
-				]
-			}
+			require('./modules/karma-custom-launcher'),
+			require('./modules/karma-unshift-files')
 		],
 
 		// optionally, configure the reporter
@@ -213,6 +185,10 @@ module.exports.configCommon = function (config) {
 			type: 'lcovonly',
 			dir : 'tmp/coverage/karma',
 			// subDir: () => 'browser'
+		},
+
+		proxies: {
+			'/test': './src/test/tests/browser'
 		},
 
 		listenAddress: 'localhost',
@@ -231,15 +207,45 @@ module.exports.configCommon = function (config) {
 
 		// start these browsers
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-		browsers: ['ChromiumHeadlessNoSandbox'],
+		browsers: ['Chromium33', 'ChromeLatest'],
 
 		customLaunchers: {
-			ChromiumHeadlessNoSandbox: {
+			Chromium33: {
 				base  : 'Custom',
 				parent: 'Chromium',
 				flags : [
 					'--incognito',
-					// '--no-sandbox',
+					'--no-sandbox',
+					'--disable-web-security',
+					'--allow-cross-origin-auth-prompt',
+					'--disable-site-isolation-trials'
+				],
+				DEFAULT_CMD: {
+					win32: 'l:/Program Files (x86)/Chromium/33.0.1750.170/chrome.exe'
+				},
+				ENV_CMD: null
+			},
+			Chromium39: {
+				base  : 'Custom',
+				parent: 'Chromium',
+				flags : [
+					'--incognito',
+					'--no-sandbox',
+					'--disable-web-security',
+					'--allow-cross-origin-auth-prompt',
+					'--disable-site-isolation-trials'
+				],
+				DEFAULT_CMD: {
+					win32: 'l:/Program Files (x86)/Chromium/39.0.2171.99/chrome.exe'
+				},
+				ENV_CMD: null
+			},
+			Chromium44: {
+				base  : 'Custom',
+				parent: 'Chromium',
+				flags : [
+					'--incognito',
+					'--no-sandbox',
 					'--disable-web-security',
 					'--allow-cross-origin-auth-prompt',
 					'--disable-site-isolation-trials'
@@ -248,7 +254,22 @@ module.exports.configCommon = function (config) {
 					win32: 'l:/Program Files (x86)/Chromium/44.0.2403.119/chrome.exe'
 				},
 				ENV_CMD: null
-			}
+			},
+			ChromeLatest: {
+				base  : 'Custom',
+				parent: 'Chrome',
+				flags : [
+					'--incognito',
+					'--no-sandbox',
+					'--disable-web-security',
+					'--allow-cross-origin-auth-prompt',
+					'--disable-site-isolation-trials'
+				],
+				DEFAULT_CMD: {
+					win32: 'E:/Program Files (x86)/Google/Chrome Dev/Application/chrome.exe'
+				},
+				ENV_CMD: null
+			},
 		}
 	})
 }

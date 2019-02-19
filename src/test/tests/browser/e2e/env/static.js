@@ -8,12 +8,21 @@ describe('browser > e2e > env > static', function () {
 
 	before(async function () {
 		this.timeout(60000)
-		win = e2eHelpers.createWindow(`https://fragmenter.net/`)
+		win = e2eHelpers.createWindow('https://fragmenter.net/')
 		await e2eHelpers.waitWindowLoaded(win)
 	})
 
 	after(function () {
 		win.close()
+	})
+
+	it('w3c valid', async function () {
+		// console.log(document.documentElement.innerHTML)
+		const result = await e2eHelpers.validateW3C({content: new XMLSerializer().serializeToString(document)})
+		if (result.error || result.warning) {
+			console.error(JSON.stringify(result, null, 4))
+			assert.fail('html is not valid')
+		}
 	})
 
 	it('write', function () {
