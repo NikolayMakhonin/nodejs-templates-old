@@ -213,7 +213,7 @@ module.exports.configCommon = function (config) {
 		browsers: [
 			// 'E2E_Chromium33',
 			// // 'E2E_Chromium39',
-			// 'E2E_Chromium44',
+			'E2E_Chromium44',
 			'E2E_ChromeLatest',
 			'E2E_FirefoxLatest',
 			// 'E2E_IELatest'
@@ -271,9 +271,9 @@ module.exports.configCommon = function (config) {
 				flags : [
 					'--incognito',
 					'--no-sandbox',
-					// '--disable-web-security',
-					// '--allow-cross-origin-auth-prompt',
-					// '--disable-site-isolation-trials'
+					'--disable-web-security',
+					'--allow-cross-origin-auth-prompt',
+					'--disable-site-isolation-trials'
 				],
 				DEFAULT_CMD: {
 					win32: 'l:/Program Files (x86)/Chromium/44.0.2403.119/chrome.exe'
@@ -297,11 +297,21 @@ module.exports.configCommon = function (config) {
 			},
 			E2E_FirefoxLatest: {
 				base  : 'Custom',
-				parent: 'FirefoxHeadless',
+				parent: 'Firefox',
 				// see: about:config
 				prefs : {
-					'media.navigator.permission.disabled'  : true,
-					'security.fileuri.strict_origin_policy': false,
+					'security.fileuri.strict_origin_policy'     : false,
+					'dom.block_multiple_popups'     : false,
+					'dom.popup_maximum'     : 20,
+					'privacy.popups.policy'     : 1,
+					'privacy.firstparty.isolate.restrict_opener_access'     : false,
+					'security.OCSP.enabled'     : 0,
+					'security.csp.enable'     : false,
+					'security.sri.enable'     : false,
+					'security.csp.enableStrictDynamic'     : false,
+					'security.data_uri.unique_opaque_origin'     : false,
+					'network.websocket.allowInsecureFromHTTPS'     : true,
+					'dom.popup_allowed_events'     : 'change click dblclick mouseup pointerup notificationclick reset submit touchend load',
 					// 'network.http.referer.XOriginPolicy'        : 0, // 0 - default
 					// 'network.http.referer.XOriginTrimmingPolicy': 0, // 0 - default
 					// 'network.http.referer.defaultPolicy'        : 3 // 3 - default

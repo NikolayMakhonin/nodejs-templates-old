@@ -4,7 +4,11 @@ export function delay(timeMilliseconds) {
 	return new Promise(resolve => setTimeout(resolve, timeMilliseconds))
 }
 
-export async function throwIfTimeout(timeout, func) {
+export async function throwIfTimeout(timeout, func, throwIfError = true) {
+	if (typeof timeout !== 'number') {
+		throw new Error(`timeout argument is not a number: ${timeout}`)
+	}
+
 	const timeoutResult = {}
 	const result = await Promise.race([
 		typeof func === 'function'
@@ -15,7 +19,10 @@ export async function throwIfTimeout(timeout, func) {
 	])
 
 	if (result === timeoutResult) {
-		throw new Error(`Timeout error (${timeout}):\r\n${func.toString()}`)
+		if (throwIfError) {
+			throw new Error(`Timeout error (${timeout}):\r\n${func.toString()}`)
+		}
+		return false
 	}
 
 	return result
@@ -66,7 +73,7 @@ export class WindowHelpers {
 		await throwIfTimeout(timeout, async () => {
 			while (true) {
 				// eslint-disable-next-line no-await-in-loop
-				await this.wait(timeout)
+				await this.wait(1000, false)
 
 				if (this.window.document.location.href !== oldUrl) {
 					break
@@ -76,6 +83,10 @@ export class WindowHelpers {
 				await delay(10)
 			}
 		})
+
+		if (this.window.document.location.href === oldUrl) {
+			throw new Error(`Window navigate, url is not changed to ${url.href}`)
+		}
 
 		console.log(`navigate ${oldUrl} => ${url.href} => ${this.window.document.location.href}`)
 
@@ -90,9 +101,9 @@ export class WindowHelpers {
 		return this.window.document.location.href
 	}
 
-	async wait(timeout = 30000) {
+	async wait(timeout = 30000, throwIfError = true) {
 		const win = this.window
-		await throwIfTimeout(new Promise(resolve => {
+		const result = await throwIfTimeout(timeout, new Promise(resolve => {
 			function onLoadHandler() {
 				if (win.onload === onLoadHandler) {
 					win.onload = null
@@ -107,7 +118,11 @@ export class WindowHelpers {
 			if (this.isLoaded()) {
 				onLoadHandler()
 			}
-		}))
+		}), throwIfError)
+
+		if (!throwIfError && !result) {
+			return false
+		}
 
 		return this
 	}
@@ -127,16 +142,15 @@ export class WindowHelpers {
 		}
 
 		this.window.addEventListener('error', function (e) {
-			const msg = JSON.stringify(e)
-			console.error(msg)
-			assert.fail(msg)
-			return false
+			// const msg = JSON.stringify(e)
+			console.error(e)
+			assert.fail(e)
 		})
 
 		this.window.addEventListener('unhandledrejection', function (e) {
-			const msg = JSON.stringify(e)
-			console.error(msg)
-			assert.fail(msg)
+			// const msg = JSON.stringify(e)
+			console.error(e)
+			assert.fail(e)
 		})
 
 		return this
@@ -179,11 +193,11 @@ export class WindowHelpers {
 		const win = await WindowHelpers.create()
 		try {
 			await win.navigate(checkUrl)
-			result = win.url() !== blankUrl
-			if (!result) {
-				error = `window url = ${win.url()}`
-			}
+			result = true
 		} catch (ex) {
+			if (ex.message.indexOf('cross-origin') < 0) {
+				throw ex
+			}
 			error = ex
 		}
 

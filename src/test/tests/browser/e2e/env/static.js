@@ -10,7 +10,7 @@ describe('browser > e2e > env > static', function () {
 	before(async function () {
 		this.timeout(60000)
 
-		if (!await WindowHelpers.isAllowFrameAccess('http://localhost:4444')) {
+		if (!await WindowHelpers.isAllowFrameAccess(testUrl)) {
 			this.skip()
 			return
 		}
