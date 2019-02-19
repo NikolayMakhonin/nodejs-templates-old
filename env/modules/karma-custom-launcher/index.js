@@ -1,17 +1,18 @@
+const _ = require('lodash')
+
 function factory(injector, args) {
 	const token = `launcher:${args.parent}`
+	args = {...args}
+	delete args.parent
+
 	const locals = {
 		args: ['value', args]
 	}
+
 	const plugin = injector.createChild([locals], [token]).get(token)
-	for (const key in args) {
-		if (key !== 'parent' && Object.prototype.hasOwnProperty.call(args, key)) {
-			const value = args[key]
-			if (value !== 'undefined') {
-				plugin[key] = value
-			}
-		}
-	}
+
+	_.mergeWith(plugin, args)
+
 	return plugin
 }
 

@@ -3,7 +3,7 @@ function factory(files, unshiftFiles) {
 }
 factory.$inject = ['config.files', 'config.unshiftFiles']
 
-module.exports = 			{
+module.exports = {
 	'framework:unshiftFiles': ['factory', factory]
 }
 

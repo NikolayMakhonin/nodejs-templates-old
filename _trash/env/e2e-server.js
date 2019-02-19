@@ -27,7 +27,7 @@ function start() {
 	// 	response.send(`<p>${filters.inHTMLData(request.body.someText)}</p>`)
 	// })
 
-	app.listen(4444)
+	const server = app.listen(4444)
 
 	return () => {
 		console.log('Server closing...')
@@ -36,12 +36,12 @@ function start() {
 			// eslint-disable-next-line no-process-exit
 			process.exit()
 		}, 1000)
-		app.close(function () {
+		server.close(function () {
 			console.log('Server closed.')
 		})
 	}
 }
 
 module.exports = {
-	start
+	stop: start()
 }

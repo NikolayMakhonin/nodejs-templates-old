@@ -55,7 +55,9 @@ async function doRollup(file) {
 		plugins: [
 			// globals(),
 			// builtins(),
-			babel(),
+			babel({
+				runtimeHelpers: true
+			}),
 			nodeResolve(),
 			// nodeResolve({
 			// 	jsnext: true,
@@ -64,7 +66,9 @@ async function doRollup(file) {
 			// 	preferBuiltins: true,
 			// }),
 			commonjs(),
-			babel(),
+			babel({
+				runtimeHelpers: true
+			}),
 			addHeaderFooterPlugin({
 				include: file,
 				header : markStartEnd,

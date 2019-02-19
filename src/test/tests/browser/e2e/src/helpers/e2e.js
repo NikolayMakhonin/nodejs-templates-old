@@ -1,97 +1,205 @@
-export function windowIsLoaded(win) {
-	return win.document.readyState === 'complete' || win.document.readyState === 'interactive'
+import UAParser from 'ua-parser-js'
+
+export function delay(timeMilliseconds) {
+	return new Promise(resolve => setTimeout(resolve, timeMilliseconds))
 }
 
-export async function waitWindowLoaded(win) {
-	await new Promise(resolve => {
-		win.onload = resolve
-		win.addEventListener('load', resolve, true)
-		if (windowIsLoaded(win)) {
-			// eslint-disable-next-line callback-return
-			resolve()
+export async function throwIfTimeout(timeout, func) {
+	const timeoutResult = {}
+	const result = await Promise.race([
+		typeof func === 'function'
+			? func()
+			: func,
+		delay(timeout)
+			.then(o => timeoutResult)
+	])
+
+	if (result === timeoutResult) {
+		throw new Error(`Timeout error (${timeout}):\r\n${func.toString()}`)
+	}
+
+	return result
+}
+
+const blankUrl = 'about:blank'
+
+export class WindowHelpers {
+	constructor(win) {
+		if (!win) {
+			throw new Error(`Argument 'win' is empty: ${win}`)
 		}
-	})
-
-	console.log(`Window loaded: ${win.document.location.href}`)
-
-	console.log(`Current window: ${document.location.href}`)
-
-	await new Promise(resolve => setTimeout(resolve, 5000))
-
-	console.log(`Window loaded2: ${win.document.location.href}`)
-}
-
-export function createWindow(url, width, height) {
-	const winName = (Number.MAX_SAFE_INTEGER * Math.random()).toString(32)
-	console.log(`Window opening: ${url}`)
-	const win = window.open(
-		url,
-		winName,
-		`width=${width || 600},height=${height || 1000},location=no,resizable=yes,scrollbars=yes`
-	)
-	console.log(`Window opened: ${win.document.location.href}`)
-	handleWindowErrors(win)
-	return win
-}
-
-export async function windowTest(url, width, height, testFunc) {
-	const win = createWindow(url, width, height)
-	try {
-		await testFunc()
-	} finally {
-		win.close()
+		this.window = win
 	}
-}
 
-function handleWindowErrors(win = window) {
-	win.onerror = function (message, file, line, col, error) {
-		const msg = JSON.stringify({
-			message,
-			file,
-			line,
-			col,
-			error
+	static create(width, height, handleErrors = true) {
+		const winName = (Number.MAX_SAFE_INTEGER * Math.random()).toString(32)
+		const windowInstance = window.open(
+			blankUrl,
+			winName,
+			`width=${width || 600},height=${height || 1000},location=no,resizable=yes,scrollbars=yes`
+		)
+
+		if (!windowInstance) {
+			throw new Error('Cannot get access to the created window. You should to disable web security in the test browser.')
+		}
+
+		const win = new WindowHelpers(windowInstance)
+		if (handleErrors) {
+			win.handleErrors()
+		}
+
+		return win
+	}
+
+	async navigate(url, timeout = 30000) {
+		const oldUrl = this.window.document.location.href
+
+		url = new URL(url)
+		if (url.href === new URL(oldUrl)) {
+			return this
+		}
+
+		this.window.document.location.href = url.href
+
+		console.log(`navigate ${oldUrl} => ${url.href} => ${this.window.document.location.href}`)
+
+		await throwIfTimeout(timeout, async () => {
+			while (true) {
+				// eslint-disable-next-line no-await-in-loop
+				await this.wait(timeout)
+
+				if (this.window.document.location.href !== oldUrl) {
+					break
+				}
+
+				// eslint-disable-next-line no-await-in-loop
+				await delay(10)
+			}
 		})
-		console.error(msg)
-		assert.fail(msg)
-		return false
+
+		console.log(`navigate ${oldUrl} => ${url.href} => ${this.window.document.location.href}`)
+
+		return this
 	}
 
-	win.addEventListener('error', function (e) {
-		const msg = JSON.stringify(e)
-		console.error(msg)
-		assert.fail(msg)
-		return false
-	})
+	isLoaded() {
+		return this.window.document.readyState === 'complete' || this.window.document.readyState === 'interactive'
+	}
 
-	win.addEventListener('unhandledrejection', function (e) {
-		const msg = JSON.stringify(e)
-		console.error(msg)
-		assert.fail(msg)
-	})
+	url() {
+		return this.window.document.location.href
+	}
+
+	async wait(timeout = 30000) {
+		const win = this.window
+		await throwIfTimeout(new Promise(resolve => {
+			function onLoadHandler() {
+				if (win.onload === onLoadHandler) {
+					win.onload = null
+				}
+				win.removeEventListener('load', onLoadHandler)
+				resolve()
+			}
+
+			win.onload = onLoadHandler
+			win.addEventListener('load', onLoadHandler, true)
+
+			if (this.isLoaded()) {
+				onLoadHandler()
+			}
+		}))
+
+		return this
+	}
+
+	handleErrors() {
+		this.window.onerror = function (message, file, line, col, error) {
+			const msg = JSON.stringify({
+				message,
+				file,
+				line,
+				col,
+				error
+			})
+			console.error(msg)
+			assert.fail(msg)
+			return false
+		}
+
+		this.window.addEventListener('error', function (e) {
+			const msg = JSON.stringify(e)
+			console.error(msg)
+			assert.fail(msg)
+			return false
+		})
+
+		this.window.addEventListener('unhandledrejection', function (e) {
+			const msg = JSON.stringify(e)
+			console.error(msg)
+			assert.fail(msg)
+		})
+
+		return this
+	}
+
+	close() {
+		this.window.close()
+	}
+
+	html() {
+		return new XMLSerializer().serializeToString(this.window.document)
+	}
+	
+	validate(options) {
+		return validateW3C({
+			...options,
+			content: this.html()
+		})
+	}
+
+	static async test(url, width, height, testFunc) {
+		const win = await WindowHelpers
+			.create(width, height)
+			.navigate(url)
+
+		try {
+			await testFunc(win)
+		} finally {
+			win.close()
+		}
+	}
+
+	static current = new WindowHelpers(window).handleErrors()
+
+	static userAgent = new UAParser().getResult()
+
+	static async isAllowFrameAccess(checkUrl = 'https://google.com') {
+		let result
+		let error
+		const win = await WindowHelpers.create()
+		try {
+			await win.navigate(checkUrl)
+			result = win.url() !== blankUrl
+			if (!result) {
+				error = `window url = ${win.url()}`
+			}
+		} catch (ex) {
+			error = ex
+		}
+
+		if (!result) {
+			console.warn(`Frame access is not allowed for browser: ${WindowHelpers.userAgent.browser.name}${WindowHelpers.userAgent.browser.version}\r\n${error}`)
+		} else {
+			console.log('Frame access is allowed')
+		}
+
+		return result
+	}
 }
 
 const w3cValidatorUrl = 'https://validator.w3.org/nu/?out=json&group=1&parser=html5'
 
 export async function validateW3C(options) {
-	// formData to submit
-	// const data = {
-	// 	content        : options.content,
-	// 	doctype        : options.doctype || 'Inline',
-	// 	ss             : options.showSource ? 1 : null,
-	// 	outline        : options.showOutline ? 1 : null,
-	// 	prefill        : options.isFragment ? 1 : 0,
-	// 	prefill_doctype: options.doctype || 'html401',
-	// 	out            : 'json'
-	// }
-
-	// const formData = new FormData()
-	// for (const key in data) {
-	// 	if (Object.prototype.hasOwnProperty.call(data, key)) {
-	// 		formData.append(key, data[key])
-	// 	}
-	// }
-
 	const xhr = new XMLHttpRequest()
 	xhr.timeout = options.timeout || 7000
 	xhr.open('POST', w3cValidatorUrl)
@@ -136,13 +244,8 @@ export async function validateW3C(options) {
 	return result
 }
 
-handleWindowErrors()
-
 export default {
+	WindowHelpers,
 	validateW3C,
-	windowIsLoaded,
-	waitWindowLoaded,
-	handleWindowErrors,
-	createWindow,
-	windowTest
+	delay
 }

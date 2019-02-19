@@ -5,8 +5,8 @@ const helpers = require('./karma.conf.helpers')
 module.exports = function (config) {
 	helpers.configCommon(config)
 
-	delete config.browsers
-	helpers.configDetectBrowsers(config)
+	// delete config.browsers
+	// helpers.configDetectBrowsers(config)
 
 	config.set({
 		// browserNoActivityTimeout: 900000,

@@ -14,8 +14,6 @@ const istanbul = require('rollup-plugin-istanbul')
 const nodeResolve  = require('rollup-plugin-node-resolve')
 const commonjs  = require('rollup-plugin-commonjs')
 const nycrc  = require('../.nycrc.json')
-const server = require('./e2e-server')
-server.start()
 
 module.exports.rollup = {
 	plugins: {
@@ -109,20 +107,6 @@ module.exports.watchPatterns = function (...globbyPatterns) {
 		}))
 }
 
-// process.env.CHROMIUM_BIN = 'l:/Program Files (x86)/Chromium/44.0.2403.119/chrome.exe'
-// ChromiumBrowser.prototype = {
-// 	name: 'Chromium',
-//
-// 	DEFAULT_CMD: {
-// 		// Try chromium-browser before chromium to avoid conflict with the legacy
-// 		// chromium-bsu package previously known as 'chromium' in Debian and Ubuntu.
-// 		linux: getBin(['chromium-browser', 'chromium']),
-// 		darwin: '/Applications/Chromium.app/Contents/MacOS/Chromium',
-// 		win32: getChromiumExe()
-// 	},
-// 	ENV_CMD: 'CHROMIUM_BIN'
-// }
-
 module.exports.configCommon = function (config) {
 	config.set({
 		// base path that will be used to resolve all patterns (eg. files, exclude)
@@ -130,7 +114,7 @@ module.exports.configCommon = function (config) {
 
 		// frameworks to use
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-		frameworks: ['mocha', 'unshiftFiles'],
+		frameworks: ['mocha', 'unshiftFiles', 'karma-express'],
 
 		unshiftFiles: [
 			...[
@@ -157,13 +141,23 @@ module.exports.configCommon = function (config) {
 					+ '})();\n'
 				)),
 				// Load polyfill
-				servedPattern(require.resolve('./polyfill_custom')),
+				servedPattern(require.resolve('./polyfills/polyfill_custom')),
 				servedPattern(require.resolve('@babel/polyfill/dist/polyfill')), // For IE
+				servedPattern(require.resolve('./polyfills/url-polyfill.min')),
+				servedPattern(require.resolve('./polyfills/promise-polyfill.min')),
+				servedPattern(require.resolve('./polyfills/fetch.iife')),
 				servedPattern(writeTextFile(
 					path.resolve('./tmp/karma/polyfill_after.js'),
 					"console.log('karma polyfill activated!');"
 				))
 			]
+		],
+
+		karmaExpress: [
+			{
+				port : 4444,
+				inits: [['/env/assets', 'src/test/tests/browser/e2e/env/assets']]
+			}
 		],
 
 		logReporter: {
@@ -173,9 +167,18 @@ module.exports.configCommon = function (config) {
 
 		plugins: [
 			'karma-chrome-launcher',
+			'karma-firefox-launcher',
+			'karma-safari-launcher',
+			'karma-safaritechpreview-launcher',
+			'karma-opera-launcher',
+			'karma-edge-launcher',
+			'karma-ie-launcher',
+			'karma-phantomjs-launcher',
+
 			'karma-mocha',
 			'karma-rollup-preprocessor',
 			'karma-coverage',
+			require('./modules/karma-express'),
 			require('./modules/karma-custom-launcher'),
 			require('./modules/karma-unshift-files')
 		],
@@ -207,12 +210,19 @@ module.exports.configCommon = function (config) {
 
 		// start these browsers
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-		browsers: ['Chromium33', 'ChromeLatest'],
+		browsers: [
+			// 'E2E_Chromium33',
+			// // 'E2E_Chromium39',
+			// 'E2E_Chromium44',
+			'E2E_ChromeLatest',
+			'E2E_FirefoxLatest',
+			// 'E2E_IELatest'
+		],
 
 		customLaunchers: {
-			Chromium33: {
+			E2E_Chromium33: {
 				base  : 'Custom',
-				parent: 'Chromium',
+				parent: 'ChromiumHeadless',
 				flags : [
 					'--incognito',
 					'--no-sandbox',
@@ -225,9 +235,9 @@ module.exports.configCommon = function (config) {
 				},
 				ENV_CMD: null
 			},
-			Chromium39: {
+			E2E_Chromium39: {
 				base  : 'Custom',
-				parent: 'Chromium',
+				parent: 'ChromiumHeadless',
 				flags : [
 					'--incognito',
 					'--no-sandbox',
@@ -240,9 +250,9 @@ module.exports.configCommon = function (config) {
 				},
 				ENV_CMD: null
 			},
-			Chromium44: {
+			E2E_Chromium44: {
 				base  : 'Custom',
-				parent: 'Chromium',
+				parent: 'ChromiumHeadless',
 				flags : [
 					'--incognito',
 					'--no-sandbox',
@@ -255,9 +265,24 @@ module.exports.configCommon = function (config) {
 				},
 				ENV_CMD: null
 			},
-			ChromeLatest: {
+			E2E_ChromiumLatest: {
 				base  : 'Custom',
-				parent: 'Chrome',
+				parent: 'ChromiumHeadless',
+				flags : [
+					'--incognito',
+					'--no-sandbox',
+					// '--disable-web-security',
+					// '--allow-cross-origin-auth-prompt',
+					// '--disable-site-isolation-trials'
+				],
+				DEFAULT_CMD: {
+					win32: 'l:/Program Files (x86)/Chromium/44.0.2403.119/chrome.exe'
+				},
+				ENV_CMD: null
+			},
+			E2E_ChromeLatest: {
+				base  : 'Custom',
+				parent: 'ChromeHeadless',
 				flags : [
 					'--incognito',
 					'--no-sandbox',
@@ -270,6 +295,27 @@ module.exports.configCommon = function (config) {
 				},
 				ENV_CMD: null
 			},
+			E2E_FirefoxLatest: {
+				base  : 'Custom',
+				parent: 'FirefoxHeadless',
+				// see: about:config
+				prefs : {
+					'media.navigator.permission.disabled'  : true,
+					'security.fileuri.strict_origin_policy': false,
+					// 'network.http.referer.XOriginPolicy'        : 0, // 0 - default
+					// 'network.http.referer.XOriginTrimmingPolicy': 0, // 0 - default
+					// 'network.http.referer.defaultPolicy'        : 3 // 3 - default
+				},
+				DEFAULT_CMD: {
+					win32: 'E:/Program Files (x86)/Mozilla Firefox/firefox.exe'
+				},
+				ENV_CMD: null
+			},
+			E2E_IELatest: {
+				base : 'IE',
+				// see "IE Command-Line Options": https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/general-info/hh826025(v=vs.85)
+				flags: ['-extoff']
+			}
 		}
 	})
 }
@@ -284,20 +330,33 @@ function configDetectBrowsers(config) {
 		// configuration
 		detectBrowsers: {
 			// use headless mode, for browsers that support it, default is false
-			preferHeadless: true,
+			preferHeadless: false,
+
+			usePhantomJS: false,
+
+			postDetection(availableBrowsers) {
+				const useBrowsers = {
+					E2E_ChromeLatest  : /Chrome/,
+					E2E_FirefoxLatest : /Firefox/,
+					E2E_ChromiumLatest: /Chromium/,
+					E2E_IELatest      : /\bIE\b/,
+				}
+
+				availableBrowsers
+					.map(availableBrowser => {
+						for (const key in useBrowsers) {
+							if (availableBrowser.match(useBrowsers[key])) {
+								delete useBrowsers[key]
+								return key
+							}
+						}
+
+						return availableBrowser
+					})
+			}
 		},
 
-		plugins: concatArrays(config.plugins, [
-			'karma-chrome-launcher',
-			'karma-edge-launcher',
-			'karma-firefox-launcher',
-			'karma-ie-launcher',
-			'karma-safari-launcher',
-			'karma-safaritechpreview-launcher',
-			'karma-opera-launcher',
-			'karma-phantomjs-launcher',
-			'karma-detect-browsers'
-		])
+		plugins: concatArrays(config.plugins, ['karma-detect-browsers'])
 	})
 }
 

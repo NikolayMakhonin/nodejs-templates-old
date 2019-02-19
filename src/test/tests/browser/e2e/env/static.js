@@ -1,36 +1,71 @@
-import e2eHelpers from '../src/helpers/e2e'
+import {WindowHelpers} from '../src/helpers/e2e'
 
-console.log(navigator.userAgent)
+// console.log(navigator.userAgent)
 
 describe('browser > e2e > env > static', function () {
-	const rootUrl = 'http://localhost:9876'
+	const rootUrl = 'http://localhost:4444'
+	const testUrl = `${rootUrl}/env/assets/`
 	let win
 
 	before(async function () {
 		this.timeout(60000)
-		win = e2eHelpers.createWindow('https://fragmenter.net/')
-		await e2eHelpers.waitWindowLoaded(win)
+
+		if (!await WindowHelpers.isAllowFrameAccess('http://localhost:4444')) {
+			this.skip()
+			return
+		}
+
+		console.log(`Navigate to: ${testUrl}`)
+		win = await WindowHelpers
+			.create()
+			.navigate(testUrl)
 	})
 
 	after(function () {
-		win.close()
+		win?.close()
 	})
 
-	it('w3c valid', async function () {
-		// console.log(document.documentElement.innerHTML)
-		const result = await e2eHelpers.validateW3C({content: new XMLSerializer().serializeToString(document)})
-		if (result.error || result.warning) {
-			console.error(JSON.stringify(result, null, 4))
-			assert.fail('html is not valid')
-		}
+	it('is loaded', function () {
+		assert.ok(win.isLoaded())
+		assert.strictEqual(win.window.document.location.href, testUrl)
+	})
+
+	it('test/load/wait', function () {
+		assert.ok(win.isLoaded())
+		assert.strictEqual(win.window.document.location.href, testUrl)
+	})
+
+	it('get html', function () {
+		const html = win.html()
+		assert.ok(html)
+		assert.match(html, /<!DOCTYPE html>/)
+		// console.log(`HTML: ${html}`)
+	})
+
+	it('w3c validate', async function () {
+		this.timeout(60000)
+		const result = await win.validate()
+		assert.ok(!(result.error || result.warning), JSON.stringify(result, null, 4))
+	})
+
+	it('user-agent', function () {
+		assert.ok(WindowHelpers.userAgent)
+		assert.ok(WindowHelpers.userAgent.browser)
+		assert.ok(WindowHelpers.userAgent.browser.name)
+		assert.ok(WindowHelpers.userAgent.browser.version)
+		// console.log(JSON.stringify(WindowHelpers.userAgent, null, 4))
 	})
 
 	it('write', function () {
 		this.timeout(60000)
-		console.log(win.document.body.innerText)
-		// assert.strictEqual(win.document.body.innerText, 'TEST HTML')
-		// win.document.write('TEST WRITE')
-		win.document.body.innerText = 'TEST WRITE'
-		assert.strictEqual(win.document.body.innerText, 'TEST WRITE')
+		assert.strictEqual(win.window.document.body.innerText, 'TEST HTML')
+
+		win.window.document.body.innerText = 'TEST innerText'
+		assert.strictEqual(win.window.document.body.innerText, 'TEST innerText')
+
+		if (!(WindowHelpers.userAgent.browser.name.indexOf('Chrome') >= 0 && WindowHelpers.userAgent.browser.major > 60)) {
+			win.window.document.write('TEST WRITE')
+			assert.strictEqual(win.window.document.body.innerText, 'TEST WRITE')
+		}
 	})
 })

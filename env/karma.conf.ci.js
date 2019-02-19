@@ -5,13 +5,13 @@ const helpers = require('./karma.conf.helpers')
 module.exports = function (config) {
 	helpers.configCommon(config)
 
-	delete config.browsers
-	if (process.env.TRAVIS) {
-		helpers.configDetectBrowsers(config)
-		// helpers.configBrowserStack(config, true, false)
-	} else {
-		helpers.configDetectBrowsers(config)
-	}
+	// delete config.browsers
+	// if (process.env.TRAVIS) {
+	// 	helpers.configDetectBrowsers(config)
+	// 	// helpers.configBrowserStack(config, true, false)
+	// } else {
+	// 	helpers.configDetectBrowsers(config)
+	// }
 
 	config.set({
 		// browserNoActivityTimeout: 900000,
