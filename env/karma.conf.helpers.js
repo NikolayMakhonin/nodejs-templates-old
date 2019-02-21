@@ -114,7 +114,7 @@ module.exports.configCommon = function (config) {
 
 		// frameworks to use
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-		frameworks: ['mocha', 'unshiftFiles', 'karma-express'],
+		frameworks: ['mocha', 'unshiftFiles'],
 
 		unshiftFiles: [
 			...[
@@ -153,7 +153,7 @@ module.exports.configCommon = function (config) {
 			]
 		],
 
-		karmaExpress: [
+		// karmaExpress: [
 			{
 				port : 4444,
 				inits: [['/env/assets', 'src/test/tests/browser/e2e/env/assets']]
@@ -190,14 +190,6 @@ module.exports.configCommon = function (config) {
 			// subDir: () => 'browser'
 		},
 
-		proxies: {
-			'/test': './src/test/tests/browser'
-		},
-
-		listenAddress: 'localhost',
-
-		hostname: 'localhost',
-
 		// web server port
 		port: 9876,
 
@@ -212,7 +204,7 @@ module.exports.configCommon = function (config) {
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
 		browsers: [
 			// 'E2E_Chromium33',
-			// // 'E2E_Chromium39',
+			// 'E2E_Chromium39',
 			'E2E_Chromium44',
 			'E2E_ChromeLatest',
 			'E2E_FirefoxLatest',
@@ -299,23 +291,53 @@ module.exports.configCommon = function (config) {
 				base  : 'Custom',
 				parent: 'Firefox',
 				// see: about:config
-				prefs : {
+				// I think it is impossible - to disable cross-origin policy for access to other window
+				// prefs : {
 					'security.fileuri.strict_origin_policy'     : false,
+					'app.normandy.dev_mode'     : true,
+					'security.strict_security_checks.enabled'     : false,
+					'dom.window.event.enabled'     : true,
+					'dom.select_popup_in_parent.enabled'     : false,
+					'dom.select_popup_in_content.enabled'     : true,
+					'dom.promise_rejection_events.enabled'     : true,
+					'dom.permissions.revoke.enable'     : false,
+					'dom.disable_window_flip'     : false,
+					'dom.disable_window_move_resize'     : false,
+					'dom.disable_open_during_load'     : false,
 					'dom.block_multiple_popups'     : false,
+					'dom.allow_scripts_to_close_windows'     : true,
+					'dom.disable_beforeunload'     : false,
+					'dom.disable_window_open_feature.location'     : false,
+					'dom.disable_window_open_feature.resizable'     : false,
+					'dom.disable_window_open_feature.status'     : false,
+					'dom.disable_window_open_feature.close'     : false,
+					'dom.disable_window_open_feature.menubar'     : false,
+					'dom.disable_window_open_feature.titlebar'     : false,
+					'dom.disable_window_open_feature.minimizable'     : false,
+					'dom.disable_window_open_feature.personalbar'     : false,
+					'dom.disable_window_open_feature.toolbar'     : false,
+					'security.csp.enable'     : false,
+					'security.mixed_content.block_active_content'     : false,
+					'security.csp.experimentalEnabled'     : false,
+					'security.csp.enableStrictDynamic'     : false,
 					'dom.popup_maximum'     : 20,
 					'privacy.popups.policy'     : 1,
 					'privacy.firstparty.isolate.restrict_opener_access'     : false,
 					'security.OCSP.enabled'     : 0,
-					'security.csp.enable'     : false,
 					'security.sri.enable'     : false,
-					'security.csp.enableStrictDynamic'     : false,
 					'security.data_uri.unique_opaque_origin'     : false,
+					'newsfox.advanced.wmodeOpaque'     : false,
 					'network.websocket.allowInsecureFromHTTPS'     : true,
 					'dom.popup_allowed_events'     : 'change click dblclick mouseup pointerup notificationclick reset submit touchend load',
 					// 'network.http.referer.XOriginPolicy'        : 0, // 0 - default
 					// 'network.http.referer.XOriginTrimmingPolicy': 0, // 0 - default
 					// 'network.http.referer.defaultPolicy'        : 3 // 3 - default
 				},
+				flags : [
+					'-private',
+					// '-safe-mode', // without extensions
+					// '-attach-console', // Write messages for the debugging console into the window which launched the application
+				],
 				DEFAULT_CMD: {
 					win32: 'E:/Program Files (x86)/Mozilla Firefox/firefox.exe'
 				},
@@ -340,7 +362,7 @@ function configDetectBrowsers(config) {
 		// configuration
 		detectBrowsers: {
 			// use headless mode, for browsers that support it, default is false
-			preferHeadless: false,
+			preferHeadless: true,
 
 			usePhantomJS: false,
 
