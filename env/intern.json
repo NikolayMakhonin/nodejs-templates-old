@@ -1,0 +1,3 @@
+{
+	"suites": "src/test/tests/node/webdriver/intern.js"
+}
