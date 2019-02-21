@@ -13,6 +13,9 @@
 		"allowImportExportEverywhere": false,
 		"codeFrame": true
 	},
+	"rules": {
+		"dot-notation": ["off"]
+	},
 
 	"plugins": [
 		"html"
@@ -37,12 +40,6 @@
 			"parser": "espree",
 			"parserOptions": {
 				"ecmaVersion": 5
-			}
-		},
-		{
-			"files": [ "test/**/*.js", "tests/**/*.js" ],
-			"env": {
-				"mocha": true
 			}
 		}
 	]
