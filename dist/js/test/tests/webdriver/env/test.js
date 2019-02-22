@@ -6,7 +6,6 @@ const {
 const {
   assert
 } = intern.getPlugin('chai');
-console.log('before registerSuite');
 
 const keys = require('@theintern/leadfoot/keys');
 
@@ -28,4 +27,3 @@ registerSuite('Todo (functional)', {
   }
 
 });
-console.log('after registerSuite');

@@ -4,8 +4,6 @@ var _intern$getInterface = intern.getInterface('object'),
 var _intern$getPlugin = intern.getPlugin('chai'),
     assert = _intern$getPlugin.assert;
 
-console.log('before registerSuite');
-
 var keys = require('@theintern/leadfoot/keys');
 
 registerSuite('Todo (functional)', {
@@ -25,4 +23,3 @@ registerSuite('Todo (functional)', {
     return result;
   }
 });
-console.log('after registerSuite');
