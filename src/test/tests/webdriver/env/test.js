@@ -1,8 +1,6 @@
 const {registerSuite} = intern.getInterface('object')
 const {assert} = intern.getPlugin('chai')
 
-console.log('before registerSuite')
-
 const keys = require('@theintern/leadfoot/keys')
 registerSuite('Todo (functional)', {
 	'submit form'() {
@@ -25,5 +23,3 @@ registerSuite('Todo (functional)', {
 		return result
 	}
 })
-
-console.log('after registerSuite')

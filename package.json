@@ -11,8 +11,7 @@
   "keywords": [],
   "files": [
     "dist/**",
-    "env/mocha/register-*",
-    "env/mocha/register-*"
+    "env/mocha/*"
   ],
   "main": "dist/js/main/browser/main.js",
   "jsnext:main": "dist/mjs/main/browser/main.js",

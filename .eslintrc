@@ -13,9 +13,6 @@
 		"allowImportExportEverywhere": false,
 		"codeFrame": true
 	},
-	"rules": {
-		"dot-notation": ["off"]
-	},
 
 	"plugins": [
 		"html"
