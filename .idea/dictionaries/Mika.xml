@@ -2,8 +2,16 @@
   <dictionary name="Mika">
     <words>
       <w>babelrc</w>
+      <w>browserstack</w>
+      <w>fileuri</w>
       <w>intelli</w>
       <w>jsnext</w>
+      <w>multiremote</w>
+      <w>nycrc</w>
+      <w>safaritechpreview</w>
+      <w>samsung</w>
+      <w>systemjs</w>
+      <w>unhandledrejection</w>
       <w>yandex</w>
       <w>yargs</w>
     </words>

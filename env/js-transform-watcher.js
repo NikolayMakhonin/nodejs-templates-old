@@ -9,7 +9,7 @@ const {createFilter} = require('rollup-pluginutils')
 // const globals = require('rollup-plugin-node-globals')
 // const builtins = require('rollup-plugin-node-builtins')
 const babel = require('rollup-plugin-babel')
-// const {uglify} = require('rollup-plugin-uglify')
+// const {terser} = require('rollup-plugin-terser')
 
 // const { eslint } = require('rollup-plugin-eslint')
 const nodeResolve = require('rollup-plugin-node-resolve')
@@ -55,7 +55,9 @@ async function doRollup(file) {
 		plugins: [
 			// globals(),
 			// builtins(),
-			babel(),
+			babel({
+				runtimeHelpers: true
+			}),
 			nodeResolve(),
 			// nodeResolve({
 			// 	jsnext: true,
@@ -64,7 +66,9 @@ async function doRollup(file) {
 			// 	preferBuiltins: true,
 			// }),
 			commonjs(),
-			babel(),
+			babel({
+				runtimeHelpers: true
+			}),
 			addHeaderFooterPlugin({
 				include: file,
 				header : markStartEnd,
@@ -74,7 +78,7 @@ async function doRollup(file) {
 				header: markStartEnd,
 				footer: markStartEnd
 			}),
-			// uglify({
+			// terser({
 			// 	mangle   : false,
 			// 	sourcemap: false,
 			// 	// {
