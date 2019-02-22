@@ -43,14 +43,14 @@ module.exports = function (config) {
 
 		rollupPreprocessor: {
 			plugins: [
-				helpers.rollup.plugins.babel,
-				helpers.rollup.plugins.istanbul,
-				// helpers.rollup.plugins.globals,
-				// helpers.rollup.plugins.builtins,
-				helpers.rollup.plugins.nodeResolve,
-				helpers.rollup.plugins.commonjs,
-				helpers.rollup.plugins.babel,
-				helpers.rollup.plugins.terser
+				helpers.rollup.plugins.babel(),
+				helpers.rollup.plugins.istanbul(),
+				// helpers.rollup.plugins.globals(),
+				// helpers.rollup.plugins.builtins(),
+				helpers.rollup.plugins.nodeResolve(),
+				helpers.rollup.plugins.commonjs(),
+				helpers.rollup.plugins.babel(),
+				helpers.rollup.plugins.terser()
 			],
 			output: {
 				format   : 'cjs',

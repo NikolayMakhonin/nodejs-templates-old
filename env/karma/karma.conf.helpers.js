@@ -17,19 +17,19 @@ const nycrc  = require('../../.nycrc.json')
 
 module.exports.rollup = {
 	plugins: {
-		babel: babel({
+		babel: () => babel({
 			runtimeHelpers: true
 		}),
-		istanbul   : istanbul(nycrc),
-		// globals    : globals(),
-		// builtins   : builtins(),
-		nodeResolve: nodeResolve(),
-		commonjs   : commonjs({
+		istanbul   : () => istanbul(nycrc),
+		// globals    : () => globals(),
+		// builtins   : () => builtins(),
+		nodeResolve: () => nodeResolve(),
+		commonjs   : () => commonjs({
 			// namedExports: {
 			// 	'node_modules/chai/index.js': ['assert', 'expect']
 			// }
 		}),
-		terser: terser({
+		terser: () => terser({
 			mangle   : false,
 			module   : true,
 			sourcemap: {
