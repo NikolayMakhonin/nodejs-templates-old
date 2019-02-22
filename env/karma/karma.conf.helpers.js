@@ -18,26 +18,26 @@ const nycrc  = require('../../.nycrc.json')
 
 module.exports.rollup = {
 	plugins: {
-		svelte: svelte({
+		svelte: () => svelte({
 			dev       : true,
 			hydratable: true,
 			emitCss   : true
 		}),
-		babel: babel({
-			extensions    : ['.js', '.html', '.svelte'],
+		babel: () => babel({
 			runtimeHelpers: true,
+			extensions    : ['.js', '.html', '.svelte'],
 			exclude       : ['node_modules/@babel/**']
 		}),
-		istanbul   : istanbul(nycrc),
-		// globals    : globals(),
-		// builtins   : builtins(),
-		nodeResolve: nodeResolve(),
-		commonjs   : commonjs({
+		istanbul   : () => istanbul(nycrc),
+		// globals    : () => globals(),
+		// builtins   : () => builtins(),
+		nodeResolve: () => nodeResolve(),
+		commonjs   : () => commonjs({
 			// namedExports: {
 			// 	'node_modules/chai/index.js': ['assert', 'expect']
 			// }
 		}),
-		terser: terser({
+		terser: () => terser({
 			mangle   : false,
 			module   : true,
 			sourcemap: {
@@ -126,38 +126,38 @@ module.exports.configCommon = function (config) {
 
 		unshiftFiles: [
 			...[
-			// Check if polyfill load first and fix Uint8Array bug
-			servedPattern(writeTextFile(
-				path.resolve('./tmp/karma/polyfill_before.js'),
-				"'use strict'; \n"
-				+ '(function () {\n'
-				// + "\tif (typeof _babelPolyfill !== 'undefined') return;\n"
-				+ '\tvar log = [];\n'
-				+ "\tif (typeof describe !== 'undefined') {\n"
-				+ "\t\tlog.push('describe: ' + describe);\n"
-				+ '\t}\n'
-				+ "\tif (typeof it !== 'undefined') {\n"
-				+ "\t\tlog.push('it: ' + it);\n"
-				+ '\t}\n'
-				+ "\tif (typeof test !== 'undefined') {\n"
-				+ "\t\tlog.push('test: ' + test);\n"
-				+ '\t}\n'
-				+ '\tif (log.length) {\n'
-				+ "\t\tthrow new Error('polyfill was not run first:\\n' + log.join('\\n'));\n"
-				+ '\t}\n'
-				+ "\tconsole.log('karma polyfill activating...');\n"
-				+ '})();\n'
-			)),
-			// Load polyfill
+				// Check if polyfill load first and fix Uint8Array bug
+				servedPattern(writeTextFile(
+					path.resolve('./tmp/karma/polyfill_before.js'),
+					"'use strict'; \n"
+					+ '(function () {\n'
+					// + "\tif (typeof _babelPolyfill !== 'undefined') return;\n"
+					+ '\tvar log = [];\n'
+					+ "\tif (typeof describe !== 'undefined') {\n"
+					+ "\t\tlog.push('describe: ' + describe);\n"
+					+ '\t}\n'
+					+ "\tif (typeof it !== 'undefined') {\n"
+					+ "\t\tlog.push('it: ' + it);\n"
+					+ '\t}\n'
+					+ "\tif (typeof test !== 'undefined') {\n"
+					+ "\t\tlog.push('test: ' + test);\n"
+					+ '\t}\n'
+					+ '\tif (log.length) {\n'
+					+ "\t\tthrow new Error('polyfill was not run first:\\n' + log.join('\\n'));\n"
+					+ '\t}\n'
+					+ "\tconsole.log('karma polyfill activating...');\n"
+					+ '})();\n'
+				)),
+				// Load polyfill
 				servedPattern(require.resolve('../polyfills/polyfill_custom')),
-			servedPattern(require.resolve('@babel/polyfill/dist/polyfill')), // For IE
+				servedPattern(require.resolve('@babel/polyfill/dist/polyfill')), // For IE
 				servedPattern(require.resolve('../polyfills/url-polyfill.min')),
 				servedPattern(require.resolve('../polyfills/promise-polyfill.min')),
 				servedPattern(require.resolve('../polyfills/fetch.iife')),
-			servedPattern(writeTextFile(
-				path.resolve('./tmp/karma/polyfill_after.js'),
-				"console.log('karma polyfill activated!');"
-			))
+				servedPattern(writeTextFile(
+					path.resolve('./tmp/karma/polyfill_after.js'),
+					"console.log('karma polyfill activated!');"
+				))
 			]
 		],
 
