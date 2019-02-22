@@ -2,7 +2,6 @@ import 'json5/lib/register'
 import intern from 'intern'
 global.intern = intern
 import config from './config.json5'
-import path from 'path'
 intern.configure(config)
 import './register-intern'
 
