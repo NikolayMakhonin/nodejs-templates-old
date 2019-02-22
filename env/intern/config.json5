@@ -1,0 +1,44 @@
+{
+	"environments": [
+		// "chrome",
+		{
+			"browserName": "firefox",
+			"fixSessionCapabilities": "no-detect" // improve performance
+		}
+	],
+	"tunnel" : "null",
+	"tunnelOptions": {
+		"pathname": "/wd/hub",
+		"hostname": "selenoid",
+		"port": 4444,
+		"logLevel"    : "trace"
+	},
+
+	"serverPort": 9000,
+	"serverUrl": "http://192.168.0.101:9000",
+
+	"functionalSuites": "src/test/*/webdriver/**/*.js",
+	"coverage": [
+		"src/test/*/webdriver/**/{src,env}/**/*.js"
+	],
+
+	"reporters": [
+		{
+			"name": "jsoncoverage",
+			"options": {
+				"directory": "tmp/coverage/intern/json"
+			}
+		},
+		{
+			"name": "htmlcoverage",
+			"options": {
+				"directory": "tmp/coverage/intern/html"
+			}
+		},
+//		"simple",
+//		"pretty",
+		"runner"
+	],
+
+	"plugins": "env/intern/register-intern.js"
+}

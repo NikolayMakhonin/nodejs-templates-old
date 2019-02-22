@@ -1,10 +1,10 @@
-/* eslint-disable prefer-template,no-sync,no-process-env */
+/* eslint-disable prefer-template,no-sync,no-process-env,global-require */
 // Karma configuration
 
 const globby = require('globby')
 const path = require('path')
 const fs = require('fs')
-const thisPackage = require('../package')
+const thisPackage = require('../../package')
 
 const babel = require('rollup-plugin-babel')
 const {terser} = require('rollup-plugin-terser')
@@ -14,7 +14,7 @@ const istanbul = require('rollup-plugin-istanbul')
 const nodeResolve  = require('rollup-plugin-node-resolve')
 const commonjs  = require('rollup-plugin-commonjs')
 const svelte  = require('rollup-plugin-svelte')
-const nycrc  = require('../.nycrc.json')
+const nycrc  = require('../../.nycrc.json')
 
 module.exports.rollup = {
 	plugins: {
@@ -116,8 +116,16 @@ module.exports.watchPatterns = function (...globbyPatterns) {
 }
 
 module.exports.configCommon = function (config) {
-	function polyfill(files) {
-		files.unshift(...[
+	config.set({
+		// base path that will be used to resolve all patterns (eg. files, exclude)
+		basePath: '../..',
+
+		// frameworks to use
+		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+		frameworks: ['mocha', 'unshiftFiles'],
+
+		unshiftFiles: [
+			...[
 			// Check if polyfill load first and fix Uint8Array bug
 			servedPattern(writeTextFile(
 				path.resolve('./tmp/karma/polyfill_before.js'),
@@ -141,23 +149,17 @@ module.exports.configCommon = function (config) {
 				+ '})();\n'
 			)),
 			// Load polyfill
-			servedPattern(require.resolve('./polyfill_custom')),
+				servedPattern(require.resolve('../polyfills/polyfill_custom')),
 			servedPattern(require.resolve('@babel/polyfill/dist/polyfill')), // For IE
+				servedPattern(require.resolve('../polyfills/url-polyfill.min')),
+				servedPattern(require.resolve('../polyfills/promise-polyfill.min')),
+				servedPattern(require.resolve('../polyfills/fetch.iife')),
 			servedPattern(writeTextFile(
 				path.resolve('./tmp/karma/polyfill_after.js'),
 				"console.log('karma polyfill activated!');"
 			))
-		])
-	}
-	polyfill.$inject = ['config.files']
-
-	config.set({
-		// base path that will be used to resolve all patterns (eg. files, exclude)
-		basePath: '..',
-
-		// frameworks to use
-		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-		frameworks: ['mocha', 'polyfill'],
+			]
+		],
 
 		logReporter: {
 			outputPath: 'reports/', // default name is current directory
@@ -166,18 +168,26 @@ module.exports.configCommon = function (config) {
 
 		plugins: [
 			'karma-chrome-launcher',
+			'karma-firefox-launcher',
+			'karma-safari-launcher',
+			'karma-safaritechpreview-launcher',
+			'karma-opera-launcher',
+			'karma-edge-launcher',
+			'karma-ie-launcher',
+			'karma-phantomjs-launcher',
+
 			'karma-mocha',
 			'karma-rollup-preprocessor',
 			'karma-coverage',
-			{
-				'framework:polyfill': ['factory', polyfill]
-			},
+			require('./modules/karma-express'),
+			require('./modules/karma-custom-launcher'),
+			require('./modules/karma-unshift-files')
 		],
 
 		// optionally, configure the reporter
 		coverageReporter: {
-			type: 'lcovonly',
-			dir : 'tmp/coverage/karma',
+			type: 'json',
+			dir : 'tmp/coverage/karma/json',
 			// subDir: () => 'browser'
 		},
 
@@ -189,17 +199,93 @@ module.exports.configCommon = function (config) {
 
 		// level of logging
 		// possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-		logLevel: config.LOG_INFO,
+		logLevel: config.LOG_DEBUG,
 
 		// start these browsers
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-		browsers: ['ChromeHeadlessNoSandbox'],
+		browsers: [
+			// 'E2E_Chromium33',
+			// 'E2E_Chromium39',
+			'E2E_Chromium44',
+			'E2E_ChromeLatest',
+		],
 
 		customLaunchers: {
-			ChromeHeadlessNoSandbox: {
-				base : 'ChromeHeadless',
-				flags: ['--no-sandbox']
-			}
+			E2E_Chromium33: {
+				base  : 'Custom',
+				parent: 'ChromiumHeadless',
+				flags : [
+					'--incognito',
+					'--no-sandbox',
+					'--disable-web-security',
+					'--allow-cross-origin-auth-prompt',
+					'--disable-site-isolation-trials'
+				],
+				DEFAULT_CMD: {
+					win32: 'l:/Program Files (x86)/Chromium/33.0.1750.170/chrome.exe'
+				},
+				ENV_CMD: null
+			},
+			E2E_Chromium39: {
+				base  : 'Custom',
+				parent: 'ChromiumHeadless',
+				flags : [
+					'--incognito',
+					'--no-sandbox',
+					'--disable-web-security',
+					'--allow-cross-origin-auth-prompt',
+					'--disable-site-isolation-trials'
+				],
+				DEFAULT_CMD: {
+					win32: 'l:/Program Files (x86)/Chromium/39.0.2171.99/chrome.exe'
+				},
+				ENV_CMD: null
+			},
+			E2E_Chromium44: {
+				base  : 'Custom',
+				parent: 'ChromiumHeadless',
+				flags : [
+					'--incognito',
+					'--no-sandbox',
+					'--disable-web-security',
+					'--allow-cross-origin-auth-prompt',
+					'--disable-site-isolation-trials'
+				],
+				DEFAULT_CMD: {
+					win32: 'l:/Program Files (x86)/Chromium/44.0.2403.119/chrome.exe'
+				},
+				ENV_CMD: null
+			},
+			E2E_ChromiumLatest: {
+				base  : 'Custom',
+				parent: 'ChromiumHeadless',
+				flags : [
+					'--incognito',
+					'--no-sandbox',
+					'--disable-web-security',
+					'--allow-cross-origin-auth-prompt',
+					'--disable-site-isolation-trials'
+				],
+				DEFAULT_CMD: {
+					win32: 'l:/Program Files (x86)/Chromium/44.0.2403.119/chrome.exe'
+				},
+				ENV_CMD: null
+			},
+			E2E_ChromeLatest: {
+				base  : 'Custom',
+				parent: 'ChromeHeadless',
+				flags : [
+					'--incognito',
+					'--no-sandbox',
+					'--disable-web-security',
+					'--allow-cross-origin-auth-prompt',
+					'--disable-site-isolation-trials'
+				],
+				DEFAULT_CMD: {
+					win32: 'E:/Program Files (x86)/Google/Chrome Dev/Application/chrome.exe'
+				},
+				ENV_CMD: null
+			},
 		}
 	})
 }
@@ -215,19 +301,30 @@ function configDetectBrowsers(config) {
 		detectBrowsers: {
 			// use headless mode, for browsers that support it, default is false
 			preferHeadless: true,
+
+			usePhantomJS: false,
+
+			postDetection(availableBrowsers) {
+				const useBrowsers = {
+					E2E_ChromeLatest  : /Chrome/,
+					E2E_ChromiumLatest: /Chromium/
+				}
+
+				return availableBrowsers
+					.map(availableBrowser => {
+						for (const key in useBrowsers) {
+							if (availableBrowser.match(useBrowsers[key])) {
+								delete useBrowsers[key]
+								return key
+							}
+						}
+
+						return availableBrowser
+					})
+			}
 		},
 
-		plugins: concatArrays(config.plugins, [
-			'karma-chrome-launcher',
-			'karma-edge-launcher',
-			'karma-firefox-launcher',
-			'karma-ie-launcher',
-			'karma-safari-launcher',
-			'karma-safaritechpreview-launcher',
-			'karma-opera-launcher',
-			'karma-phantomjs-launcher',
-			'karma-detect-browsers'
-		])
+		plugins: concatArrays(config.plugins, ['karma-detect-browsers'])
 	})
 }
 
@@ -410,8 +507,6 @@ module.exports.configBrowserStack = function (config, desktop = true, mobile = f
 			level   : 'debug',
 			terminal: true
 		},
-
-		logLevel: config.LOG_DEBUG
 	})
 
 	// disable singleRun

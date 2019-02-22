@@ -38,12 +38,6 @@
 			"parserOptions": {
 				"ecmaVersion": 5
 			}
-		},
-		{
-			"files": [ "test/**/*.js", "tests/**/*.js" ],
-			"env": {
-				"mocha": true
-			}
 		}
 	]
 }
