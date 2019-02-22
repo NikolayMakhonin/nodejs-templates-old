@@ -7,9 +7,11 @@ const keys = require('@theintern/leadfoot/keys')
 registerSuite('Todo (functional)', {
 	'submit form'() {
 		console.log('submit form')
+
 		const result = this.remote
-			.get('index.html')
-			// .findByCssSelector('.new-todo')
+			// .get('/index.html2')
+			.get(pathToUrl(__dirname, 'assets/index.html'))
+			// .findByCssSelector('.new-toodo')
 			// .type('Task 1')
 			// .type(keys.RETURN)
 			// .type('Task 2')

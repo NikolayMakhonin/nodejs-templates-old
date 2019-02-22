@@ -4,7 +4,7 @@
 const globby = require('globby')
 const path = require('path')
 const fs = require('fs')
-const thisPackage = require('../package')
+const thisPackage = require('../../package')
 
 const babel = require('rollup-plugin-babel')
 const {terser} = require('rollup-plugin-terser')
@@ -13,7 +13,7 @@ const istanbul = require('rollup-plugin-istanbul')
 // const builtins = require('rollup-plugin-node-builtins')
 const nodeResolve  = require('rollup-plugin-node-resolve')
 const commonjs  = require('rollup-plugin-commonjs')
-const nycrc  = require('../.nycrc.json')
+const nycrc  = require('../../.nycrc.json')
 
 module.exports.rollup = {
 	plugins: {
@@ -110,7 +110,7 @@ module.exports.watchPatterns = function (...globbyPatterns) {
 module.exports.configCommon = function (config) {
 	config.set({
 		// base path that will be used to resolve all patterns (eg. files, exclude)
-		basePath: '..',
+		basePath: '../..',
 
 		// frameworks to use
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -141,11 +141,11 @@ module.exports.configCommon = function (config) {
 					+ '})();\n'
 				)),
 				// Load polyfill
-				servedPattern(require.resolve('./polyfills/polyfill_custom')),
+				servedPattern(require.resolve('../polyfills/polyfill_custom')),
 				servedPattern(require.resolve('@babel/polyfill/dist/polyfill')), // For IE
-				servedPattern(require.resolve('./polyfills/url-polyfill.min')),
-				servedPattern(require.resolve('./polyfills/promise-polyfill.min')),
-				servedPattern(require.resolve('./polyfills/fetch.iife')),
+				servedPattern(require.resolve('../polyfills/url-polyfill.min')),
+				servedPattern(require.resolve('../polyfills/promise-polyfill.min')),
+				servedPattern(require.resolve('../polyfills/fetch.iife')),
 				servedPattern(writeTextFile(
 					path.resolve('./tmp/karma/polyfill_after.js'),
 					"console.log('karma polyfill activated!');"
@@ -178,8 +178,8 @@ module.exports.configCommon = function (config) {
 
 		// optionally, configure the reporter
 		coverageReporter: {
-			type: 'lcovonly',
-			dir : 'tmp/coverage/karma',
+			type: 'json',
+			dir : 'tmp/coverage/karma/json',
 			// subDir: () => 'browser'
 		},
 
@@ -200,8 +200,6 @@ module.exports.configCommon = function (config) {
 			// 'E2E_Chromium39',
 			'E2E_Chromium44',
 			'E2E_ChromeLatest',
-			'E2E_FirefoxLatest',
-			// 'E2E_IELatest'
 		],
 
 		customLaunchers: {
@@ -301,12 +299,10 @@ function configDetectBrowsers(config) {
 			postDetection(availableBrowsers) {
 				const useBrowsers = {
 					E2E_ChromeLatest  : /Chrome/,
-					E2E_FirefoxLatest : /Firefox/,
-					E2E_ChromiumLatest: /Chromium/,
-					E2E_IELatest      : /\bIE\b/,
+					E2E_ChromiumLatest: /Chromium/
 				}
 
-				availableBrowsers
+				return availableBrowsers
 					.map(availableBrowser => {
 						for (const key in useBrowsers) {
 							if (availableBrowser.match(useBrowsers[key])) {

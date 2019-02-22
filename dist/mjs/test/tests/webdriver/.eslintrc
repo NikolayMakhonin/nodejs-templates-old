@@ -6,8 +6,7 @@
 	"globals": {
 		"intern": true,
 		"assert": false,
-		"expect": false,
-		"pathToUrl": true
+		"expect": false
 	},
 	"rules": {
 		"object-shorthand": "off",

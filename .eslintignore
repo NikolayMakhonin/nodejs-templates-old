@@ -2,3 +2,4 @@ node_modules
 tmp
 dist
 _trash
+env/polyfills/**
