@@ -106,8 +106,7 @@
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-terser": "^4.0.4",
     "rollup-pluginutils": "^2.4.1",
-    "shx": "^0.3.2",
-    "systemjs": "^3.0.0"
+    "shx": "^0.3.2"
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",

@@ -1,5 +1,3 @@
 node_modules
 tmp
-dist
-_trash
-env/polyfills/**
+dist_trashenv/polyfills/**
