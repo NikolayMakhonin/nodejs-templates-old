@@ -5,6 +5,6 @@
     "reporter": [
         "json"
     ],
-    "temp-dir": "./tmp/coverage/tmp",
-    "report-dir": "./tmp/coverage/json"
+    "temp-dir": "./tmp/coverage/nyc/tmp",
+    "report-dir": "./tmp/coverage/nyc/json"
 }

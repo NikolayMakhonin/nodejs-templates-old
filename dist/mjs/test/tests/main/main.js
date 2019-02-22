@@ -1,6 +1,7 @@
 import main from '../../../main/main';
 import mockCli from 'mock-cli';
-describe('main', function () {
+
+describe('main > main', function () {
   var mockCliDispose;
   before(function () {
     mockCliDispose = mockCli(['node', 'index.js'], {
