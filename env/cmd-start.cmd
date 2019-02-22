@@ -1,2 +1,3 @@
-cd /d %~dp0\..
-cmd /K %~dp0\cmd-init
+cd /d %~dp0..
+cls
+cmd /K %~dp0cmd-init
