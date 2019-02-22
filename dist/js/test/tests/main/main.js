@@ -6,7 +6,7 @@ var _main = _interopRequireDefault(require("../../../main/main"));
 
 var _mockCli = _interopRequireDefault(require("mock-cli"));
 
-describe('main', function () {
+describe('main > main', function () {
   let mockCliDispose;
   before(function () {
     mockCliDispose = (0, _mockCli.default)(['node', 'index.js'], {
