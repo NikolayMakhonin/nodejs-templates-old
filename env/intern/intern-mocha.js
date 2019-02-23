@@ -3,7 +3,6 @@ import intern from 'intern'
 global.intern = intern
 import config from './config.json5'
 intern.configure(config)
-import './register-intern'
 
 describe('webdriver', function () {
 	it('intern', async function () {
