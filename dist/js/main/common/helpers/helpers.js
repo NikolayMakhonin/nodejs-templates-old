@@ -1,10 +1,8 @@
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _default = {
+var helpers = {
   test: 'test'
 };
-exports.default = _default;
+
+module.exports = helpers;
+//# sourceMappingURL=helpers.js.map

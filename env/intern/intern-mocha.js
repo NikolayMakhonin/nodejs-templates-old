@@ -7,7 +7,7 @@ import './register-intern'
 
 describe('webdriver', function () {
 	it('intern', async function () {
-		this.timeout(60000)
+		this.timeout(600000)
 		console.log('Run Intern')
 
 		// !!
