@@ -12,7 +12,7 @@
 //		},
 		{
 			"browserName": "chrome",
-			"version": "33",
+			"version": "48"
 //			"fixSessionCapabilities": "no-detect" // improve performance
 		}
 	],
@@ -29,10 +29,10 @@
 
 	"functionalSuites": [
 		"src/test/*/webdriver/**/*.js",
-		"dist/components/test/*/webdriver/**/*.js"
+		"!*/**/{src,assets}/**"
 	],
 	"coverage": [
-		"src/test/*/webdriver/**/{src,env}/**/*.js"
+		"dist/components/**/*.js"
 	],
 
 	"reporters": [

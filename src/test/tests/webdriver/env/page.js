@@ -2,10 +2,8 @@ const {registerSuite} = intern.getInterface('object')
 const {assert} = intern.getPlugin('chai')
 
 const keys = require('@theintern/leadfoot/keys')
-registerSuite('Todo (functional)', {
-	'submit form'() {
-		console.log('submit form')
-
+registerSuite('env > page', {
+	'load'() {
 		// docs: https://theintern.io/docs.html#Leadfoot/2/api/Command/command-1
 
 		return this.remote
