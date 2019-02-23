@@ -9,11 +9,17 @@ export default globby.sync([
 	'src/test/tests/webdriver/**/src/*.svelte'
 ])
 	.map(file => ({
-		input : file,
-		output: {
+		input        : file,
+		// moduleContext: 'window',
+		output       : {
+			banner: '(function(){',
+			name     : path.relative('.', `${file}`).replace(/\\/g, '/').replace(/\.[^/.]+$/, ''),
+			extend   : true,
+			footer: '}).call(window);',
 			file     : path.resolve('dist/components', path.relative('src', `${file}.js`)),
-			format   : 'cjs',
-			sourcemap: true // 'inline'
+			format   : 'iife',
+			sourcemap: true, // 'inline'
+			// globals: ['window']
 		},
 		plugins: [
 			plugins.svelte(),

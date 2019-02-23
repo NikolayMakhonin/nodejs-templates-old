@@ -8,13 +8,15 @@ registerSuite('env > component', {
 		return this.remote
 			// .get('/index.html2')
 			.get(pathToUrl(__dirname, 'assets/page.html'))
-			.setExecuteAsyncTimeout(10000)
-			.appendSvelteComponent('.component', 'Component', {count: 1000})
-			.then(err => {
-				assert.notOk(err)
-			})
+			.findByCssSelector('body')
+			.getVisibleText()
 			.then(value => {
 				assert.strictEqual(value, 'TEST HTML')
+			})
+			.setExecuteAsyncTimeout(10000)
+			.appendSvelteComponent(pathToUrl(__dirname, 'src/component.svelte'), '.component', {count: 1000})
+			.then(err => {
+				assert.notOk(err)
 			})
 			.catch(err => this.remote
 				.getAvailableLogTypes()
