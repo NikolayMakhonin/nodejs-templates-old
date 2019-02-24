@@ -1,10 +1,20 @@
 module.exports = {
 	"presets": [
-    ["@babel/preset-env"]
+		[
+			'@babel/preset-env', {
+				targets: {
+					chrome: '30'
+				}
+			}
+		]
 	],
 	"plugins": [
-		"@babel/plugin-transform-runtime",
 		"@babel/plugin-syntax-dynamic-import",
+		[
+			'@babel/plugin-transform-runtime', {
+				useESModules: true
+			}
+		],
 		"@babel/plugin-proposal-optional-chaining",
 		"@babel/plugin-proposal-throw-expressions",
 		
