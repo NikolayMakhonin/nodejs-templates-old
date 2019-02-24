@@ -63,3 +63,7 @@ typings/
 # additional
 tmp
 /.idea/libraries/Generated_files.xml
+.DS_Store
+yarn-error.log
+/cypress/screenshots/
+/__sapper__/
