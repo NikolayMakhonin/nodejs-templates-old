@@ -18,5 +18,6 @@ registerSuite('Todo (functional)', {
 				assert.strictEqual(value, 'TEST HTML')
 			})
 			.checkLogs()
+			.printLogsOnError()
 	}
 })

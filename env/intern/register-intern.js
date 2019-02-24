@@ -127,3 +127,16 @@ Command.prototype.checkLogs = function (errorPredicate) {
 			return logs
 		})
 }
+
+Command.prototype.printLogsOnError = function () {
+	return this
+		.catch(err => this
+			.getAllLogs()
+			.then(logs => {
+				if (logs.length) {
+					console.error(logs.join('\r\n'))
+				}
+
+				throw err
+			}))
+}
