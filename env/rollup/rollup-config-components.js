@@ -22,7 +22,7 @@ export default globby.sync([
 			sourcemap: true,
 		},
 		plugins: [
-			plugins.svelte(),
+			plugins.svelte.client(),
 			plugins.babel(),
 			// plugins.istanbul(),
 			// plugins.globals(),

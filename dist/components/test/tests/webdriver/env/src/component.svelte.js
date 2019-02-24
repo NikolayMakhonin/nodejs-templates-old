@@ -2,10 +2,36 @@
 this['src/test/tests/webdriver/env/src/component'] = (function () {
 	'use strict';
 
+	function createCommonjsModule(fn, module) {
+		return module = { exports: {} }, fn(module, module.exports), module.exports;
+	}
+
+	var _typeof_1 = createCommonjsModule(function (module) {
+	function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
+
+	function _typeof(obj) {
+	  if (typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol") {
+	    module.exports = _typeof = function _typeof(obj) {
+	      return _typeof2(obj);
+	    };
+	  } else {
+	    module.exports = _typeof = function _typeof(obj) {
+	      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : _typeof2(obj);
+	    };
+	  }
+
+	  return _typeof(obj);
+	}
+
+	module.exports = _typeof;
+	});
+
 	function noop() {}
 
 	function assign(tar, src) {
-	  for (var k in src) tar[k] = src[k];
+	  for (var k in src) {
+	    tar[k] = src[k];
+	  }
 
 	  return tar;
 	}
@@ -13,10 +39,10 @@ this['src/test/tests/webdriver/env/src/component'] = (function () {
 	function addLoc(element, file, line, column, char) {
 	  element.__svelte_meta = {
 	    loc: {
-	      file,
-	      line,
-	      column,
-	      char
+	      file: file,
+	      line: line,
+	      column: column,
+	      char: char
 	    }
 	  };
 	}
@@ -115,7 +141,7 @@ this['src/test/tests/webdriver/env/src/component'] = (function () {
 	}
 
 	function _differs(a, b) {
-	  return a != a ? b == b : a !== b || a && typeof a === 'object' || typeof a === 'function';
+	  return a != a ? b == b : a !== b || a && _typeof_1(a) === 'object' || typeof a === 'function';
 	}
 
 	function fire(eventName, data) {
@@ -169,7 +195,7 @@ this['src/test/tests/webdriver/env/src/component'] = (function () {
 	  var handlers = this._handlers[eventName] || (this._handlers[eventName] = []);
 	  handlers.push(handler);
 	  return {
-	    cancel: function () {
+	    cancel: function cancel() {
 	      var index = handlers.indexOf(handler);
 	      if (~index) handlers.splice(index, 1);
 	    }
@@ -223,7 +249,7 @@ this['src/test/tests/webdriver/env/src/component'] = (function () {
 	}
 
 	function setDev(newState) {
-	  if (typeof newState !== 'object') {
+	  if (_typeof_1(newState) !== 'object') {
 	    throw new Error(this._debugName + '.set was called without an object of data key-values to update.');
 	  }
 
@@ -233,7 +259,9 @@ this['src/test/tests/webdriver/env/src/component'] = (function () {
 	}
 
 	function callAll(fns) {
-	  while (fns && fns.length) fns.shift()();
+	  while (fns && fns.length) {
+	    fns.shift()();
+	  }
 	}
 
 	function _mount(target, anchor) {
@@ -241,15 +269,15 @@ this['src/test/tests/webdriver/env/src/component'] = (function () {
 	}
 	var protoDev = {
 	  destroy: destroyDev,
-	  get,
-	  fire,
-	  on,
+	  get: get,
+	  fire: fire,
+	  on: on,
 	  set: setDev,
 	  _recompute: noop,
-	  _set,
-	  _stage,
-	  _mount,
-	  _differs
+	  _set: _set,
+	  _stage: _stage,
+	  _mount: _mount,
+	  _differs: _differs
 	};
 
 	var _Array$from, _Object$assign, _Object$assign$x;
