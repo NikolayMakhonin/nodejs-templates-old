@@ -1,5 +1,4 @@
-import path from 'path'
-
+const path = require('path')
 const babel = require('rollup-plugin-babel')
 const {terser} = require('rollup-plugin-terser')
 const istanbul = require('rollup-plugin-istanbul')
@@ -7,11 +6,12 @@ const istanbul = require('rollup-plugin-istanbul')
 // const builtins = require('rollup-plugin-node-builtins')
 const nodeResolve  = require('rollup-plugin-node-resolve')
 const commonjs  = require('rollup-plugin-commonjs')
-const svelte  = require('rollup-plugin-svelte')
 const nycrc  = require('../../.nycrc.json')
-import preprocess from 'svelte-preprocess'
-import themesPreprocess from 'svelte-themes-preprocess'
-import postcssImport from 'postcss-import'
+
+const svelte  = require('rollup-plugin-svelte')
+const preprocess = require('svelte-preprocess')
+const themesPreprocess = require('svelte-themes-preprocess')
+const postcssImport = require('postcss-import')
 
 function postcssCommon(options = {}) {
 	return {
@@ -56,6 +56,7 @@ function svelteCommon(options = {}) {
 		...options,
 	})
 }
+
 
 module.exports = {
 	svelte: {
