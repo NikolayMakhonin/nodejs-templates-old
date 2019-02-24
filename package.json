@@ -111,6 +111,7 @@
     "rollup-pluginutils": "^2.4.1",
     "shx": "^0.3.2",
     "svelte": "^2.16.1",
+    "svelte-preprocess": "^2.5.0",
     "svelte-themes-preprocess": "^1.0.0"
   },
   "dependencies": {

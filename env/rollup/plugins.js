@@ -38,7 +38,7 @@ function svelteCommon(options = {}) {
 	const sveltePreprocess = preprocess({
 		scss   : true,
 		pug    : true,
-		postcss: Object.assign(postcssOptions, {
+		postcss: postcssCommon({
 
 		})
 	})
