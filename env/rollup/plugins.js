@@ -30,26 +30,32 @@ module.exports = {
 			...config
 		})
 	},
-	babel: () => babel({
+	babel: (options = {}) => babel({
 		runtimeHelpers: true,
 		extensions    : ['.js', '.html', '.svelte'],
 		exclude       : ['node_modules/@babel/**']
+		...options
 	}),
-	istanbul   : () => istanbul(nycrc),
-	// globals    : () => globals(),
-	// builtins   : () => builtins(),
-	nodeResolve: () => nodeResolve(),
-	commonjs   : () => commonjs({
+	istanbul: (options = {}) => istanbul({
+		...nycrc,
+		...options
+	}),
+	// globals    : (options = {}) =>globals(options),
+	// builtins   : (options = {}) =>builtins(options),
+	nodeResolve: (options = {}) => nodeResolve(options),
+	commonjs   : (options = {}) => commonjs({
 		// namedExports: {
 		// 	'node_modules/chai/index.js': ['assert', 'expect']
 		// }
+		...options
 	}),
-	terser: () => terser({
+	terser: (options = {}) => terser({
 		mangle   : false,
 		module   : true,
 		sourcemap: {
 			content: 'inline',
 			url    : 'inline'
-		}
+		},
+		...options
 	})
 }
