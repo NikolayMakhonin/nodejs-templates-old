@@ -1,6 +1,6 @@
 const path = require('path')
 
-export function getComponentName(...concatPaths) {
+function getComponentName(...concatPaths) {
 	return path.relative(
 		process.cwd(),
 		path.resolve(...concatPaths)
@@ -9,16 +9,27 @@ export function getComponentName(...concatPaths) {
 		.replace(/.[^/.]+$/, '')
 }
 
-export function getComponentPath(...concatPaths) {
+function getComponentPath(...concatPaths) {
 	return `dist/components/${
 		path.relative(
 			path.resolve(process.cwd(), 'src'),
 			path.resolve(...concatPaths)
 		)
 			.replace(/\\/g, '/')
+			.replace(/^\//g, '')
 	}.js`
 }
 
-export function getComponentUrl(...concatPaths) {
-	return `/${getComponentPath(...concatPaths)}`
+function getComponentUrl(...concatPaths) {
+	const url = `/${getComponentPath(...concatPaths)}`
+
+	console.log('URL = ', url)
+
+	return url
+}
+
+module.exports = {
+	getComponentName,
+	getComponentPath,
+	getComponentUrl
 }

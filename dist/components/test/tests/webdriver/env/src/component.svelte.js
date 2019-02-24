@@ -253,9 +253,8 @@ this['src/test/tests/webdriver/env/src/component'] = (function () {
 	};
 
 	var _Array$from, _Object$assign, _Object$assign$x;
+
 	/* eslint-disable no-shadow */
-
-
 	var x = {};
 	var test = (_Array$from = Array.from((_Object$assign = Object.assign(x, {
 	  x: {

@@ -1,6 +1,6 @@
 // see: https://github.com/rollup/rollup/issues/703#issuecomment-306246339
 
-import {getComponentName, getComponentPath} from './helpers'
+const {getComponentName, getComponentPath} = require('./helpers')
 
 const globby = require('globby')
 const plugins = require('./plugins')
@@ -29,7 +29,7 @@ export default globby.sync([
 			// plugins.builtins(),
 			plugins.nodeResolve(),
 			plugins.commonjs(),
-			plugins.babel(),
+			// plugins.babel(),
 			// plugins.terser()
 		]
 	}))

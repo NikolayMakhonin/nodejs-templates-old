@@ -1,3 +1,1 @@
-'use strict';
-
-//# sourceMappingURL=test.js.map
+"use strict";

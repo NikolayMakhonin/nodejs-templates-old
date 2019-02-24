@@ -6,12 +6,12 @@ var _intern$getPlugin = intern.getPlugin('chai'),
 
 var keys = require('@theintern/leadfoot/keys');
 
-registerSuite('Todo (functional)', {
-  'submit form': function submitForm() {
-    console.log('submit form'); // docs: https://theintern.io/docs.html#Leadfoot/2/api/Command/command-1
-
+registerSuite('env > page', {
+  'load': function load() {
+    // docs: https://theintern.io/docs.html#Leadfoot/2/api/Command/command-1
     return this.remote // .get('/index.html2')
-    .get(pathToUrl(__dirname, 'assets/page.html')).findByCssSelector('body').getVisibleText().then(function (value) {
+    .get(pathToUrl(__dirname, 'assets/page.html')) // .delay(60000)
+    .findByCssSelector('body').getVisibleText().then(function (value) {
       assert.strictEqual(value, 'TEST HTML');
     });
   }

@@ -1,18 +1,20 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, '__esModule', { value: true });
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var helpers = {
-  test: 'test'
-};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.main = main;
+exports.default = void 0;
+
+var _helpers = _interopRequireDefault(require("./helpers/helpers"));
 
 function main(args) {
-  console.log(JSON.stringify(args), helpers.test);
+  console.log(JSON.stringify(args), _helpers.default.test);
 }
-var main$1 = {
-  main: main
-};
 
-exports.main = main;
-exports.default = main$1;
-//# sourceMappingURL=main.js.map
+var _default = {
+  main
+};
+exports.default = _default;

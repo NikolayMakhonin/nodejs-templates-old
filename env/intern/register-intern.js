@@ -1,4 +1,4 @@
-import {getComponentName, getComponentUrl} from '../rollup/helpers'
+const {getComponentName, getComponentUrl} = require('../rollup/helpers')
 
 const path = require('path')
 const Command = require('@theintern/leadfoot/Command').default
@@ -62,13 +62,18 @@ function appendSvelteComponent(componentClass, containerCssClass, data, callback
 /* eslint-enable */
 
 global.pathToUrl = function pathToUrl(...concatPaths) {
-	return `/${
+	const url = `/${
 		path.relative(
 			process.cwd(),
 			path.resolve(...concatPaths)
 		)
 			.replace(/\\/g, '/')
+			.replace(/^\//, '')
 	}`
+
+	console.log('URL = ', url)
+
+	return url
 }
 
 function delay(timeMilliseconds) {
