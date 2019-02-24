@@ -1,19 +1,9 @@
 {
 	"environments": [
-		// "chrome",
-//		{
-//			"browserName": "firefox",
-//			"fixSessionCapabilities": "no-detect" // improve performance
-//		},
-//		{
-//			"browserName": "android",
-//			"version": "8.1",
-//			"fixSessionCapabilities": "no-detect" // improve performance
-//		},
 		{
 			"browserName": "chrome",
-			"version": "48"
-//			"fixSessionCapabilities": "no-detect" // improve performance
+			"version": "48",
+			"fixSessionCapabilities": "no-detect" // improve performance
 		}
 	],
 	"tunnel" : "null",

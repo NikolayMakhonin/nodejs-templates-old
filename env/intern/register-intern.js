@@ -2,17 +2,6 @@ import {getComponentName, getComponentUrl} from '../rollup/helpers'
 
 const path = require('path')
 const Command = require('@theintern/leadfoot/Command').default
-
-global.pathToUrl = function pathToUrl(...concatPaths) {
-	return `/${
-		path.relative(
-			process.cwd(),
-			path.resolve(...concatPaths)
-		)
-			.replace(/\\/g, '/')
-	}`
-}
-
 /* eslint-disable */
 function remoteLoadScript(scriptUrl, callback) {
 	try {
@@ -72,15 +61,14 @@ function appendSvelteComponent(componentClass, containerCssClass, data, callback
 
 /* eslint-enable */
 
-Command.prototype.loadScript = function (scriptUrl) {
-	return this.executeAsync(remoteLoadScript, [scriptUrl])
-}
-
-Command.prototype.appendSvelteComponent = function (componentConcatPaths, containerCssClass, data) {
-	const componentName = getComponentName(...componentConcatPaths)
-	return this
-		.loadScript(getComponentUrl(...componentConcatPaths))
-		.executeAsync(appendSvelteComponent, [componentName, containerCssClass, data])
+global.pathToUrl = function pathToUrl(...concatPaths) {
+	return `/${
+		path.relative(
+			process.cwd(),
+			path.resolve(...concatPaths)
+		)
+			.replace(/\\/g, '/')
+	}`
 }
 
 function delay(timeMilliseconds) {
@@ -90,4 +78,15 @@ function delay(timeMilliseconds) {
 Command.prototype.delay = function (timeMilliseconds) {
 	return this
 		.then(() => delay(timeMilliseconds))
+}
+
+Command.prototype.loadScript = function (scriptUrl) {
+	return this.executeAsync(remoteLoadScript, [scriptUrl])
+}
+
+Command.prototype.appendSvelteComponent = function (componentConcatPaths, containerCssClass, data) {
+	const componentName = getComponentName(...componentConcatPaths)
+	return this
+		.loadScript(getComponentUrl(...componentConcatPaths))
+		.executeAsync(appendSvelteComponent, [componentName, containerCssClass, data])
 }
