@@ -8,12 +8,28 @@ const commonjs  = require('rollup-plugin-commonjs')
 const svelte  = require('rollup-plugin-svelte')
 const nycrc  = require('../../.nycrc.json')
 
-module.exports = {
-	svelte: () => svelte({
+function svelteCommon(config) {
+	return svelte({
 		dev       : true,
 		hydratable: true,
-		emitCss   : true
-	}),
+		emitCss   : true,
+		...config,
+	})
+}
+
+module.exports = {
+	svelte: {
+		common: config => svelteCommon(config),
+		client: config => svelteCommon({
+			hydratable: true,
+			emitCss   : true,
+			...config
+		}),
+		server: config => svelteCommon({
+			generate: 'ssr',
+			...config
+		})
+	},
 	babel: () => babel({
 		runtimeHelpers: true,
 		extensions    : ['.js', '.html', '.svelte'],
