@@ -35,6 +35,7 @@
 		"dist/components/**/*.js"
 	],
 
+	"debug": true,
 	"reporters": [
 		{
 			"name": "jsoncoverage",

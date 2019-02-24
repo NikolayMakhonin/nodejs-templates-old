@@ -1,25 +1,25 @@
 // see: https://github.com/rollup/rollup/issues/703#issuecomment-306246339
 
-const path = require('path')
+import {getComponentName, getComponentPath} from './helpers'
+
 const globby = require('globby')
 const plugins = require('./plugins')
 
 export default globby.sync([
 	'src/main/**/*.svelte',
-	'src/test/tests/webdriver/**/src/*.svelte'
+	'src/test/*/webdriver/**/src/*.svelte'
 ])
 	.map(file => ({
-		input        : file,
+		input : file,
 		// moduleContext: 'window',
-		output       : {
-			banner: '(function(){',
-			name     : path.relative('.', `${file}`).replace(/\\/g, '/').replace(/\.[^/.]+$/, ''),
-			extend   : true,
-			footer: '}).call(window);',
-			file     : path.resolve('dist/components', path.relative('src', `${file}.js`)),
+		output: {
+			file     : getComponentPath(file),
 			format   : 'iife',
-			sourcemap: true, // 'inline'
-			// globals: ['window']
+			extend   : true,
+			banner   : '(function(){',
+			name     : getComponentName(file),
+			footer   : '}).call(window);',
+			sourcemap: true,
 		},
 		plugins: [
 			plugins.svelte(),

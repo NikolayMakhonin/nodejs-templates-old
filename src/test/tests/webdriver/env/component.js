@@ -6,15 +6,15 @@ registerSuite('env > component', {
 	'load'() {
 		// docs: https://theintern.io/docs.html#Leadfoot/2/api/Command/command-1
 		return this.remote
-			// .get('/index.html2')
 			.get(pathToUrl(__dirname, 'assets/page.html'))
+			// .delay(60000)
 			.findByCssSelector('body')
 			.getVisibleText()
 			.then(value => {
 				assert.strictEqual(value, 'TEST HTML')
 			})
 			.setExecuteAsyncTimeout(10000)
-			.appendSvelteComponent(pathToUrl(__dirname, 'src/component.svelte'), '.component', {count: 1000})
+			.appendSvelteComponent([__dirname, 'src/component.svelte'], '.component', {count: 1000})
 			.then(err => {
 				assert.notOk(err)
 			})
