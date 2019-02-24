@@ -6,9 +6,38 @@ const istanbul = require('rollup-plugin-istanbul')
 const nodeResolve  = require('rollup-plugin-node-resolve')
 const commonjs  = require('rollup-plugin-commonjs')
 const nycrc  = require('../../.nycrc.json')
+const postcssImport = require('postcss-import')
+
+function postcssCommon(options = {}) {
+	return {
+		// see: https://github.com/postcss/postcss
+		plugins: [
+			// This plugin is necessary and should be first in plugins list:
+			postcssImport(),
+
+			// cssnano({
+			// 	preset: [
+			// 		'default', {
+			// 			discardComments: {
+			// 				removeAll: true,
+			// 			},
+			// 		}
+			// 	],
+			// })
+		],
+		...options
+	}
+}
+
 
 module.exports = {
+	postCss: (options = {}) => postcssCommon({
+		// sourceMap: 'static/slyles.css.map',
+		// extract  : 'static/slyles.css',
+		...options
+	}),
 	babel: (options = {}) => babel({
+		...require('../../.babelrc'),
 		runtimeHelpers: true,
 		...options
 	}),
@@ -16,8 +45,8 @@ module.exports = {
 		...nycrc,
 		...options
 	}),
-	// globals    : (options = {}) =>globals(options),
-	// builtins   : (options = {}) =>builtins(options),
+	// globals    : (options = {}) => globals(options),
+	// builtins   : (options = {}) => builtins(options),
 	nodeResolve: (options = {}) => nodeResolve(options),
 	commonjs   : (options = {}) => commonjs({
 		// namedExports: {
@@ -28,6 +57,7 @@ module.exports = {
 	terser: (options = {}) => terser({
 		mangle   : false,
 		module   : true,
+		ecma     : 5,
 		sourcemap: {
 			content: 'inline',
 			url    : 'inline'
