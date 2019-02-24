@@ -66,6 +66,7 @@ global.pathToUrl = function pathToUrl(...concatPaths) {
 			path.resolve(...concatPaths)
 		)
 			.replace(/\\/g, '/')
+			.replace(/^\//, '')
 	}`
 }
 
