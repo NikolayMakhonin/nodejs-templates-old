@@ -7,6 +7,7 @@ const babel = require('rollup-plugin-babel')
 const {terser} = require('rollup-plugin-terser')
 const nodeResolve = require('rollup-plugin-node-resolve')
 const commonjs = require('rollup-plugin-commonjs')
+const rollupPlugins = require('../rollup/plugins')
 
 const fileInput = require.resolve('./polyfill-custom.js')
 const fileOutput = path.resolve('./static/polyfill-custom.js')
@@ -15,23 +16,19 @@ async function doRollup(file) {
 	const bundle = await rollup.rollup({
 		input  : file,
 		plugins: [
-			// globals(),
-			// builtins(),
-			// babel({
-			// 	runtimeHelpers: true
-			// }),
-			nodeResolve(),
-			// nodeResolve({
+			// rollupPlugins.globals(),
+			// rollupPlugins.builtins(),
+			// rollupPlugins.babel(),
+			rollupPlugins.nodeResolve(),
+			// rollupPlugins.nodeResolve({
 			// 	jsnext: true,
 			// 	main: true,
 			// 	browser: true,
 			// 	preferBuiltins: true,
 			// }),
-			commonjs(),
-			babel({
-				runtimeHelpers: true
-			}),
-			// terser()
+			rollupPlugins.commonjs(),
+			rollupPlugins.babel(),
+			// rollupPlugins.terser()
 		]
 	})
 
