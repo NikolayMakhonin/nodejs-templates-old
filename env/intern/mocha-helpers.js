@@ -2,7 +2,7 @@ import 'json5/lib/register'
 import intern from 'intern'
 global.intern = intern
 import config from './config.json5'
-import './register-intern'
+// import './register-intern'
 
 export function configure(configChanges = {}) {
 	intern.configure({
@@ -25,4 +25,9 @@ export function runTests() {
 			console.log('Intern completed')
 		})
 	})
+}
+
+export default {
+	configure,
+	runTests
 }

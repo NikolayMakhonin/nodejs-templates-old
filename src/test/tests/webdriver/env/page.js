@@ -11,10 +11,12 @@ registerSuite('Todo (functional)', {
 		return this.remote
 			// .get('/index.html2')
 			.get(pathToUrl(__dirname, 'assets/page.html'))
+			.checkLogs()
 			.findByCssSelector('body')
 			.getVisibleText()
 			.then(value => {
 				assert.strictEqual(value, 'TEST HTML')
 			})
+			.checkLogs()
 	}
 })
