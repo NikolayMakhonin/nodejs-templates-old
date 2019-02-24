@@ -1,8 +1,8 @@
 {
 	"environments": [
-		// "chrome",
 		{
-			"browserName": "firefox",
+			"browserName": "chrome",
+			"version": "48",
 			"fixSessionCapabilities": "no-detect" // improve performance
 		}
 	],
@@ -17,11 +17,13 @@
 	"serverPort": 9000,
 	"serverUrl": "http://192.168.0.101:9000",
 
-	"functionalSuites": "src/test/*/webdriver/**/*.js",
-	"coverage": [
-		"src/test/*/webdriver/**/{src,env}/**/*.js"
+	"functionalSuites": [
+		"src/test/*/webdriver/**/*.js",
+		"!*/**/{src,assets}/**"
 	],
+	"coverage": [],
 
+	"debug": true,
 	"reporters": [
 		{
 			"name": "jsoncoverage",
