@@ -1,3 +1,5 @@
+import path from 'path'
+
 const babel = require('rollup-plugin-babel')
 const {terser} = require('rollup-plugin-terser')
 const istanbul = require('rollup-plugin-istanbul')
@@ -7,33 +9,77 @@ const nodeResolve  = require('rollup-plugin-node-resolve')
 const commonjs  = require('rollup-plugin-commonjs')
 const svelte  = require('rollup-plugin-svelte')
 const nycrc  = require('../../.nycrc.json')
+import preprocess from 'svelte-preprocess'
+import themesPreprocess from 'svelte-themes-preprocess'
+import postcssImport from 'postcss-import'
 
-function svelteCommon(config) {
+function postcssCommon(options = {}) {
+	return {
+		// see: https://github.com/postcss/postcss
+		plugins: [
+			// This plugin is necessary and should be first in plugins list:
+			postcssImport(),
+
+			// cssnano({
+			// 	preset: [
+			// 		'default', {
+			// 			discardComments: {
+			// 				removeAll: true,
+			// 			},
+			// 		}
+			// 	],
+			// })
+		],
+		...options
+	}
+}
+
+function svelteCommon(options = {}) {
+	const sveltePreprocess = preprocess({
+		scss   : true,
+		pug    : true,
+		postcss: Object.assign(postcssOptions, {
+
+		})
+	})
+
 	return svelte({
 		dev       : true,
-		hydratable: true,
-		emitCss   : true,
-		...config,
+		// see: https://github.com/Rich-Harris/svelte-preprocessor-demo
+		preprocess: themesPreprocess(
+			path.resolve('./src/main/styles/themes.scss'),
+			sveltePreprocess,
+			{
+				lang: 'scss'
+			}
+		),
+		...options,
 	})
 }
 
 module.exports = {
 	svelte: {
-		common: config => svelteCommon(config),
-		client: config => svelteCommon({
+		common: svelteCommon,
+		client: (options = {}) => svelteCommon({
 			hydratable: true,
 			emitCss   : true,
-			...config
+			...options
 		}),
-		server: config => svelteCommon({
+		server: (options = {}) => svelteCommon({
 			generate: 'ssr',
-			...config
+			...options
 		})
 	},
+	postCss: (options = {}) => postcssCommon({
+		sourceMap: 'static/slyles.css.map',
+		extract  : 'static/slyles.css',
+		...options
+	}),
 	babel: (options = {}) => babel({
+		...require('../../.babelrc'),
 		runtimeHelpers: true,
 		extensions    : ['.js', '.html', '.svelte'],
-		exclude       : ['node_modules/@babel/**']
+		exclude       : ['node_modules/@babel/**'],
 		...options
 	}),
 	istanbul: (options = {}) => istanbul({
@@ -52,6 +98,7 @@ module.exports = {
 	terser: (options = {}) => terser({
 		mangle   : false,
 		module   : true,
+		ecma     : 5,
 		sourcemap: {
 			content: 'inline',
 			url    : 'inline'
