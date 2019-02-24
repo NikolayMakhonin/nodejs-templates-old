@@ -10,7 +10,7 @@ const nycrc  = require('../../.nycrc.json')
 
 const svelte  = require('rollup-plugin-svelte')
 const preprocess = require('svelte-preprocess')
-const themesPreprocess = require('svelte-themes-preprocess')
+const themesPreprocess = require('svelte-themes-preprocess').default
 const postcssImport = require('postcss-import')
 
 function postcssCommon(options = {}) {
