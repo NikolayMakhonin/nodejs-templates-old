@@ -49,13 +49,14 @@
     "coverage:merge": "istanbul-combine -d tmp/coverage/all/lcov -p summary -r lcov tmp/coverage/*/json/**.json",
     "ci:karma": "karma start env/karma/karma.conf.ci.js",
     "ci": "npm run lint && npm run coverage:ci && ncat tmp/coverage/all/lcov/**/lcov.info --banner \"\" | coveralls",
-    "dev": "sapper dev",
     "build:sapper": "sapper build --legacy",
-    "export": "sapper export --legacy",
-    "start": "node __sapper__/build",
+    "build:sapper:export": "sapper export dist/sapper/export --legacy",
+    "sapper:dev": "sapper dev",
+    "test:sapper": "run-p --race dev cy:run",
+    "sapper:start": "node __sapper__/build",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
-    "test:sapper": "run-p --race dev cy:run"
+    "deploy": "npm run export && node env/deploy/deploy"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
