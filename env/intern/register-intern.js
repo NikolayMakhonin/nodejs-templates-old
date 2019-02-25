@@ -10,18 +10,15 @@ function remoteLoadScript(scriptUrl, callback) {
 	try {
 		var script = window.document.createElement('script');
 		script.onload = function () {
-			console.error('LOADED !!!!');
 			callback();
 		};
 		script.onerror = function (err) {
-			console.error('LOADED2 !!!!');
 			console.error(err);
 			callback(err);
 		};
 		script.src = scriptUrl;
 		document.head.appendChild(script);
 	} catch (ex) {
-		console.error('LOADED3 !!!!');
 		callback(JSON.stringify({
 			containerCssClass: containerCssClass,
 			componentClass: componentClass,
@@ -39,9 +36,6 @@ function appendSvelteComponent(componentClass, containerCssClass, data, callback
 		var container = document.createElement('div');
 		container.className = containerCssClass;
 		document.body.appendChild(container);
-
-		console.error(componentClass);
-		console.error(window[componentClass]);
 
 		var component = new window[componentClass]({
 			target: container,
