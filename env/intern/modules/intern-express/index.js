@@ -60,7 +60,6 @@ function internExpress(intern, config, configGlobal) {
 			if (!item) {
 				return null
 			}
-			console.log(item)
 
 			const initFuncs = item
 				.inits
@@ -68,8 +67,6 @@ function internExpress(intern, config, configGlobal) {
 					if (!init) {
 						return null
 					}
-
-					console.log(init)
 
 					if (typeof init !== 'function') {
 						const relativeUrl = init[0]
