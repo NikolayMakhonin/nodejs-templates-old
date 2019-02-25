@@ -181,3 +181,69 @@ Command.prototype.getWithPort = function (port, relativeUrl) {
 	return this
 		.get(url)
 }
+
+/* eslint-disable */
+
+function getPerformance() {
+	var result = {}
+
+	// performance.timing (deprecated)
+	// https://www.w3.org/TR/navigation-timing/
+	// Performance.timeOrigin (new)
+	// https://w3c.github.io/navigation-timing/
+	var timing = performance.getEntriesByType && performance.getEntriesByType('navigation') ||
+		performance.getEntries && performance.getEntries().filter(o => o.entryType === 'navigation') ||
+		performance.timing
+
+	if (timing) {
+		result.timing = {
+			loadHtml: timing.domLoading - timing.navigationStart,
+			loadDom: timing.loadEventEnd - timing.domLoading,
+			loadTotal: timing.loadEventEnd - timing.navigationStart
+		}
+	}
+
+	// Only for Chrome
+	// https://webplatform.github.io/docs/apis/timing/properties/memory/
+	if (performance.usedJSHeapSize) {
+		result.memory = {
+			used: performance.usedJSHeapSize
+		}
+	}
+
+	var resources = performance.getEntriesByType && performance.getEntriesByType('resource') ||
+		performance.getEntries && performance.getEntries().filter(o => o.entryType === 'resource')
+
+	if (resources) {
+		result.resources = resources
+			.map(o => {
+				var resource = {
+					url: o.name
+				}
+
+				var time = o.responseEnd && (o.startTime || o.fetchStart)
+					? o.responseEnd - (o.startTime || o.fetchStart)
+					: o.duration
+
+				if (time != null) {
+					resource.time = time
+				}
+
+				if (o.initiatorType) {
+					resource.initiator = o.initiatorType
+				}
+
+				var size = o.transferSize || o.encodedBodySize
+
+				if (size) {
+					resource.size = size
+				}
+
+				return resource
+			})
+	}
+
+	return result
+}
+
+/* eslint-enable */

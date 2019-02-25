@@ -5,7 +5,12 @@
 			"version": "48",
 			"fixSessionCapabilities": "no-detect", // improve performance
 			'chromeOptions': {
-				'args': ['--no-sandbox', '--headless', '--disable-gpu'],
+				'args': [
+					'--no-sandbox',
+					'--headless',
+//					'--disable-gpu',
+					'--enable-precision-memory-info'
+				]
 			}
 		}
 	],
