@@ -60,6 +60,12 @@ typings/
 # next.js build output
 .next
 
+# sapper
+.DS_Store
+yarn-error.log
+/cypress/screenshots/
+/__sapper__/
+
 # additional
 tmp
 /.idea/libraries/Generated_files.xml
