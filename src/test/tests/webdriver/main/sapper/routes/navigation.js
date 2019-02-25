@@ -1,11 +1,11 @@
 const {registerSuite} = intern.getInterface('object')
 const {assert} = intern.getPlugin('chai')
 
-registerSuite('env > component', {
-	'load'() {
+registerSuite('main > sapper > routes > navigation', {
+	'base'() {
 		// docs: https://theintern.io/docs.html#Leadfoot/2/api/Command/command-1
 		return this.remote
-			.get(pathToUrl(__dirname, 'assets/page.html'))
+			.get('/dist/sapper/export/index.html')
 			.checkLogs()
 			.findByCssSelector('body')
 			.getVisibleText()

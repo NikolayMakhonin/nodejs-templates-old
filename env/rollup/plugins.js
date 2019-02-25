@@ -47,7 +47,7 @@ function svelteCommon(options = {}) {
 		dev       : true,
 		// see: https://github.com/Rich-Harris/svelte-preprocessor-demo
 		preprocess: themesPreprocess(
-			path.resolve('./src/main/styles/themes.scss'),
+			path.resolve('./src/styles/themes.scss'),
 			sveltePreprocess,
 			{
 				lang: 'scss'
