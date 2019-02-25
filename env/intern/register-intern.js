@@ -2,6 +2,9 @@ const {getComponentName, getComponentUrl} = require('../rollup/helpers')
 
 const path = require('path')
 const Command = require('@theintern/leadfoot/Command').default
+// const RemoteSuite = require('intern/lib/RemoteSuite').default
+require('core-js/fn/array/flat-map')
+
 /* eslint-disable */
 function remoteLoadScript(scriptUrl, callback) {
 	try {
@@ -62,7 +65,7 @@ function appendSvelteComponent(componentClass, containerCssClass, data, callback
 /* eslint-enable */
 
 global.pathToUrl = function pathToUrl(...concatPaths) {
-	const url = `/${
+	return `/${
 		path.relative(
 			process.cwd(),
 			path.resolve(...concatPaths)
@@ -70,10 +73,6 @@ global.pathToUrl = function pathToUrl(...concatPaths) {
 			.replace(/\\/g, '/')
 			.replace(/^\//, '')
 	}`
-
-	console.log('URL = ', url)
-
-	return url
 }
 
 function delay(timeMilliseconds) {
@@ -87,6 +86,61 @@ Command.prototype.delay = function (timeMilliseconds) {
 
 Command.prototype.loadScript = function (scriptUrl) {
 	return this.executeAsync(remoteLoadScript, [scriptUrl])
+}
+
+Command.prototype.getAllLogs = function () {
+	return this
+		.getAvailableLogTypes()
+		.then(logTypes => Promise
+			.all(logTypes
+				.map(logType => this
+					.getLogsFor(logType)
+					.then(logs => logs
+						.map(log => {
+							log.type = logType
+							return log
+						})))))
+		.then(logs => logs
+			.flatMap(o => o))
+}
+
+function logToString(log) {
+	return `[${log.type}] ${JSON.stringify(log, null, 4)}\r\n`
+}
+
+function logsToString(logs) {
+	return logs.map(log => logToString(log)).join('\r\n')
+}
+
+Command.prototype.checkLogs = function (errorPredicate) {
+	return this
+		.getAllLogs()
+		.then(logs => {
+			if (errorPredicate && logs.any(errorPredicate)
+				|| !errorPredicate && logs.length
+			) {
+				throw new Error(`Browser errors: ${logsToString(logs)}`)
+			}
+
+			if (logs.length) {
+				console.log(logsToString(logs))
+			}
+
+			return logs
+		})
+}
+
+Command.prototype.printLogsOnError = function () {
+	return this
+		.catch(err => this
+			.getAllLogs()
+			.then(logs => {
+				if (logs.length) {
+					console.error(logs.join('\r\n'))
+				}
+
+				throw err
+			}))
 }
 
 Command.prototype.appendSvelteComponent = function (componentConcatPaths, containerCssClass, data) {

@@ -12,7 +12,7 @@ module.exports = {
 		"@babel/plugin-syntax-dynamic-import",
 		[
 			'@babel/plugin-transform-runtime', {
-				useESModules: true
+				// useESModules: true
 			}
 		],
 		"@babel/plugin-proposal-optional-chaining",

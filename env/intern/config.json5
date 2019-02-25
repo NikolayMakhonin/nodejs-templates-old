@@ -4,6 +4,10 @@
 			"browserName": "chrome",
 			"version": "48",
 			"fixSessionCapabilities": "no-detect" // improve performance
+		},
+		{
+			"browserName": "firefox",
+			"fixSessionCapabilities": "no-detect" // improve performance
 		}
 	],
 	"tunnel" : "null",
