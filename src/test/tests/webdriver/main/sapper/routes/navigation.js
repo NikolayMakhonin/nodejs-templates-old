@@ -5,7 +5,8 @@ registerSuite('main > sapper > routes > navigation', {
 	'base'() {
 		// docs: https://theintern.io/docs.html#Leadfoot/2/api/Command/command-1
 		return this.remote
-			.get('/dist/sapper/export/index.html')
+			// .delay(30000)
+			.getWithPort(4445, '/sapper/page/index.html')
 			.checkLogs()
 			.findByCssSelector('body')
 			.getVisibleText()

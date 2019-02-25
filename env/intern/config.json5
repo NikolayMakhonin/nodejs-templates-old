@@ -2,7 +2,7 @@
 	"environments": [
 		{
 			"browserName": "chrome",
-			"version": "33",
+			"version": "48",
 			"fixSessionCapabilities": "no-detect", // improve performance
 			'chromeOptions': {
 				'args': ['--no-sandbox', '--headless', '--disable-gpu'],
@@ -47,5 +47,20 @@
 		"runner"
 	],
 
-	"plugins": "env/intern/register-intern.js"
+	"plugins": [
+		"env/intern/register-intern.js",
+		{
+			"script": "env/intern/modules/intern-express/index.js",
+			"options": {
+				servers: [
+					{
+						port: 4445,
+						inits: [
+							["/sapper/page", "dist/sapper/export/sapper/page"]
+						]
+					}
+				]
+			}
+		}
+	]
 }

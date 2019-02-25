@@ -1,4 +1,6 @@
 const {getComponentName, getComponentUrl} = require('../rollup/helpers')
+const intern = require('intern').default
+global.intern = intern
 
 const path = require('path')
 const Command = require('@theintern/leadfoot/Command').default
@@ -171,4 +173,11 @@ Command.prototype.appendSvelteComponent = function (componentConcatPaths, contai
 	return this
 		.loadScript(getComponentUrl(...componentConcatPaths))
 		.executeAsync(appendSvelteComponent, [componentName, containerCssClass, data])
+}
+
+Command.prototype.getWithPort = function (port, relativeUrl) {
+	const serverUrl = `${intern._config.serverUrl.match(/(https?:\/\/[^:/]+)/)[1]}:${port}/`
+	const url = serverUrl + relativeUrl.replace(/^\//, '')
+	return this
+		.get(url)
 }
