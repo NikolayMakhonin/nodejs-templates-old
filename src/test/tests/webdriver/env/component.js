@@ -7,7 +7,7 @@ registerSuite('env > component', {
 		// docs: https://theintern.io/docs.html#Leadfoot/2/api/Command/command-1
 		return this.remote
 			.get(pathToUrl(__dirname, 'assets/page.html'))
-			// .delay(60000)
+			.checkLogs()
 			.findByCssSelector('body')
 			.getVisibleText()
 			.then(value => {
@@ -18,15 +18,7 @@ registerSuite('env > component', {
 			.then(err => {
 				assert.notOk(err)
 			})
-			.catch(err => this.remote
-				.getAvailableLogTypes()
-				.then(logTypes => Promise
-					.all(logTypes.map(logType => this.remote
-						.getLogsFor(logType)
-						.then(log => `${logType} log:\r\n${JSON.stringify(log, null, 4)}\r\n`))))
-				.then(logs => {
-					console.error(logs.join('\r\n'))
-					throw err
-				}))
+			.checkLogs()
+			.printLogsOnError()
 	}
 })
