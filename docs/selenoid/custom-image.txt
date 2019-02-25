@@ -1,0 +1,29 @@
+# create debain package following this instruction:
+# http://www.king-foo.com/2011/11/creating-debianubuntu-deb-packages/
+# see the folder structure in package: google-chrome-stable.deb
+# https://www.ubuntuupdates.org/package/google_chrome/stable/main/base/google-chrome-stable
+# see information aboud dependencies for chromium in packages: chromium-browser
+
+# package name should be google-chrome-stable_33.0.1750.170+aerokube0_amd64.deb
+
+# change permissions for DEBIAN directory:
+chmod 0755 chromium33/DEBIAN
+ln -s /opt/google/chrome/chrome chromium33/bin/google-chrome-stable
+
+# sudo groupadd -r chrome
+# sudo usermod -a -G chrome ubuntu
+# sudo chown root -R opt/google/chrome
+
+# change file name "chrome_sandbox" to "chrome-sandbox"
+
+# create and push docker images:
+git clone https://github.com/aerokube/selenoid-container-tests.git
+git clone https://github.com/aerokube/selenoid-images.git
+cd selenoid-images
+git checkout 3.0.0
+cd selenoid
+
+./automate_chrome.sh ../../browsers/chromium33.deb 2.10 33.0
+./automate_chrome.sh ../../browsers/chromium37.deb 2.12 37.0
+./automate_chrome.sh ../../browsers/chromium39.deb 2.14 39.0
+./automate_chrome.sh ../../browsers/chromium44.deb 2.20 44.0
