@@ -7,8 +7,10 @@ registerSuite('env > page', {
 		// docs: https://theintern.io/docs.html#Leadfoot/2/api/Command/command-1
 
 		return this.remote
-			// .get('/index.html2')
+			.setExecuteAsyncTimeout(10000)
 			.get(pathToUrl(__dirname, 'assets/page.html'))
+			.logUserAgent()
+			.logHtml()
 			.checkLogs()
 			.findByCssSelector('body')
 			.getVisibleText()

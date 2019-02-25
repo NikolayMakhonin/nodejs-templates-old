@@ -2,12 +2,11 @@
 	"environments": [
 		{
 			"browserName": "chrome",
-			"version": "48",
-			"fixSessionCapabilities": "no-detect" // improve performance
-		},
-		{
-			"browserName": "firefox",
-			"fixSessionCapabilities": "no-detect" // improve performance
+			"version": "33",
+			"fixSessionCapabilities": "no-detect", // improve performance
+			'chromeOptions': {
+				'args': ['--no-sandbox', '--headless', '--disable-gpu'],
+			}
 		}
 	],
 	"tunnel" : "null",
