@@ -9,11 +9,13 @@ registerSuite('env > page', {
 		return this.remote
 			// .get('/index.html2')
 			.get(pathToUrl(__dirname, 'assets/page.html'))
-			// .delay(60000)
+			.checkLogs()
 			.findByCssSelector('body')
 			.getVisibleText()
 			.then(value => {
 				assert.strictEqual(value, 'TEST HTML')
 			})
+			.checkLogs()
+			.printLogsOnError()
 	}
 })
