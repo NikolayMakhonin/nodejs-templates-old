@@ -20,9 +20,12 @@ git clone https://github.com/aerokube/selenoid-container-tests.git
 git clone https://github.com/aerokube/selenoid-images.git
 cd selenoid-images
 git checkout 3.0.0
-cd selenoid
+cd selenium
 
-./automate_chrome.sh ../../browsers/chromium33.deb 2.10 33.0
+docker stop selenoid-ui
+
+48.0.2564.109-1
+./automate_chrome.sh ~/dev/browsers/google-chrome-stable_33.0.1750.170-0+aerokube0_amd64.deb 2.10 33.0
 ./automate_chrome.sh ../../browsers/chromium37.deb 2.12 37.0
 ./automate_chrome.sh ../../browsers/chromium39.deb 2.14 39.0
 ./automate_chrome.sh ../../browsers/chromium44.deb 2.20 44.0

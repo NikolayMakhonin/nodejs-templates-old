@@ -140,3 +140,32 @@ Command.prototype.printLogsOnError = function () {
 				throw err
 			}))
 }
+
+/* eslint-disable */
+
+function dataToLog(getDataScript) {
+	var data = eval(getDataScript)
+	return data
+}
+
+/* eslint-enable */
+
+Command.prototype.log = function (prefix, remoteGetDataScript) {
+	return this
+		.execute(dataToLog, [`(${remoteGetDataScript.toString()})();`])
+		.then(log => {
+			console.log(prefix, log)
+		})
+}
+
+Command.prototype.logHtml = function () {
+	return this
+		// eslint-disable-next-line no-undef
+		.log('Html: ', () => new XMLSerializer().serializeToString(document))
+}
+
+Command.prototype.logUserAgent = function () {
+	return this
+		// eslint-disable-next-line no-undef
+		.log('UserAgent: ', () => navigator.userAgent)
+}
