@@ -5,7 +5,7 @@
 			"version": "33",
 			"fixSessionCapabilities": "no-detect", // improve performance
 			'chromeOptions': {
-				'args': ['--no-sandbox']
+				'args': ['--no-sandbox', '--headless', '--disable-gpu'],
 			}
 		}
 	],
