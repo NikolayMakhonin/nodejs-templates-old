@@ -55,6 +55,7 @@ function startServer(port, initFuncs, config, configGlobal) {
 	})
 }
 
+// eslint-disable-next-line no-shadow
 function internExpress(intern, config, configGlobal) {
 	if (!config) {
 		return null

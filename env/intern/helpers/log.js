@@ -151,6 +151,7 @@ Command.prototype.debugInfoOnError = function () {
 			root.getPerformanceInfo()
 		])
 			.then(([logs, userAgent, html, perf]) => {
+				// eslint-disable-next-line no-unused-expressions
 				perf
 					?.resources
 					?.sort((o1, o2) => {

@@ -7,11 +7,11 @@ registerSuite('env > component', {
 		return this.remote
 			.get(pathToUrl(__dirname, 'assets/page.html'))
 			.testPage(() => this.remote
-				.findByCssSelector('body')
-				.getVisibleText()
-				.then(value => {
-					assert.strictEqual(value, 'TEST HTML')
-				})
+			.findByCssSelector('body')
+			.getVisibleText()
+			.then(value => {
+				assert.strictEqual(value, 'TEST HTML')
+			})
 				.appendSvelteComponent([__dirname, 'src/component.svelte'], '.component', {count: 1000}))
 	}
 })
