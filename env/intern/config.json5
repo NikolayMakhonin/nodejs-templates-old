@@ -9,9 +9,18 @@
 					'--no-sandbox',
 					'--headless',
 //					'--disable-gpu',
-					'--enable-precision-memory-info'
+					'--enable-precision-memory-info',
+					'--debug-print',
+					'--enable-crash-reporter-for-testing',
+					'--log-level 0',
+					'--dns-log-details',
+					'--enable-logging',
+					'--enable-stats-table' // StatsTable
 				]
 			}
+		},
+		{
+			"browserName": "firefox",
 		}
 	],
 	"tunnel" : "null",

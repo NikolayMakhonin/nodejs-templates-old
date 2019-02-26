@@ -44,9 +44,18 @@
 				throw ex;
 			}
 		};
-		// window.addEventListener('unhandledrejection', function (e) {
-		// 	console.error('Unhandled rejection2: ', e);
-		// });
+
+		window.addEventListener('unhandledrejection', function (e) {
+			console.error('Unhandled rejection2: ', e);
+		});
+
+		window.onunhandledrejection = function (e) {
+			console.error('Unhandled rejection3: ', e);
+		};
+
+		window.onerror = function (e) {
+			console.error('Unhandled rejection4: ', e);
+		};
 	</script>
 
 	<!-- endregion Polyfills -->
