@@ -13,7 +13,7 @@ registerSuite('env > page', {
     // docs: https://theintern.io/docs.html#Leadfoot/2/api/Command/command-1
     return this.remote.get(pathToUrl(__dirname, 'assets/page.html')).testPage(function () {
       return _this.remote.getUserAgent().logThis('UserAgent: ').getHtml().logThis('UserAgent: ').checkLogs().findByCssSelector('body').getVisibleText().then(function (value) {
-      assert.strictEqual(value, 'TEST HTML');
+        assert.strictEqual(value, 'TEST HTML');
       });
     });
   }
