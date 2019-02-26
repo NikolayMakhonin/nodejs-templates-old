@@ -44,7 +44,8 @@ module.exports = function (config) {
 				helpers.rollup.plugins.nodeResolve(),
 				helpers.rollup.plugins.commonjs(),
 				helpers.rollup.plugins.babel(),
-				helpers.rollup.plugins.terser()
+				helpers.rollup.plugins.terser(),
+				helpers.rollup.plugins.prettier()
 			],
 			output: {
 				format   : 'cjs',

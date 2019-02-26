@@ -6,6 +6,7 @@ const istanbul = require('rollup-plugin-istanbul')
 const nodeResolve  = require('rollup-plugin-node-resolve')
 const commonjs  = require('rollup-plugin-commonjs')
 const nycrc  = require('../../.nycrc.json')
+const prettier = require('rollup-plugin-prettier')
 const postcssImport = require('postcss-import')
 
 function postcssCommon(options = {}) {
@@ -55,13 +56,23 @@ module.exports = {
 		...options
 	}),
 	terser: (options = {}) => terser({
-		mangle   : false,
-		module   : true,
-		ecma     : 5,
+		mangle: false,
+		module: true,
+		ecma  : 5,
+		output: {
+			max_line_len: 50,
+		},
 		sourcemap: {
 			content: 'inline',
 			url    : 'inline'
 		},
+		...options
+	}),
+	prettier: (options = {}) => null && prettier({ // very slow
+		parser     : 'babylon',
+		tabWidth   : 4,
+		singleQuote: true,
+		sourceMap  : true,
 		...options
 	})
 }
