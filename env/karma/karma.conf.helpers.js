@@ -112,7 +112,7 @@ module.exports.configCommon = function (config) {
 					+ '})();\n'
 				)),
 				// Load polyfill
-				servedPattern(require.resolve('../polyfills/polyfill-custom')),
+				servedPattern(require.resolve('../polyfills/polyfill-custom-build')),
 				servedPattern(require.resolve('@babel/polyfill/dist/polyfill')), // For IE
 				servedPattern(require.resolve('../polyfills/url-polyfill.min')),
 				servedPattern(require.resolve('../polyfills/promise-polyfill.min')),

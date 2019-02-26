@@ -20,10 +20,9 @@ export default {
 			rollupPlugins.svelte.client(),
 			rollupPlugins.nodeResolve(),
 			rollupPlugins.commonjs(),
-
 			legacy && rollupPlugins.babel(),
-
-			!dev && rollupPlugins.terser()
+			!dev && rollupPlugins.terser(),
+			!dev && rollupPlugins.prettier()
 		],
 	},
 
@@ -53,9 +52,11 @@ export default {
 				'process.env.NODE_ENV': JSON.stringify(mode)
 			}),
 			rollupPlugins.commonjs(),
+			legacy && rollupPlugins.babel(),
 			!dev && rollupPlugins.terser({
 				module: false
-			})
+			}),
+			!dev && rollupPlugins.prettier()
 		]
 	}
 }

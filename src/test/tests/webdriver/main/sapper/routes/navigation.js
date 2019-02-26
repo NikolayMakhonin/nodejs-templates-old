@@ -8,6 +8,7 @@ registerSuite('main > sapper > routes > navigation', {
 		// https://theintern.io/leadfoot/module-leadfoot_Command.html
 
 		return this.remote
+			// .delay(60000)
 			.getWithPort(4445, '/sapper/page/index.html')
 			.testPage(() => this.remote
 				.findByCssSelector('[href=about]')

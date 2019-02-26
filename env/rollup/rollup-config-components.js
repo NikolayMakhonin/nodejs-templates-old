@@ -30,6 +30,7 @@ export default globby.sync([
 			plugins.nodeResolve(),
 			plugins.commonjs(),
 			// plugins.babel(),
-			// plugins.terser()
+			// plugins.terser(),
+			// plugins.prettier()
 		]
 	}))

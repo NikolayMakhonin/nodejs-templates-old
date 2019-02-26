@@ -7,6 +7,7 @@ const istanbul = require('rollup-plugin-istanbul')
 const nodeResolve  = require('rollup-plugin-node-resolve')
 const commonjs  = require('rollup-plugin-commonjs')
 const nycrc  = require('../../.nycrc.json')
+const prettier = require('rollup-plugin-prettier')
 
 const svelte  = require('rollup-plugin-svelte')
 const preprocess = require('svelte-preprocess')
@@ -104,6 +105,13 @@ module.exports = {
 			content: 'inline',
 			url    : 'inline'
 		},
+		...options
+	}),
+	prettier: (options = {}) => prettier({ // not worked
+		parser     : 'babylon',
+		tabWidth   : 4,
+		singleQuote: true,
+		sourceMap  : true,
 		...options
 	})
 }

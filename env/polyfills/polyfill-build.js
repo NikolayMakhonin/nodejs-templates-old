@@ -10,7 +10,7 @@ const commonjs = require('rollup-plugin-commonjs')
 const rollupPlugins = require('../rollup/plugins')
 
 const fileInput = require.resolve('./polyfill-custom.js')
-const fileOutput = path.resolve('static/polyfills/polyfill-custom.js')
+const fileOutput = path.resolve(__dirname, './polyfill-custom-build.js') // path.resolve('static/polyfills/polyfill-custom.js')
 
 async function doRollup(file) {
 	const bundle = await rollup.rollup({
@@ -28,7 +28,8 @@ async function doRollup(file) {
 			// }),
 			rollupPlugins.commonjs(),
 			rollupPlugins.babel(),
-			// rollupPlugins.terser()
+			// rollupPlugins.terser(),
+			// rollupPlugins.prettier()
 		]
 	})
 

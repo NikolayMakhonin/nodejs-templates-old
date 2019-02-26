@@ -11,6 +11,7 @@ const path = require('path')
 function setCrossOriginHeaders(res, config, configGlobal) {
 	res.set('Access-Control-Allow-Origin', '*')
 	res.set('X-Frame-Options', `allow-from ${configGlobal.serverUrl}`)
+	res.set('Referrer-Policy', 'no-referrer-when-downgrade')
 	res.set('Access-Control-Allow-Credentials', 'true')
 	res.set('Access-Control-Allow-Headers', 'x-requested-with,Content-Type,Content-Length,Content-Range,Content-Encoding')
 	res.set('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
