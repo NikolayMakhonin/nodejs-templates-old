@@ -65,6 +65,7 @@ typings/
 yarn-error.log
 /cypress/screenshots/
 /__sapper__/
+dist/sapper
 
 # additional
 tmp

@@ -7,11 +7,12 @@ const istanbul = require('rollup-plugin-istanbul')
 const nodeResolve  = require('rollup-plugin-node-resolve')
 const commonjs  = require('rollup-plugin-commonjs')
 const nycrc  = require('../../.nycrc.json')
+const prettier = require('rollup-plugin-prettier')
+const postcssImport = require('postcss-import')
 
 const svelte  = require('rollup-plugin-svelte')
 const preprocess = require('svelte-preprocess')
 const themesPreprocess = require('svelte-themes-preprocess').default
-const postcssImport = require('postcss-import')
 
 function postcssCommon(options = {}) {
 	return {
@@ -72,8 +73,8 @@ module.exports = {
 		})
 	},
 	postCss: (options = {}) => postcssCommon({
-		sourceMap: 'static/slyles.css.map',
-		extract  : 'static/slyles.css',
+		// sourceMap: 'static/styles.css.map',
+		// extract  : 'static/styles.css',
 		...options
 	}),
 	babel: (options = {}) => babel({
@@ -87,8 +88,8 @@ module.exports = {
 		...nycrc,
 		...options
 	}),
-	// globals    : (options = {}) =>globals(options),
-	// builtins   : (options = {}) =>builtins(options),
+	// globals    : (options = {}) => globals(options),
+	// builtins   : (options = {}) => builtins(options),
 	nodeResolve: (options = {}) => nodeResolve(options),
 	commonjs   : (options = {}) => commonjs({
 		// namedExports: {
@@ -100,10 +101,20 @@ module.exports = {
 		mangle   : false,
 		module   : true,
 		ecma     : 5,
+		output: {
+			max_line_len: 50,
+		},
 		sourcemap: {
 			content: 'inline',
 			url    : 'inline'
 		},
+		...options
+	}),
+	prettier: (options = {}) => null && prettier({ // very slow
+		parser     : 'babylon',
+		tabWidth   : 4,
+		singleQuote: true,
+		sourceMap  : true,
 		...options
 	})
 }

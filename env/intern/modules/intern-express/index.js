@@ -1,10 +1,17 @@
-const log = require('karma/lib/logger').create('middleware:proxy')
+const log = {
+	debug: console.log,
+	info : console.log,
+	warn : console.warn,
+	error: console.error,
+}
+
 const express = require('express')
 const path = require('path')
 
 function setCrossOriginHeaders(res, config, configGlobal) {
 	res.set('Access-Control-Allow-Origin', '*')
-	res.set('X-Frame-Options', `allow-from http://${configGlobal.hostname}:${configGlobal.port}`)
+	res.set('X-Frame-Options', `allow-from ${configGlobal.serverUrl}`)
+	res.set('Referrer-Policy', 'no-referrer-when-downgrade')
 	res.set('Access-Control-Allow-Credentials', 'true')
 	res.set('Access-Control-Allow-Headers', 'x-requested-with,Content-Type,Content-Length,Content-Range,Content-Encoding')
 	res.set('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
@@ -18,7 +25,7 @@ function serveStatic(app, port, relativeUrl, dirPath, config, configGlobal) {
 			setCrossOriginHeaders(res, config, configGlobal)
 		}
 	}))
-	log.info(`Serve static files: ${configGlobal.hostname}:${port}${relativeUrl} => ${staticPath}`)
+	log.info(`Serve static files: ${configGlobal.serverUrl.match(/(https?:\/\/[^:/]+)/)[1]}:${port}${relativeUrl} => ${staticPath}`)
 }
 
 function startServer(port, initFuncs, config, configGlobal) {
@@ -30,24 +37,31 @@ function startServer(port, initFuncs, config, configGlobal) {
 
 	const server = app.listen(port)
 
-	return () => {
+	return () => new Promise((resolve, reject) => {
 		log.debug('Server closing...')
+		let isClosed
 		setTimeout(() => {
+			if (isClosed) {
+				return
+			}
 			log.warn('Server terminated.')
-			// eslint-disable-next-line no-process-exit
-			process.exit()
-		}, 1000)
+			reject()
+		}, 2000)
 		server.close(function () {
 			log.info('Server closed.')
+			isClosed = true
+			resolve()
 		})
-	}
+	})
 }
 
-function karmaExpress(karma, config, configGlobal) {
+// eslint-disable-next-line no-shadow
+function internExpress(intern, config, configGlobal) {
 	if (!config) {
-		return
+		return null
 	}
 
+	console.log(JSON.stringify(config))
 	const startFuncs = config
 		.map(item => {
 			if (!item) {
@@ -82,13 +96,7 @@ function karmaExpress(karma, config, configGlobal) {
 	const stopFuncs = []
 	
 	function stopAll() {
-		for (const stopFunc of stopFuncs) {
-			try {
-				stopFunc()
-			} catch (ex) {
-				log.error(ex)
-			}
-		}
+		return Promise.all(stopFuncs.map(o => o()))
 	}
 
 	try {
@@ -101,14 +109,29 @@ function karmaExpress(karma, config, configGlobal) {
 	}
 
 	log.info('Express servers started')
-	karma.on('exit', function () {
-		stopAll()
+
+	return async () => {
+		await stopAll()
 		log.info('Express servers stopped')
+	}
+}
+
+/* global intern */
+
+intern.registerPlugin('intern-express', options => {
+	intern.on('beforeRun', function () {
+		const stopServers = internExpress(intern, options.servers, intern.config)
+		if (stopServers) {
+			intern.on('afterRun', async function () {
+				try {
+					await stopServers()
+				} catch (ex) {
+					console.error('Error stop express servers', ex)
+					throw ex
+					// eslint-disable-next-line no-process-exit
+					// process.exit()
+				}
+			})
+		}
 	})
-}
-karmaExpress.$inject = ['server', 'config.karmaExpress', 'config']
-
-module.exports = {
-	'framework:karma-express': ['factory', karmaExpress]
-}
-
+})
