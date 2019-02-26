@@ -98,9 +98,9 @@ module.exports = {
 		...options
 	}),
 	terser: (options = {}) => terser({
-		mangle   : false,
-		module   : true,
-		ecma     : 5,
+		mangle: false,
+		module: true,
+		ecma  : 5,
 		output: {
 			max_line_len: 50,
 		},
