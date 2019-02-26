@@ -27,8 +27,8 @@
 <property name="nodejs.mocha.mocha_node_package_dir" value="$PROJECT_DIR$/node_modules/mocha" />
 <property name="nodejs_package_manager_path" value="npm" />
 <property name="restartRequiresConfirmation" value="false" />
-<property name="settings.editor.selected.configurable" value="settings.javascript.linters.eslint" />
-</component><component name="RunManager" selected="Mocha.Intern">
+<property name="settings.editor.selected.configurable" value="watcher.settings"/>
+</component><component name="RunManager" selected="Mocha.Intern with rebuild">
 <configuration default="true" type="JavaScriptTestRunnerKarma">
 <config-file value="$PROJECT_DIR$/env/karma.conf.tests.js" />
 <karma-package-dir value="$PROJECT_DIR$/node_modules/karma" />
@@ -39,7 +39,7 @@
 <configuration default="true" type="NodeJSConfigurationType" path-to-node="$Node2$/node" node-parameters="--max-old-space-size=4096" working-dir="$PROJECT_DIR$">
 <method v="2" />
 </configuration>
-<configuration name="Intern" type="mocha-javascript-test-runner">
+<configuration name="Intern with rebuild" type="mocha-javascript-test-runner">
 <node-interpreter>$Node2$/node</node-interpreter>
 <node-options>--max-old-space-size=4096</node-options>
 <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
@@ -51,7 +51,7 @@
 <test-pattern>./env/intern/mocha.js</test-pattern>
 <method v="2" ><option name="NpmBeforeRunTask" enabled="true"><package-json value="$PROJECT_DIR$/package.json"/><command value="run"/><scripts><script value="build:components"/>
 </scripts><node-interpreter value="$Node2$/node"/><envs/></option></method></configuration>
-<configuration default="true" type="mocha-javascript-test-runner">
+<configuration name="Intern" type="mocha-javascript-test-runner"><node-interpreter>$Node2$/node</node-interpreter><node-options>--max-old-space-size=4096</node-options><mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package><working-directory>$PROJECT_DIR$</working-directory><pass-parent-env>true</pass-parent-env><ui>bdd</ui><extra-mocha-options>--opts ./env/mocha/mocha.babel.opts</extra-mocha-options><test-kind>PATTERN</test-kind><test-pattern>./env/intern/mocha.js</test-pattern><method v="2"/></configuration><configuration default="true" type="mocha-javascript-test-runner">
 <node-interpreter>$Node2$/node</node-interpreter>
 <node-options>--max-old-space-size=4096</node-options>
 <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
@@ -71,6 +71,6 @@
 <item itemvalue="Mocha.Coverage Mocha" />
 <item itemvalue="Mocha.Watch Mocha" />
 <item itemvalue="Mocha.Intern" />
-</list>
+<item itemvalue="Mocha.Intern with rebuild"/></list>
 </component>
 </project>
