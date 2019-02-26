@@ -39,12 +39,17 @@ function startServer(port, initFuncs, config, configGlobal) {
 
 	return () => new Promise((resolve, reject) => {
 		log.debug('Server closing...')
+		let isClosed
 		setTimeout(() => {
+			if (isClosed) {
+				return
+			}
 			log.warn('Server terminated.')
 			reject()
-		}, 3000)
+		}, 2000)
 		server.close(function () {
 			log.info('Server closed.')
+			isClosed = true
 			resolve()
 		})
 	})

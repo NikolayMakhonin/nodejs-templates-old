@@ -27,7 +27,7 @@
     "build:mjs": "shx rm -rf dist/mjs/ && shx mkdir -p dist/mjs/ && shx cp -rf src/test dist/mjs/ && babel src --out-dir dist/mjs/ --no-babelrc --config-file ./.babelrc-mjs.js",
     "build:js": "shx rm -rf dist/js/ && shx mkdir -p dist/js/ && shx cp -rf src/test dist/js/  && babel src --out-dir dist/js/ --no-babelrc --config-file ./.babelrc-js.js",
     "build:components": "shx rm -rf dist/components/ && rollup --config env/rollup/rollup-config-components.js",
-    "build": "npm run build:mjs && npm run build:js && npm run build:components",
+    "build": "npm run build:mjs && npm run build:js && npm run build:components && npm run build:sapper:export",
     "lint": "echo eslint --plugin markdown --ext js,md .",
     "test:mocha:src": "mocha --opts ./env/mocha/mocha.babel.opts ./src/test/tests/{node,common}/**/*.*",
     "test:mocha:mjs": "mocha --opts ./env/mocha/mocha.babel.opts ./dist/mjs/test/tests/{node,common}/**/*.*",
