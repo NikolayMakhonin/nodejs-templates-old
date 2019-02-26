@@ -98,16 +98,19 @@ module.exports = {
 		...options
 	}),
 	terser: (options = {}) => terser({
-		mangle   : false,
-		module   : true,
-		ecma     : 5,
+		mangle: false,
+		module: true,
+		ecma  : 5,
+		output: {
+			max_line_len: 50,
+		},
 		sourcemap: {
 			content: 'inline',
 			url    : 'inline'
 		},
 		...options
 	}),
-	prettier: (options = {}) => prettier({ // not worked
+	prettier: (options = {}) => null && prettier({ // very slow
 		parser     : 'babylon',
 		tabWidth   : 4,
 		singleQuote: true,

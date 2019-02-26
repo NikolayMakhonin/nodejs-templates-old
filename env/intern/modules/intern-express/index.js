@@ -42,7 +42,7 @@ function startServer(port, initFuncs, config, configGlobal) {
 		setTimeout(() => {
 			log.warn('Server terminated.')
 			reject()
-		}, 1000)
+		}, 3000)
 		server.close(function () {
 			log.info('Server closed.')
 			resolve()
