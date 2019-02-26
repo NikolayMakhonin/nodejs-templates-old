@@ -33,8 +33,8 @@ function postcssCommon(options = {}) {
 
 module.exports = {
 	postCss: (options = {}) => postcssCommon({
-		// sourceMap: 'static/slyles.css.map',
-		// extract  : 'static/slyles.css',
+		// sourceMap: 'static/styles.css.map',
+		// extract  : 'static/styles.css',
 		...options
 	}),
 	babel: (options = {}) => babel({
