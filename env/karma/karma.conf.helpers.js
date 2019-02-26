@@ -167,17 +167,18 @@ module.exports.configCommon = function (config) {
 		// start these browsers
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
 		browsers: [
-			// 'E2E_Chromium33',
-			// 'E2E_Chromium39',
+			'E2E_Chromium33',
+			'E2E_Chromium39',
 			'E2E_Chromium44',
 			'E2E_ChromeLatest',
 		],
 
 		customLaunchers: {
 			E2E_Chromium33: {
-				base  : 'Custom',
-				parent: 'ChromiumHeadless',
-				flags : [
+				base       : 'Custom',
+				parent     : 'ChromiumHeadless',
+				displayName: 'Chromium 33.0.1750.170',
+				flags      : [
 					'--incognito',
 					'--no-sandbox',
 					'--disable-web-security',
@@ -190,9 +191,10 @@ module.exports.configCommon = function (config) {
 				ENV_CMD: null
 			},
 			E2E_Chromium39: {
-				base  : 'Custom',
-				parent: 'ChromiumHeadless',
-				flags : [
+				base       : 'Custom',
+				parent     : 'ChromiumHeadless',
+				displayName: 'Chromium 39.0.2171.99',
+				flags      : [
 					'--incognito',
 					'--no-sandbox',
 					'--disable-web-security',
@@ -205,9 +207,10 @@ module.exports.configCommon = function (config) {
 				ENV_CMD: null
 			},
 			E2E_Chromium44: {
-				base  : 'Custom',
-				parent: 'ChromiumHeadless',
-				flags : [
+				base       : 'Custom',
+				parent     : 'ChromiumHeadless',
+				displayName: 'Chromium 44.0.2403.119',
+				flags      : [
 					'--incognito',
 					'--no-sandbox',
 					'--disable-web-security',
