@@ -5,8 +5,8 @@ const Command = require('@theintern/leadfoot/Command').default
 
 global.intern = intern
 
-global.pathToUrl = function pathToUrl(...concatPaths) {
-	return `/${
+global.pathToUrl = function (...concatPaths) {
+	const relativeUrl = `/${
 		path.relative(
 			process.cwd(),
 			path.resolve(...concatPaths)
@@ -14,6 +14,10 @@ global.pathToUrl = function pathToUrl(...concatPaths) {
 			.replace(/\\/g, '/')
 			.replace(/^\//, '')
 	}`
+
+	const url = new URL(relativeUrl, intern.config.serverUrl)
+
+	return url.href
 }
 
 Command.prototype.getRoot = function () {

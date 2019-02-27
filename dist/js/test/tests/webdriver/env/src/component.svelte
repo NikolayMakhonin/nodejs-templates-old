@@ -1,5 +1,7 @@
-<p>Count: {{count}}</p>
-<button on:click='set({ count: count + 1 })'>+1</button>
+<template lang="pug">
+	p(count="{count}") Count: {count}
+	button(on:click='set({ count: count + 1 })') +1
+</template>
 
 <!-- Default data -->
 <script>

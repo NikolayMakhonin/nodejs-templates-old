@@ -1,4 +1,3 @@
-const {logsToString} = require('./log')
 const intern = require('intern').default
 const {assert} = intern.getPlugin('chai')
 
@@ -11,11 +10,11 @@ Command.prototype.checkLogs = function (errorPredicate) {
 			if (errorPredicate && logs.any(errorPredicate)
 			|| !errorPredicate && logs.length
 			) {
-				return Promise.reject(new Error(`Browser errors: ${logsToString(logs)}`))
+				return Promise.reject(new Error(`Browser errors: ${JSON.stringify(logs, null, 4)}`))
 			}
 
 			if (logs.length) {
-				console.log(logsToString(logs))
+				console.log(JSON.stringify(logs, null, 4))
 			}
 
 			return logs
@@ -78,4 +77,12 @@ Command.prototype.testPage = function (func) {
 		.assertIsOldWindow()
 		.checkAfterTestPage()
 		.end()
+}
+
+Command.prototype.testPageWithPolyfill = function (func) {
+	return this
+		.testPage(() => this
+			.loadScript(pathToUrl('env/polyfill/bundle.js'))
+			.checkLogs()
+			.then(() => func()))
 }
