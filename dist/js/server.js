@@ -6,14 +6,13 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 
 var _sirv = _interopRequireDefault(require("sirv"));
 
-var _polka = _interopRequireDefault(require("polka"));
-
 var _express = _interopRequireDefault(require("express"));
 
 var _compression = _interopRequireDefault(require("compression"));
 
 var sapper = _interopRequireWildcard(require("../__sapper__/server.js"));
 
+// import polka from 'polka'
 const {
   PORT,
   NODE_ENV
