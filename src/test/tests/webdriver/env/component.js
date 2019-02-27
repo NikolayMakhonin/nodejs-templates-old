@@ -6,7 +6,7 @@ registerSuite('env > component', {
 		// docs: https://theintern.io/docs.html#Leadfoot/2/api/Command/command-1
 		return this.remote
 			.get(pathToUrl(__dirname, 'assets/page.html'))
-			.testPage(() => this.remote
+			.testPageWithPolyfill(() => this.remote
 				.findByCssSelector('body')
 				.getVisibleText()
 				.then(value => {
