@@ -2,7 +2,7 @@
 	"environments": [
 		{
 			"browserName": "chrome",
-			"version": "33",
+			"version": "44",
 			"fixSessionCapabilities": "no-detect", // improve performance
 			"chromeOptions": {
 				"args": [
@@ -27,49 +27,49 @@
 //					"--enable-stats-table" // StatsTable
 				]
 			}
-		},
-		{
-			"browserName": "chrome",
-			"version": "37",
-			"fixSessionCapabilities": "no-detect",
-			"chromeOptions": {
-				"args": [
-					"--no-sandbox",
-					"--headless",
-					"--incognito",
-					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:4445",
-					"--allow-insecure-localhost http://192.168.0.101:4445"
-				]
-			}
-		},
-		{
-			"browserName": "chrome",
-			"version": "39",
-			"fixSessionCapabilities": "no-detect",
-			"chromeOptions": {
-				"args": [
-					"--no-sandbox",
-					"--headless",
-					"--incognito",
-					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:4445",
-					"--allow-insecure-localhost http://192.168.0.101:4445"
-				]
-			}
-		},
-		{
-			"browserName": "chrome",
-			"version": "44",
-			"fixSessionCapabilities": "no-detect",
-			"chromeOptions": {
-				"args": [
-					"--no-sandbox",
-					"--headless",
-					"--incognito",
-					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:4445",
-					"--allow-insecure-localhost http://192.168.0.101:4445"
-				]
-			}
-		}
+		}//,
+//		{
+//			"browserName": "chrome",
+//			"version": "37",
+//			"fixSessionCapabilities": "no-detect",
+//			"chromeOptions": {
+//				"args": [
+//					"--no-sandbox",
+//					"--headless",
+//					"--incognito",
+//					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:4445",
+//					"--allow-insecure-localhost http://192.168.0.101:4445"
+//				]
+//			}
+//		},
+//		{
+//			"browserName": "chrome",
+//			"version": "39",
+//			"fixSessionCapabilities": "no-detect",
+//			"chromeOptions": {
+//				"args": [
+//					"--no-sandbox",
+//					"--headless",
+//					"--incognito",
+//					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:4445",
+//					"--allow-insecure-localhost http://192.168.0.101:4445"
+//				]
+//			}
+//		},
+//		{
+//			"browserName": "chrome",
+//			"version": "33",
+//			"fixSessionCapabilities": "no-detect",
+//			"chromeOptions": {
+//				"args": [
+//					"--no-sandbox",
+//					"--headless",
+//					"--incognito",
+//					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:4445",
+//					"--allow-insecure-localhost http://192.168.0.101:4445"
+//				]
+//			}
+//		}
 //		{
 //			"browserName": "chrome",
 //			"version": "72",
