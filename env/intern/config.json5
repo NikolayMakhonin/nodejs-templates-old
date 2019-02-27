@@ -58,7 +58,7 @@
 		},
 		{
 			"browserName": "chrome",
-			"version": "44",
+			"version": "48",
 			"fixSessionCapabilities": "no-detect",
 			"chromeOptions": {
 				"args": [
@@ -135,7 +135,7 @@
 					{
 						"port": 4445,
 						"inits": [
-							// ["/sapper/page", "dist/sapper/export/sapper/page"]
+							 ["/sapper/page", "dist/sapper/export/sapper/page"]
 						]
 					}
 				]
