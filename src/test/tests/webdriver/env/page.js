@@ -10,7 +10,7 @@ registerSuite('env > page', {
 			.get(pathToUrl(__dirname, 'assets/page.html'))
 			.testPage(() => this.remote
 				.getUserAgent().logThis('UserAgent: ')
-				.getHtml().logThis('UserAgent: ')
+				.getHtml().logThis('Html: ')
 				.checkLogs()
 				.findByCssSelector('body')
 				.getVisibleText()
