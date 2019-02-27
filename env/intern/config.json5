@@ -58,7 +58,7 @@
 		},
 		{
 			"browserName": "chrome",
-			"version": "44",
+			"version": "48",
 			"fixSessionCapabilities": "no-detect",
 			"chromeOptions": {
 				"args": [
@@ -69,31 +69,24 @@
 					"--allow-insecure-localhost http://192.168.0.101:4445"
 				]
 			}
+		},
+		{
+			"browserName": "chrome",
+			"version": "72",
+			"fixSessionCapabilities": "no-detect",
+			"chromeOptions": {
+				"args": [
+					"--no-sandbox",
+					"--headless",
+					"--incognito",
+					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:4445",
+					"--allow-insecure-localhost http://192.168.0.101:4445"
+				]
+			}
+		},
+		{
+			"browserName": "firefox"
 		}
-//		{
-//			"browserName": "chrome",
-//			"version": "72",
-//			"fixSessionCapabilities": "no-detect", // improve performance
-//			"chromeOptions": {
-//				"args": [
-//					"--no-sandbox",
-//					"--headless",
-////					"--disable-gpu",
-//
-//					// Test
-//					"--enable-precision-memory-info",
-//					"--debug-print",
-//					"--enable-crash-reporter-for-testing",
-//					"--log-level 0",
-//					"--dns-log-details",
-//					"--enable-logging",
-//					"--enable-stats-table" // StatsTable
-//				]
-//			}
-//		},
-//		{
-//			"browserName": "firefox"
-//		}
 	],
 	"tunnel" : "null",
 	"tunnelOptions": {
@@ -142,7 +135,7 @@
 					{
 						"port": 4445,
 						"inits": [
-							["/sapper/page", "dist/sapper/export/sapper/page"]
+							 ["/sapper/page", "dist/sapper/export/sapper/page"]
 						]
 					}
 				]
