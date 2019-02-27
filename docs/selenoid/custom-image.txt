@@ -9,7 +9,7 @@
 
 # change permissions for DEBIAN directory:
 chmod 0755 chromium33/DEBIAN
-ln -s /opt/google/chrome/chrome chromium33/bin/google-chrome-stable
+ln -s /opt/google/chrome/google-chrome chromium33/usr/bin/google-chrome-stable
 
 # package name should be google-chrome-stable_33.0.1750.170-0+aerokube0_amd64.deb
 # add "-0" at the end if it not contains in the version
@@ -25,7 +25,7 @@ cd selenium
 docker stop selenoid-ui
 
 48.0.2564.109-1
-./automate_chrome.sh ~/dev/browsers/google-chrome-stable_33.0.1750.170-0+aerokube0_amd64.deb 2.10 33.0
+./automate_chrome.sh ~/dev/browsers/google-chrome-stable_33.0.1750.170-1+aerokube0_amd64.deb 2.10 33.0
 ./automate_chrome.sh ../../browsers/chromium37.deb 2.12 37.0
 ./automate_chrome.sh ../../browsers/chromium39.deb 2.14 39.0
 ./automate_chrome.sh ../../browsers/chromium44.deb 2.20 44.0
