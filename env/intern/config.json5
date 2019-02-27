@@ -1,23 +1,44 @@
 {
 	"environments": [
-		{
-			"browserName": "chrome",
-			"version": "48",
-			"fixSessionCapabilities": "no-detect", // improve performance
-			"chromeOptions": {
-				"args": [
-					"--no-sandbox",
-					"--headless",
-					"--incognito",
-					// Fix this bug: https://stackoverflow.com/questions/41373166/why-am-i-seeing-error-only-secure-origins-are-allowed-for-my-service-worker
-					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:4445",
-//					"--allow-running-insecure-content",
-//					"--reduce-security-for-testing",
-//					"--user-data-dir=/tmp/foo",
-					"--allow-insecure-localhost http://192.168.0.101:4445"
-//					"--disable-gpu",
-
-					// Test
+//		{
+//			"browserName": "chrome",
+//			"version": "48",
+//			"fixSessionCapabilities": "no-detect", // improve performance
+//			"chromeOptions": {
+//				"args": [
+//					"--no-sandbox",
+//					"--headless",
+//					"--incognito",
+//					// Fix this bug: https://stackoverflow.com/questions/41373166/why-am-i-seeing-error-only-secure-origins-are-allowed-for-my-service-worker
+//					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:4445",
+////					"--allow-running-insecure-content",
+////					"--reduce-security-for-testing",
+////					"--user-data-dir=/tmp/foo",
+//					"--allow-insecure-localhost http://192.168.0.101:4445"
+////					"--disable-gpu",
+//
+//					// Test
+////					"--enable-precision-memory-info",
+////					"--debug-print",
+////					"--enable-crash-reporter-for-testing",
+////					"--log-level 0",
+////					"--dns-log-details",
+////					"--enable-logging",
+////					"--enable-stats-table" // StatsTable
+//				]
+//			}
+//		},
+//		{
+//			"browserName": "chrome",
+//			"version": "72",
+//			"fixSessionCapabilities": "no-detect", // improve performance
+//			"chromeOptions": {
+//				"args": [
+//					"--no-sandbox",
+//					"--headless",
+////					"--disable-gpu",
+//
+//					// Test
 //					"--enable-precision-memory-info",
 //					"--debug-print",
 //					"--enable-crash-reporter-for-testing",
@@ -25,32 +46,15 @@
 //					"--dns-log-details",
 //					"--enable-logging",
 //					"--enable-stats-table" // StatsTable
-				]
-			}
-		},
+//				]
+//			}
+//		},
+//		{
+//			"browserName": "firefox"
+//		},
 		{
-			"browserName": "chrome",
-			"version": "72",
-			"fixSessionCapabilities": "no-detect", // improve performance
-			"chromeOptions": {
-				"args": [
-					"--no-sandbox",
-					"--headless",
-//					"--disable-gpu",
-
-					// Test
-					"--enable-precision-memory-info",
-					"--debug-print",
-					"--enable-crash-reporter-for-testing",
-					"--log-level 0",
-					"--dns-log-details",
-					"--enable-logging",
-					"--enable-stats-table" // StatsTable
-				]
-			}
-		},
-		{
-			"browserName": "firefox"
+			"browserName": "firefox",
+			"version": "65.1",
 		}
 	],
 	"tunnel" : "null",
