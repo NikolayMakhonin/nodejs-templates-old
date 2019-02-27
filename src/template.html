@@ -46,11 +46,11 @@
 		};
 
 		window.addEventListener('unhandledrejection', function (e) {
-			console.error('Unhandled rejection2: ', e);
+			console.error('Unhandled rejection2: ' + e.reason);
 		});
 
 		window.onunhandledrejection = function (e) {
-			console.error('Unhandled rejection3: ', e);
+			console.error('Unhandled rejection3: ' + e.reason);
 		};
 
 		window.onerror = function (e) {
