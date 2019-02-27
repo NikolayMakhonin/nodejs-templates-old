@@ -16,14 +16,6 @@ Command.prototype.getAllLogs = function () {
 			.flatMap(o => o))
 }
 
-function logToString(log) {
-	return `[${log.type}] ${JSON.stringify(log, null, 4)}\r\n`
-}
-
-module.exports.logsToString = function logsToString(logs) {
-	return logs.map(log => logToString(log)).join('\r\n')
-}
-
 /* eslint-disable */
 
 function dataToLog(getDataScript) {
@@ -164,7 +156,7 @@ Command.prototype.debugInfoOnError = function () {
 					})
 
 				console.error(JSON.stringify({
-					logs: logs.join('\r\n'),
+					logs,
 					userAgent,
 					html,
 					perf

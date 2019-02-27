@@ -1,14 +1,13 @@
 const {registerSuite} = intern.getInterface('object')
 const {assert} = intern.getPlugin('chai')
 
+// docs: https://theintern.io/docs.html#Leadfoot/2/api/Command/command-1
 const keys = require('@theintern/leadfoot/keys')
 registerSuite('env > page', {
-	'load'() {
-		// docs: https://theintern.io/docs.html#Leadfoot/2/api/Command/command-1
-
+	'load local'() {
 		return this.remote
 			.get(pathToUrl(__dirname, 'assets/page.html'))
-			.testPage(() => this.remote
+			.testPageWithPolyfill(() => this.remote
 				.getUserAgent().logThis('UserAgent: ')
 				.getHtml().logThis('Html: ')
 				.checkLogs()
@@ -16,6 +15,19 @@ registerSuite('env > page', {
 				.getVisibleText()
 				.then(value => {
 					assert.strictEqual(value, 'TEST HTML')
+				}))
+	},
+	'load about:blank'() {
+		return this.remote
+			.get('about:blank')
+			.testPageWithPolyfill(() => this.remote
+				.getUserAgent().logThis('UserAgent: ')
+				.getHtml().logThis('Html: ')
+				.checkLogs()
+				.findByCssSelector('body')
+				.getVisibleText()
+				.then(value => {
+					assert.strictEqual(value, '')
 				}))
 	}
 })
