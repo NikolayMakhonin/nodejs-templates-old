@@ -79,6 +79,10 @@ this['src/test/tests/webdriver/env/src/component'] = (function () {
 	  node.removeEventListener(event, handler, options);
 	}
 
+	function setAttribute(node, attribute, value) {
+	  if (value == null) node.removeAttribute(attribute);else node.setAttribute(attribute, value);
+	}
+
 	function children(element) {
 	  return Array.from(element.childNodes);
 	}
@@ -300,15 +304,7 @@ this['src/test/tests/webdriver/env/src/component'] = (function () {
 	var file = "src\\test\\tests\\webdriver\\env\\src\\component.svelte";
 
 	function create_main_fragment(component, ctx) {
-	  var p,
-	      text0,
-	      text1_value = {
-	    count: ctx.count
-	  },
-	      text1,
-	      text2,
-	      button,
-	      text3;
+	  var p, text0, text1, button, text2;
 
 	  function click_handler(event) {
 	    component.set({
@@ -320,51 +316,49 @@ this['src/test/tests/webdriver/env/src/component'] = (function () {
 	    c: function create() {
 	      p = createElement("p");
 	      text0 = createText("Count: ");
-	      text1 = createText(text1_value);
-	      text2 = createText("\n");
+	      text1 = createText(ctx.count);
 	      button = createElement("button");
-	      text3 = createText("+1");
+	      text2 = createText("+1");
 	      this.h();
 	    },
 	    l: function claim(nodes) {
-	      p = claimElement(nodes, "P", {}, false);
+	      p = claimElement(nodes, "P", {
+	        count: true
+	      }, false);
 	      var p_nodes = children(p);
 	      text0 = claimText(p_nodes, "Count: ");
-	      text1 = claimText(p_nodes, text1_value);
+	      text1 = claimText(p_nodes, ctx.count);
 	      p_nodes.forEach(detachNode);
-	      text2 = claimText(nodes, "\n");
 	      button = claimElement(nodes, "BUTTON", {}, false);
 	      var button_nodes = children(button);
-	      text3 = claimText(button_nodes, "+1");
+	      text2 = claimText(button_nodes, "+1");
 	      button_nodes.forEach(detachNode);
 	      this.h();
 	    },
 	    h: function hydrate() {
+	      setAttribute(p, "count", ctx.count);
 	      addLoc(p, file, 0, 0, 0);
 	      addListener(button, "click", click_handler);
-	      addLoc(button, file, 1, 0, 24);
+	      addLoc(button, file, 0, 37, 37);
 	    },
 	    m: function mount(target, anchor) {
 	      insert(target, p, anchor);
 	      append(p, text0);
 	      append(p, text1);
-	      insert(target, text2, anchor);
 	      insert(target, button, anchor);
-	      append(button, text3);
+	      append(button, text2);
 	    },
 	    p: function update(changed, _ctx) {
 	      ctx = _ctx;
 
-	      if (changed.count && text1_value !== (text1_value = {
-	        count: ctx.count
-	      })) {
-	        setData(text1, text1_value);
+	      if (changed.count) {
+	        setData(text1, ctx.count);
+	        setAttribute(p, "count", ctx.count);
 	      }
 	    },
 	    d: function destroy(detach) {
 	      if (detach) {
 	        detachNode(p);
-	        detachNode(text2);
 	        detachNode(button);
 	      }
 
