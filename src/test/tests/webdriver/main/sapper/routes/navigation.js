@@ -22,6 +22,7 @@ registerSuite('main > sapper > routes > navigation', {
 				.getCurrentUrl()
 				.then(o => assert.strictEqual(new URL(o).pathname, '/sapper/page/blog'))
 				.end()
+				.delay(1000)
 
 				.findByCssSelector('[href="blog/what-is-sapper"]')
 				.click()

@@ -1,4 +1,8 @@
-:global(.theme-dark) {
+//:global(body.theme-cosmic) {
+//	background: #0ff;
+//}
+
+:global(.theme-cosmic) {
 	@if ($component == 'TODO/src/routes/index') {
 		h1 {
 			color: #00f;
