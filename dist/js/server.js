@@ -17,16 +17,14 @@ const {
   PORT,
   NODE_ENV
 } = process.env;
-const dev = NODE_ENV === 'development';
-const isExport = process.env.npm_lifecycle_event === 'build:sapper:export';
-
-if (isExport) {
-  console.log('Export mode');
-}
+const dev = NODE_ENV === 'development'; // const isExport = process.env.npm_lifecycle_event === 'build:sapper:export'
+// if (isExport) {
+// 	console.log('Export mode')
+// }
 
 const server = (0, _express.default)();
 server.disable('x-powered-by');
-server.use(isExport ? '/sapper/page' : '/', (0, _compression.default)({
+server.use('/sapper/page', (0, _compression.default)({
   threshold: 0
 }), (0, _sirv.default)('static', {
   dev
