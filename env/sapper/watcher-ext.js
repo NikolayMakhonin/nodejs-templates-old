@@ -17,7 +17,6 @@ module.exports.watch = function watch(opts) {
 	}
 
 	function reload() {
-		watcher.restart()
 		watcher.dev_server.send({
 			action: 'reload'
 		})

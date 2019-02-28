@@ -73,6 +73,7 @@
     "@babel/register": "^7.0.0",
     "@metahub/karma-rollup-preprocessor": "^4.1.0",
     "@theintern/leadfoot": "^2.2.6",
+    "autoprefixer": "^9.4.9",
     "babel-eslint": "^10.0.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",

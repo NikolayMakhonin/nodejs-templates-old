@@ -1,20 +1,18 @@
-:global(body) {
-	//-webkit-transition: background-image 10s ease-in-out 5s;
-	//transition: background-image 10s ease-in-out 5s;
-	//background-image: url(images/background-base.jpg);
-	background-size: cover;
-	background: #fff !important;
-}
-
-
-:global(.theme-cosmic) {
-	@if ($component == 'TODO/src/routes/index') {
-		h1 {
-			color: #00f;
-		}
-	} @else if ($component == 'component 2') {
-		h1 {
-			color: #f00;
+@if ($component == 'global') {
+	.theme-cosmic {
+		background-image: url(images/background-base.jpg);
+		background-size: cover;
+	}
+} @else {
+	:global(.theme-cosmic) {
+		@if ($component == 'TODO/src/routes/index') {
+			h1 {
+				color: #00f;
+			}
+		} @else if ($component == 'component 2') {
+			h1 {
+				color: #f00;
+			}
 		}
 	}
 }

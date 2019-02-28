@@ -1,17 +1,30 @@
 <Nav segment={child.segment}/>
 
 <main>
+	<div class="background"></div>
 	<svelte:component this={child.component} {...child.props}/>
 </main>
 
-<style>
+<style lang="scss">
+	@import '../styles/abstracts/templates.scss';
+
 	main {
-		position: relative;
+		@extend .fill-area;
+		top: 3.1em;
 		max-width: 56em;
-		background-color: white;
-		padding: 2em;
 		margin: 0 auto;
 		box-sizing: border-box;
+	}
+
+	.background {
+		background-color: #33ffff;
+		opacity: 0.1;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		z-index: -1;
 	}
 </style>
 
