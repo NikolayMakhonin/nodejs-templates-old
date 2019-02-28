@@ -9,7 +9,7 @@ registerSuite('main > sapper > routes > navigation', {
 
 		return this.remote
 			// .delay(60000)
-			.getWithPort(4445, '/sapper/page/index.html')
+			.getWithPort(3000, '/sapper/page')
 			.testPage(() => this.remote
 				.findByCssSelector('[href=about]')
 				.click()
@@ -22,6 +22,7 @@ registerSuite('main > sapper > routes > navigation', {
 				.getCurrentUrl()
 				.then(o => assert.strictEqual(new URL(o).pathname, '/sapper/page/blog'))
 				.end()
+				.delay(1000)
 
 				.findByCssSelector('[href="blog/what-is-sapper"]')
 				.click()

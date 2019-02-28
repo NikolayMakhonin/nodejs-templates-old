@@ -10,11 +10,11 @@
 					"--headless",
 					"--incognito",
 					// Fix this bug: https://stackoverflow.com/questions/41373166/why-am-i-seeing-error-only-secure-origins-are-allowed-for-my-service-worker
-					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:4445",
+					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:3000",
 //					"--allow-running-insecure-content",
 //					"--reduce-security-for-testing",
 //					"--user-data-dir=/tmp/foo",
-					"--allow-insecure-localhost http://192.168.0.101:4445"
+					"--allow-insecure-localhost http://192.168.0.101:3000"
 //					"--disable-gpu",
 
 					// Test
@@ -37,8 +37,8 @@
 					"--no-sandbox",
 					"--headless",
 					"--incognito",
-					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:4445",
-					"--allow-insecure-localhost http://192.168.0.101:4445"
+					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:3000",
+					"--allow-insecure-localhost http://192.168.0.101:3000"
 				]
 			}
 		},
@@ -51,8 +51,8 @@
 					"--no-sandbox",
 					"--headless",
 					"--incognito",
-					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:4445",
-					"--allow-insecure-localhost http://192.168.0.101:4445"
+					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:3000",
+					"--allow-insecure-localhost http://192.168.0.101:3000"
 				]
 			}
 		},
@@ -65,8 +65,8 @@
 					"--no-sandbox",
 					"--headless",
 					"--incognito",
-					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:4445",
-					"--allow-insecure-localhost http://192.168.0.101:4445"
+					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:3000",
+					"--allow-insecure-localhost http://192.168.0.101:3000"
 				]
 			}
 		},
@@ -79,8 +79,8 @@
 					"--no-sandbox",
 					"--headless",
 					"--incognito",
-					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:4445",
-					"--allow-insecure-localhost http://192.168.0.101:4445"
+					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:3000",
+					"--allow-insecure-localhost http://192.168.0.101:3000"
 				]
 			}
 		},
@@ -88,6 +88,7 @@
 			"browserName": "firefox"
 		}
 	],
+
 	"tunnel" : "null",
 	"tunnelOptions": {
 		"pathname": "/wd/hub",
@@ -103,9 +104,8 @@
 		"src/test/*/webdriver/**/*.js",
 		"!*/**/{src,assets}/**"
 	],
-	"coverage": [
-		"dist/components/**/*.js"
-	],
+
+	"coverage": [],
 
 	"debug": true,
 	"reporters": [
@@ -127,19 +127,6 @@
 	],
 
 	"plugins": [
-		"env/intern/register-intern.js",
-		{
-			"script": "env/intern/modules/intern-express/index.js",
-			"options": {
-				"servers": [
-					{
-						"port": 4445,
-						"inits": [
-							 ["/sapper/page", "dist/sapper/export/sapper/page"]
-						]
-					}
-				]
-			}
-		}
+		"env/intern/register-intern.js"
 	]
 }

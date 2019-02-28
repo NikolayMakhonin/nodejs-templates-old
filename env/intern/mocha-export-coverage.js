@@ -1,6 +1,6 @@
 import {configure, runTests} from './mocha-helpers'
 
 configure({
-	coverage: false
+	coverage: ['dist/components/**/*.js']
 })
 runTests()
