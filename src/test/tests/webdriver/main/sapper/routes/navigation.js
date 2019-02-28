@@ -9,7 +9,7 @@ registerSuite('main > sapper > routes > navigation', {
 
 		return this.remote
 			// .delay(60000)
-			.getWithPort(4445, '/sapper/page/index.html')
+			.getWithPort(3000, '/sapper/page')
 			.testPage(() => this.remote
 				.findByCssSelector('[href=about]')
 				.click()
