@@ -9,22 +9,8 @@
 					"--no-sandbox",
 					"--headless",
 					"--incognito",
-					// Fix this bug: https://stackoverflow.com/questions/41373166/why-am-i-seeing-error-only-secure-origins-are-allowed-for-my-service-worker
 					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:3000",
-//					"--allow-running-insecure-content",
-//					"--reduce-security-for-testing",
-//					"--user-data-dir=/tmp/foo",
-					"--allow-insecure-localhost http://192.168.0.101:3000"
-//					"--disable-gpu",
-
-					// Test
-//					"--enable-precision-memory-info",
-//					"--debug-print",
-//					"--enable-crash-reporter-for-testing",
-//					"--log-level 0",
-//					"--dns-log-details",
-//					"--enable-logging",
-//					"--enable-stats-table" // StatsTable
+					"--unsafety-treat-insecure-origin-as-secure=http://192.168.0.101:3000"
 				]
 			}
 		},
@@ -38,7 +24,7 @@
 					"--headless",
 					"--incognito",
 					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:3000",
-					"--allow-insecure-localhost http://192.168.0.101:3000"
+					"--unsafety-treat-insecure-origin-as-secure=http://192.168.0.101:3000"
 				]
 			}
 		},
@@ -52,13 +38,13 @@
 					"--headless",
 					"--incognito",
 					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:3000",
-					"--allow-insecure-localhost http://192.168.0.101:3000"
+					"--unsafety-treat-insecure-origin-as-secure=http://192.168.0.101:3000"
 				]
 			}
 		},
 		{
 			"browserName": "chrome",
-			"version": "48",
+			"version": "44",
 			"fixSessionCapabilities": "no-detect",
 			"chromeOptions": {
 				"args": [
@@ -66,7 +52,7 @@
 					"--headless",
 					"--incognito",
 					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:3000",
-					"--allow-insecure-localhost http://192.168.0.101:3000"
+					"--unsafety-treat-insecure-origin-as-secure=http://192.168.0.101:3000"
 				]
 			}
 		},
@@ -80,7 +66,7 @@
 					"--headless",
 					"--incognito",
 					"--unsafely-treat-insecure-origin-as-secure=http://192.168.0.101:3000",
-					"--allow-insecure-localhost http://192.168.0.101:3000"
+					"--unsafety-treat-insecure-origin-as-secure=http://192.168.0.101:3000"
 				]
 			}
 		},
@@ -105,24 +91,10 @@
 		"!*/**/{src,assets}/**"
 	],
 
-	"coverage": [],
+	"coverage": false,
 
 	"debug": true,
 	"reporters": [
-		{
-			"name": "jsoncoverage",
-			"options": {
-				"directory": "tmp/coverage/intern/json"
-			}
-		},
-		{
-			"name": "htmlcoverage",
-			"options": {
-				"directory": "tmp/coverage/intern/html"
-			}
-		},
-//		"simple",
-//		"pretty",
 		"runner"
 	],
 
