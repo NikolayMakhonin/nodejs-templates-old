@@ -17,7 +17,7 @@ const themesPreprocess = require('svelte-themes-preprocess').default
 
 function postcssCommon(options = {}) {
 	return {
-		extensions: ['.css', '.scss', '.sass', '.less', '.styl'],
+		extensions: ['.scss', '.sass', '.less', '.styl'],
 		// see: https://github.com/postcss/postcss
 		plugins   : [
 			// This plugin is necessary and should be first in plugins list:
@@ -75,7 +75,7 @@ module.exports = {
 		})
 	},
 	postCss: (options = {}) => postcss(postcssCommon({
-		sourceMap: 'static/styles.css.map',
+		sourceMap: 'inline',
 		extract  : 'static/styles.css',
 		...options
 	})),
