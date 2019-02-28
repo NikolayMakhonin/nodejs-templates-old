@@ -1,3 +1,4 @@
 @import "layers/bases/b_normalize";
 
-$color: #f00;
+$component: 'global';
+@import "themes";

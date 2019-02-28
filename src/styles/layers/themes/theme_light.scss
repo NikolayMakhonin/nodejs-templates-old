@@ -1,11 +1,18 @@
-:global(.theme-light) {
-	@if ($component == 'component 1') {
-		h1 {
-			color: #0ff;
-		}
-	} @else if ($component == 'component 2') {
-		h1 {
-			color: #ff0;
+@if ($component == 'global') {
+	// global styles
+	.theme-light {
+		background-color: #f0f;
+	}
+} @else {
+	:global(.theme-light) {
+		@if ($component == 'component 1') {
+			h1 {
+				color: #0ff;
+			}
+		} @else if ($component == 'component 2') {
+			h1 {
+				color: #ff0;
+			}
 		}
 	}
 }

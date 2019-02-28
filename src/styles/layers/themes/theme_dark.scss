@@ -1,11 +1,18 @@
-:global(.theme-dark) {
-	@if ($component == 'TODO/src/routes/index') {
-		h1 {
-			color: #00f;
-		}
-	} @else if ($component == 'component 2') {
-		h1 {
-			color: #f00;
+@if ($component == 'global') {
+	// global styles
+	.theme-dark {
+		background-color: #fff;
+	}
+} @else {
+	:global(.theme-dark) {
+		@if ($component == 'TODO/src/routes/index') {
+			h1 {
+				color: #00f;
+			}
+		} @else if ($component == 'component 2') {
+			h1 {
+				color: #f00;
+			}
 		}
 	}
 }
