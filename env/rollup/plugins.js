@@ -8,6 +8,7 @@ const nodeResolve  = require('rollup-plugin-node-resolve')
 const commonjs  = require('rollup-plugin-commonjs')
 const nycrc  = require('../../.nycrc.json')
 const prettier = require('rollup-plugin-prettier')
+const postcss = require('rollup-plugin-postcss')
 const postcssImport = require('postcss-import')
 
 const svelte  = require('rollup-plugin-svelte')
@@ -16,8 +17,9 @@ const themesPreprocess = require('svelte-themes-preprocess').default
 
 function postcssCommon(options = {}) {
 	return {
+		extensions: ['.css', '.scss', '.sass', '.less', '.styl'],
 		// see: https://github.com/postcss/postcss
-		plugins: [
+		plugins   : [
 			// This plugin is necessary and should be first in plugins list:
 			postcssImport(),
 
@@ -72,11 +74,11 @@ module.exports = {
 			...options
 		})
 	},
-	postCss: (options = {}) => postcssCommon({
-		// sourceMap: 'static/styles.css.map',
-		// extract  : 'static/styles.css',
+	postCss: (options = {}) => postcss(postcssCommon({
+		sourceMap: 'static/styles.css.map',
+		extract  : 'static/styles.css',
 		...options
-	}),
+	})),
 	babel: (options = {}) => babel({
 		...require('../../.babelrc'),
 		runtimeHelpers: true,
@@ -98,9 +100,9 @@ module.exports = {
 		...options
 	}),
 	terser: (options = {}) => terser({
-		mangle   : false,
-		module   : true,
-		ecma     : 5,
+		mangle: false,
+		module: true,
+		ecma  : 5,
 		output: {
 			max_line_len: 50,
 		},
