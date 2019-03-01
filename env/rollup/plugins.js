@@ -27,6 +27,7 @@ function postcssCommon(options = {}) {
 				// see: https://github.com/browserslist/browserslist
 				browsers: [
 					'chrome 33',
+					'chrome 37',
 					'chrome 39',
 					'chrome 44',
 					'> 1%'
