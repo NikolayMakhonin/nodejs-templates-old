@@ -20,7 +20,7 @@
     "node": ">= 8.6.0"
   },
   "scripts": {
-    "clean": "shx rm -rf {dist,tmp,*.log}",
+    "clean": "shx rm -rf {dist,tmp,__sapper__,*.log}",
     "precommit": "npm run test:all:coverage",
     "prepare": "npm run build",
     "prepublishOnly": "npm run test:all",
