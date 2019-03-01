@@ -27,7 +27,9 @@
 		{
 			"files": [ "src/*.html" ],
 			"rules": {
-				"semi": [ "error", "always" ]
+				"semi": [ "error", "always" ],
+				"semi-style": ["error", "last"],
+				"no-var": "off"
 			},
 			"env": {
 				"browser": true,

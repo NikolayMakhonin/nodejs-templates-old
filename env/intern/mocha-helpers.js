@@ -1,7 +1,7 @@
 import 'json5/lib/register'
+import config from './config-base.json5'
 import intern from 'intern'
 global.intern = intern
-import config from './config.json5'
 // import './register-intern'
 
 export function configure(configChanges = {}) {

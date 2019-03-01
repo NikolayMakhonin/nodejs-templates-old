@@ -8,12 +8,12 @@ console.log('OPENSSL_CONF = ' + process.env.OPENSSL_CONF)
 	const browser = await multiremote({
 		firefox: {
 			hostname    : 'selenoid',
-			port        : 4444,
+			port        : 4455,
 			logLevel    : 'trace',
-			path        : '/wd/hub',
+			path        : '/',
 			capabilities: {
-				browserName: 'firefox',
-				// version    : '',
+				browserName: 'chrome',
+				version    : '33',
 				// enableVNC  : true,
 				// enableVideo: false
 			}

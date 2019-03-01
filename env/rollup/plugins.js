@@ -7,15 +7,27 @@ const nodeResolve  = require('rollup-plugin-node-resolve')
 const commonjs  = require('rollup-plugin-commonjs')
 const nycrc  = require('../../.nycrc.json')
 const prettier = require('rollup-plugin-prettier')
+const postcss = require('rollup-plugin-postcss')
 const postcssImport = require('postcss-import')
+const autoprefixer = require('autoprefixer')
 
 function postcssCommon(options = {}) {
 	return {
+		// extensions: ['.css', '.scss', '.sass', '.less', '.styl'],
 		// see: https://github.com/postcss/postcss
 		plugins: [
 			// This plugin is necessary and should be first in plugins list:
 			postcssImport(),
-
+			autoprefixer({
+				// see: https://github.com/browserslist/browserslist
+				browsers: [
+					'chrome 33',
+					'chrome 37',
+					'chrome 39',
+					'chrome 44',
+					'> 1%'
+				]
+			})
 			// cssnano({
 			// 	preset: [
 			// 		'default', {
@@ -32,11 +44,11 @@ function postcssCommon(options = {}) {
 
 
 module.exports = {
-	postCss: (options = {}) => postcssCommon({
-		// sourceMap: 'static/styles.css.map',
+	postCss: (options = {}) => postcss(postcssCommon({
+		// sourceMap: false, // 'inline',
 		// extract  : 'static/styles.css',
 		...options
-	}),
+	})),
 	babel: (options = {}) => babel({
 		...require('../../.babelrc'),
 		runtimeHelpers: true,
@@ -46,8 +58,8 @@ module.exports = {
 		...nycrc,
 		...options
 	}),
-	// globals    : (options = {}) => globals(options),
-	// builtins   : (options = {}) => builtins(options),
+	// globals    : (options = {}) =>globals(options),
+	// builtins   : (options = {}) =>builtins(options),
 	nodeResolve: (options = {}) => nodeResolve(options),
 	commonjs   : (options = {}) => commonjs({
 		// namedExports: {

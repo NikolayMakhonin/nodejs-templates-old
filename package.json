@@ -20,7 +20,7 @@
     "node": ">= 8.6.0"
   },
   "scripts": {
-    "clean": "shx rm -rf {dist,tmp,*.log}",
+    "clean": "shx rm -rf {dist,tmp,__sapper__,*.log}",
     "precommit": "npm run test:all:coverage",
     "prepare": "npm run build",
     "prepublishOnly": "npm run test:all",
@@ -48,8 +48,7 @@
     "coverage:ci": "npm run coverage:mocha && npm run ci:karma && npm run coverage:merge",
     "coverage:merge": "istanbul-combine -d tmp/coverage/all/lcov -p summary -r lcov tmp/coverage/*/json/**.json",
     "ci:karma": "karma start env/karma/karma.conf.ci.js",
-    "ci": "npm run lint && npm run coverage:ci && ncat tmp/coverage/all/lcov/**/lcov.info --banner \"\" | coveralls",
-    "deploy": "npm run build:sapper:export && node env/deploy/deploy"
+    "ci": "npm run lint && npm run coverage:ci && ncat tmp/coverage/all/lcov/**/lcov.info --banner \"\" | coveralls"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
@@ -65,6 +64,7 @@
     "@babel/register": "^7.0.0",
     "@metahub/karma-rollup-preprocessor": "^4.1.0",
     "@theintern/leadfoot": "^2.2.6",
+    "autoprefixer": "^9.4.9",
     "babel-eslint": "^10.0.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -112,6 +112,7 @@
     "rollup-plugin-eslint": "^5.0.0",
     "rollup-plugin-istanbul": "^2.0.1",
     "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-postcss": "^2.0.3",
     "rollup-plugin-prettier": "^0.6.0",
     "rollup-plugin-terser": "^4.0.4",
     "rollup-pluginutils": "^2.4.1",
