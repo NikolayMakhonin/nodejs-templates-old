@@ -10,6 +10,7 @@ const nycrc  = require('../../.nycrc.json')
 const prettier = require('rollup-plugin-prettier')
 const postcss = require('rollup-plugin-postcss')
 const postcssImport = require('postcss-import')
+const autoprefixer = require('autoprefixer')
 
 const svelte  = require('rollup-plugin-svelte')
 const preprocess = require('svelte-preprocess')
@@ -17,12 +18,21 @@ const themesPreprocess = require('svelte-themes-preprocess').default
 
 function postcssCommon(options = {}) {
 	return {
-		extensions: ['.scss', '.sass', '.less', '.styl'],
+		// extensions: ['.css', '.scss', '.sass', '.less', '.styl'],
 		// see: https://github.com/postcss/postcss
-		plugins   : [
+		plugins: [
 			// This plugin is necessary and should be first in plugins list:
 			postcssImport(),
-
+			autoprefixer({
+				// see: https://github.com/browserslist/browserslist
+				browsers: [
+					'chrome 33',
+					'chrome 37',
+					'chrome 39',
+					'chrome 44',
+					'> 1%'
+				]
+			})
 			// cssnano({
 			// 	preset: [
 			// 		'default', {
@@ -75,7 +85,7 @@ module.exports = {
 		})
 	},
 	postCss: (options = {}) => postcss(postcssCommon({
-		sourceMap: 'inline',
+		sourceMap: false, // 'inline',
 		extract  : 'static/styles.css',
 		...options
 	})),

@@ -29,33 +29,41 @@
 	<!--<script src="es6-shim.min.js"></script>-->
 
 	<script>
-		var oldEval = window.eval;
-		delete window.eval;
-		window.eval = function (str) {
-			if (str.indexOf('async function') >= 0) {
-				return oldEval.call(window, str);
+		(function () {
+			// eslint-disable-next-line no-eval
+			var oldEval = window.eval;
+			// eslint-disable-next-line no-eval
+			delete window.eval;
+			// eslint-disable-next-line no-eval
+			window.eval = function (str) {
+				if (str.indexOf('async function') >= 0) {
+					return oldEval.call(window, str);
+				}
+
+				try {
+					return oldEval.call(window, str);
+				} catch (ex) {
+					console.error(ex);
+					console.log(str);
+					throw ex;
+				}
+			};
+
+			function errorHandler(e) {
+				console.error([
+					'Unhandled rejection: ',
+					e.reason && e.reason.stack || e.stack || e.reason
+				].filter(function (o) {
+					return o;
+				}).join('\r\n'));
 			}
 
-			try {
-				return oldEval.call(window, str);
-			} catch (ex) {
-				console.error(ex);
-				console.log(str);
-				throw ex;
-			}
-		};
+			window.addEventListener('unhandledrejection', errorHandler);
 
-		window.addEventListener('unhandledrejection', function (e) {
-			console.error('Unhandled rejection2: ' + e.reason);
-		});
+			window.onunhandledrejection = errorHandler;
 
-		window.onunhandledrejection = function (e) {
-			console.error('Unhandled rejection3: ' + e.reason);
-		};
-
-		window.onerror = function (e) {
-			console.error('Unhandled rejection4: ', e);
-		};
+			window.onerror = errorHandler;
+		})();
 	</script>
 
 	<!-- endregion Polyfills -->
