@@ -6,6 +6,6 @@ AuthName "balda"
 AuthUserFile /home/otoka112/.htpasswds/balda
 Require valid-user
 
-<FilesMatch "manifest.json">
+<FilesMatch ".+\.(json|js)$">
     Require all granted
 </FilesMatch>

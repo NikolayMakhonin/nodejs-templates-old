@@ -2,6 +2,97 @@
 	<title>About</title>
 </svelte:head>
 
-<h1>About this site</h1>
+<div ref:container class="container">
+	<div ref:item class="item">
+		<div ref:subItem class="subItem"/>
+		<div ref:subItemNoEvents class="subItemNoEvents"/>
+	</div>
+	<canvas ref:canvas />
+</div>
 
-<p>This is the 'about' page. There's not much here.</p>
+<script>
+	import {TouchToMouse} from '../main/browser/helpers/touchMouse'
+
+	export default {
+		oncreate() {
+			// Object.keys(this.refs)
+			// 	.map(key => {
+			// 		this.refs[key].addEventListener('mousedown', e => {
+			// 			console.log(`mousedown: ${key}`)
+			// 		})
+			// 		this.refs[key].addEventListener('mousemove', e => {
+			// 			// console.log(`mousemove: ${key}`)
+			// 		})
+			// 		this.refs[key].addEventListener('mouseup', e => {
+			// 			console.log(`mouseup: ${key}`)
+			// 		})
+			// 		this.refs[key].addEventListener('mouseenter', e => {
+			// 			console.log(`mouseenter: ${key}`)
+			// 		})
+			// 		this.refs[key].addEventListener('mouseout', e => {
+			// 			console.log(`mouseout: ${key}`)
+			// 		})
+			//
+			// 		return key
+			// 	})
+
+			new TouchToMouse(this.refs.container)
+
+			const context = this.refs.canvas.getContext('2d')
+
+			this.refs.canvas.onmousedown = () => {
+				context.font = '30px Arial'
+				context.fillText('Hello World', 10, 50)
+			}
+
+			this.refs.canvas.onmouseup = () => {
+				context.moveTo(0, 0)
+				context.lineTo(200, 100)
+				context.stroke()
+			}
+		}
+	}
+</script>
+
+<style type="text/scss">
+	@import '../styles/abstracts/templates';
+
+	ref:canvas {
+		@extend %fill;
+	}
+
+	.container {
+		@extend %fill;
+		div {
+			position: absolute;
+			/*background-color: white;*/
+			/*opacity: 0.5;*/
+			border-color: red;
+			border-style: solid;
+			border-width: 3px;
+		}
+
+		.item {
+			width: 20em;
+			height: 20em;
+		}
+
+		.subItem {
+			width: 10em;
+			height: 10em;
+			&:hover {
+				border-color: yellow;
+			}
+		}
+
+		.subItemNoEvents {
+			width: 5em;
+			height: 5em;
+			pointer-events: none;
+			&:hover {
+				border-color: blue;
+			}
+		}
+	}
+
+</style>

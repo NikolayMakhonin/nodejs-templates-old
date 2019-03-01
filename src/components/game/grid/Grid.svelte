@@ -1,20 +1,15 @@
-<div class="grid">
-	{#each grid as row, rowIndex}
-		{#each row as cell, colIndex}
-		<div class="cell" style="
-			width: {100 / grid.nCols}%;
-			height: {100 / grid.nRows}%;
-			left: {colIndex * 100 / grid.nCols}%;
-			top: {rowIndex * 100 / grid.nRows}%;
-		">
-		<Cell cell={cell} />
-		</div>
+<div ref:grid class="grid">
+	{#each grid as row}
+		{#each row as cell}
+			<Cell {...cell} />
 		{/each}
 	{/each}
 </div>
 
 
 <script>
+	import {TouchToMouse} from '../../../main/browser/helpers/touchMouse'
+
 	function createGrid(nRows, nCols, createCell) {
 		const grid = new Array(nRows)
 		grid.nRows = nRows
@@ -43,12 +38,16 @@
 			}
 		},
 		oncreate() {
+			new TouchToMouse(this.refs.grid)
+
 			const grid = createGrid(5, 6, (nRow, nCol, grid) => ({
 				letter: nRow * grid.nCols + nCol,
 				nRow,
 				nCol,
 				grid
 			}))
+
+			console.log(grid)
 
 			this.set({grid})
 		},
@@ -59,17 +58,15 @@
 </script>
 
 
-<style lang="scss">
+<style type="text/scss">
 	@import '../../../styles/abstracts/templates.scss';
 
 	.grid {
-		width: 100%;
-		height: 100%;
-		position: relative;
+		@extend %fill;
+		overflow: hidden;
+		/*:global(*) {*/
+			/*transition: all 0.5s ease;*/
+		/*}*/
 	}
-	.cell {
-		width: 10em;
-		height: 10em;
-		position: absolute;
-	}
+
 </style>

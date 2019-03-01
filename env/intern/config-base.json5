@@ -58,7 +58,7 @@
 		},
 		{
 			"browserName": "chrome",
-			"version": "72",
+			"version": "52",
 			"fixSessionCapabilities": "no-detect",
 			"chromeOptions": {
 				"args": [
@@ -72,6 +72,10 @@
 		},
 		{
 			"browserName": "firefox"
+		},
+		{
+			"browserName": "opera",
+			"operaOptions": {"binary": "/usr/bin/opera"}
 		}
 	],
 
