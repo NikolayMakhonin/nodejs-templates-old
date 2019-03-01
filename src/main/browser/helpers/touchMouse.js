@@ -87,10 +87,10 @@ export class TouchToMouse {
 
 				if (target !== prevTarget) {
 					if (prevTarget && prevTarget[mouseOutName]) {
-						prevTarget[mouseOutName]({x, y})
+						prevTarget[mouseOutName](x, y)
 					}
 					if (target[mouseEnterName]) {
-						target[mouseEnterName]({x, y})
+						target[mouseEnterName](x, y)
 					}
 				}
 
@@ -100,7 +100,7 @@ export class TouchToMouse {
 			}
 
 			if (target[actionName]) {
-				target[actionName]({x, y})
+				target[actionName](x, y)
 			}
 		}
 
