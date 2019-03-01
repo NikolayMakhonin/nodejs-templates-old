@@ -1,6 +1,7 @@
 node_modules
 tmp
 dist
-_trash__sapper__
+_trash
+__sapper__
 **/polyfills/**
 env/polyfill/bundle.js
